@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Communicator.BusinessLayer
+namespace Communicator.Services
 {
     public class Class1
     {

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communicator.Client", "Comm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communicator.Protocol", "Communicator.Protocol\Communicator.Protocol.csproj", "{7FF557C6-C020-4291-8C22-D8797FBCDF26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communicator.Service", "Communicator.Service\Communicator.Service.csproj", "{5B38CB84-E84D-472B-89D6-E4FC6291D292}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communicator.Server", "Communicator.Service\Communicator.Server.csproj", "{5B38CB84-E84D-472B-89D6-E4FC6291D292}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communicator.BusinessLayer", "Communicator.BusinessLayer\Communicator.BusinessLayer.csproj", "{7E6ABD19-7C85-4924-BE66-1212E94FC6FB}"
 EndProject
@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6101DB
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communicator.Untils", "Communicator.Untils\Communicator.Untils.csproj", "{1DCE70BD-2549-4C85-BC73-7C2BD6086F24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communicator.Queue", "Communicator.Queue\Communicator.Queue.csproj", "{3AAC5042-81E0-443B-B5FA-20263B5C20D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +44,14 @@ Global
 		{7E6ABD19-7C85-4924-BE66-1212E94FC6FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E6ABD19-7C85-4924-BE66-1212E94FC6FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E6ABD19-7C85-4924-BE66-1212E94FC6FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DCE70BD-2549-4C85-BC73-7C2BD6086F24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DCE70BD-2549-4C85-BC73-7C2BD6086F24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DCE70BD-2549-4C85-BC73-7C2BD6086F24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DCE70BD-2549-4C85-BC73-7C2BD6086F24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AAC5042-81E0-443B-B5FA-20263B5C20D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AAC5042-81E0-443B-B5FA-20263B5C20D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AAC5042-81E0-443B-B5FA-20263B5C20D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AAC5042-81E0-443B-B5FA-20263B5C20D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
