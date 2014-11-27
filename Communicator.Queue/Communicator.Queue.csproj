@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\IQueueConnection.cs" />
     <Compile Include="Interfaces\IQueueService.cs" />
+    <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RabbitMqConnection.cs" />
     <Compile Include="Services\RabbitMqService.cs" />

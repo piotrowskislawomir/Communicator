@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using Communicator.Queue.Services;
 
 namespace Communicator.Queue.Interfaces
 {
     public interface IQueueService
     {
+        event MessageReceivedEventHandler MessageReceived;
         void Initialize();
-        IBasicConsumer CreateConsumer(string key);
+        void CreateConsumer(string key);
         void SendData(string key, byte[] data);
     }
 }
