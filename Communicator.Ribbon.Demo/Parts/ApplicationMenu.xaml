@@ -7,8 +7,9 @@
                     d:DesignHeight="300"
                     d:DesignWidth="300"
                     mc:Ignorable="d">
+    <ui:ApplicationMenuItem Header="ssss" Height="100" Width="100"/>
     <ui:ApplicationMenuItem Header="Rozmówcy">
-    aaa<!--<ui:-->
+    <!--<ui:-->
         <TextBlock>Treść rozmowy</TextBlock>
     </ui:ApplicationMenuItem>
     <ui:ApplicationMenuItem Header="Asia">
