@@ -24,5 +24,10 @@ namespace Communicator.Client
         {
             InitializeComponent();
         }
+
+        private void Button_WinClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
