@@ -93,9 +93,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="UI\app_icon.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\avatar_bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\app_icon3232.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\settings_1616.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
