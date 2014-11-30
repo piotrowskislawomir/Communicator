@@ -18,8 +18,16 @@ namespace Communicator.Client
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    
+    
     public partial class MainWindow : Window
     {
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -29,5 +37,11 @@ namespace Communicator.Client
         {
             this.Close();
         }
+
+        private void Button_WinMin_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
     }
 }
