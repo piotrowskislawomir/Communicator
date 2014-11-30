@@ -23,7 +23,7 @@
             </Grid>
                 
             <Grid x:Name="Grid_Contacts" HorizontalAlignment="Center" Height="317" Margin="20,120,20,-383" VerticalAlignment="Top" Width="254" Background="#FF2E2E2E">
-                    <Border BorderBrush="#FF367FFF" BorderThickness="1">
+                    <Border BorderBrush="#FF3E3E3E" BorderThickness="1">
                         <TextBox Style="{StaticResource PART_TextBox_Metro}" TextWrapping="Wrap" Text="TextBox" Height="20" VerticalAlignment="Top" Margin="5"/>
                     </Border>
             </Grid>
@@ -35,6 +35,7 @@
             <Label Content="Gotowy..." HorizontalAlignment="Left" Margin="10,-3,0,0" VerticalAlignment="Top" Foreground="White" FontSize="11" Width="146"/>
             <Image HorizontalAlignment="Right" Height="12" Margin="0,4,16,0" VerticalAlignment="Top" Width="12" Source="UI/settings_1616.png"/>
         </Grid>
-    </Grid>
+            <Button Content="Button" HorizontalAlignment="Center" Margin="0,167,0,0" VerticalAlignment="Top" Width="75"/>
+        </Grid>
     </Border>
 </Window>
