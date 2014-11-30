@@ -24,6 +24,7 @@
                 
             <Grid x:Name="Grid_Contacts" HorizontalAlignment="Center" Height="317" Margin="20,120,20,-383" VerticalAlignment="Top" Width="254" Background="#FF2E2E2E">
                     <Border BorderBrush="#FF367FFF" BorderThickness="1">
+                        <TextBox Style="{StaticResource PART_TextBox_Metro}" TextWrapping="Wrap" Text="TextBox" Height="20" VerticalAlignment="Top" Margin="5"/>
                     </Border>
             </Grid>
                 
