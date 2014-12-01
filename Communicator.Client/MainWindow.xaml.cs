@@ -43,5 +43,10 @@ namespace Communicator.Client
             this.WindowState = WindowState.Minimized;
         }
 
+        private void ContactList_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }
