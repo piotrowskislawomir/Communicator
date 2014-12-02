@@ -1,31 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Communicator.Untils
 {
     public static class ConfigurationApp
     {
         public static string Host {
-            get { return "winserver2012"; }
-            set { }
+            get { return GetValueFromConfig("host","winserver2012"); }
         }
         public static string UserName
         {
-            get { return "guest"; }
-            set { }
+            get { return GetValueFromConfig("username","guest"); }
         }
         public static string Password
         {
-            get { return "guest"; }
-            set { }
+            get { return GetValueFromConfig("password","guest"); }
         }
         public static string ExchangeName
         {
-            get { return "CommunicatorExchange"; }
-            set { }
+            get { return GetValueFromConfig("exchangename", "CommunicatorExchange"); }
+        }
+
+        public static string MainQueueName
+        {
+            get { return GetValueFromConfig("mainqueuename","CommunicatorMainQueue"); }
+        }
+
+        private static string GetValueFromConfig(string key, string defaultValue)
+        {
+            if (ConfigurationManager.AppSettings.AllKeys.Contains(key))
+            {
+                return ConfigurationManager.AppSettings[key];
+            }
+
+            return defaultValue;
         }
     }
 }

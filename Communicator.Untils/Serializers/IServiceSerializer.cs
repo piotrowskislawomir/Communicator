@@ -1,5 +1,5 @@
 ﻿
-namespace Communicator.Service
+namespace Communicator.Untils.Serializers
 {
     interface IServiceSerializer
     {

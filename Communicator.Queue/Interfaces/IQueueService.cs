@@ -6,7 +6,7 @@ namespace Communicator.Queue.Interfaces
     {
         event MessageReceivedEventHandler MessageReceived;
         void Initialize();
-        void CreateConsumer(string key);
-        void SendData(string key, byte[] data);
+        void CreateConsumer(string routingKey);
+       
     }
 }

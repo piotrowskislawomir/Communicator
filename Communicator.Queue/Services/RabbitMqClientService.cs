@@ -9,29 +9,29 @@ namespace Communicator.Queue.Services
 {
     public delegate void MessageReceivedEventHandler(object sender, MessageReceivedEventArgs e);
 
-    public class RabbitMqService : IQueueService
+    public class RabbitMqClientService : IQueueClientService
     {
         private readonly IQueueConnection _queueConnection;
         private IModel _model;
 
         public event MessageReceivedEventHandler MessageReceived;
 
-        public RabbitMqService(IQueueConnection queueConnection)
+        public RabbitMqClientService(IQueueConnection queueConnection)
         {
             _queueConnection = queueConnection;
         }
 
-        public string GetUniqueTopic()
+        public string GetUniqueTopic(string login)
         {
-            return String.Format("client.{0}.{1}",Environment.MachineName,Guid.NewGuid());
+            return String.Format("client.{0}.{1}.{2}",Environment.MachineName,login,Guid.NewGuid());
         }
 
         public void Initialize()
         {
-            _model = _queueConnection.CreateModel(ConfigurationApp.Host, ConfigurationApp.UserName, ConfigurationApp.Password);
+            _model = _queueConnection.CreateModel(ConfigurationApp.Host, ConfigurationApp.UserName, ConfigurationApp.Password, ExchangeType.Topic);
         }
 
-        public void CreateConsumer(string key)
+        public void CreateConsumer(string routingKey)
         {
             var queue = _model.QueueDeclare();
             var consumer = new EventingBasicConsumer(_model);
@@ -41,7 +41,7 @@ namespace Communicator.Queue.Services
                     MessageReceived(this, CreateMessage(msg));
                     _model.BasicAck(msg.DeliveryTag, false);
                 };
-            _model.QueueBind(queue.QueueName, ConfigurationApp.ExchangeName, key);
+            _model.QueueBind(queue.QueueName, ConfigurationApp.ExchangeName, routingKey);
             _model.BasicConsume(queue.QueueName, false, consumer);
         }
 
@@ -51,13 +51,15 @@ namespace Communicator.Queue.Services
             return msg;
         }
 
-        public void SendData(string key, byte[] data)
+        public void SendData(string queueName,string routingKey, byte[] data)
         {
             var properties = _model.CreateBasicProperties();
             properties.SetPersistent(true);
+            properties.ReplyTo = routingKey;
 
-            _model.BasicPublish(ConfigurationApp.ExchangeName, key, properties, data);
+            _model.BasicPublish(ConfigurationApp.ExchangeName, queueName, properties, data);
         }
 
     }
+
 }
