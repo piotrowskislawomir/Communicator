@@ -25,7 +25,7 @@
                 
             <Grid x:Name="Grid_Contacts" HorizontalAlignment="Center" Height="317" Margin="20,120,20,-383" VerticalAlignment="Top" Width="254" Background="#FF2E2E2E">
                     <Border BorderBrush="#FF3E3E3E" BorderThickness="1">
-                        <TextBox Style="{StaticResource PART_TextBox_Metro}" TextWrapping="Wrap" Text="TextBox" Height="20" VerticalAlignment="Top" Margin="5"/>
+                        <TextBox Style="{StaticResource PART_TextBox_Metro}" TextWrapping="Wrap" Text="Filtruj..." Height="20" VerticalAlignment="Top" Margin="5" FontStyle="Italic"/>
                     </Border>
                     <Grid>
                         <vm:ContactList x:Name="ContactList" Loaded="ContactList_Loaded" Margin="-10,0,10,0"/>

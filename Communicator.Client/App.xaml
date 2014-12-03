@@ -53,6 +53,14 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="TextBloack_ContactName" TargetType="{x:Type TextBlock}">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="18" />
+
+        </Style>
         <Style x:Key="MinButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#FF2E2E2E"/>
             <Setter Property="Foreground" Value="White"/>
