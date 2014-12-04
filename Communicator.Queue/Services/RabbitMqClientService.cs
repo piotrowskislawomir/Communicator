@@ -26,9 +26,9 @@ namespace Communicator.Queue.Services
             return String.Format("client.{0}.{1}.{2}",Environment.MachineName,login,Guid.NewGuid());
         }
 
-        public void Initialize()
+        public void Initialize(string host, string userName, string password, string exchangeName)
         {
-            _model = _queueConnection.CreateModel(ConfigurationApp.Host, ConfigurationApp.UserName, ConfigurationApp.Password, ExchangeType.Topic);
+            _model = _queueConnection.CreateModel(host, userName, password, ExchangeType.Direct);
         }
 
         public void CreateConsumer(string routingKey)
@@ -51,11 +51,12 @@ namespace Communicator.Queue.Services
             return msg;
         }
 
-        public void SendData(string queueName,string routingKey, byte[] data)
+        public void SendData(string queueName,string routingKey, byte[] data, Type dataType)
         {
             var properties = _model.CreateBasicProperties();
             properties.SetPersistent(true);
             properties.ReplyTo = routingKey;
+            properties.Type = dataType.AssemblyQualifiedName;
 
             _model.BasicPublish(ConfigurationApp.ExchangeName, queueName, properties, data);
         }

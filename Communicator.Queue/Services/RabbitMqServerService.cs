@@ -1,4 +1,5 @@
-﻿using Communicator.Queue.Interfaces;
+﻿using System.Text;
+using Communicator.Queue.Interfaces;
 using Communicator.Untils;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -16,10 +17,14 @@ namespace Communicator.Queue.Services
             _queueConnection = queueConnection;
         }
 
-        public void Initialize()
+        public void Initialize(string exchangeName, string userName, string password)
         {
-            _model = _queueConnection.CreateModel(ConfigurationApp.Host, ConfigurationApp.UserName, ConfigurationApp.Password, ExchangeType.Direct);
-            _model.ExchangeDeclare(ConfigurationApp.ExchangeName, ExchangeType.Topic);
+       }
+
+        public void Initialize(string host, string userName, string password, string exchangeName)
+        {
+            _model = _queueConnection.CreateModel(host, userName, password, ExchangeType.Direct);
+            _model.ExchangeDeclare(exchangeName, ExchangeType.Topic);
         }
 
         public void CreateConsumer(string queueName)
@@ -29,7 +34,13 @@ namespace Communicator.Queue.Services
             consumer.Received +=
                 (_, msg) =>
                 {
-                    //TODO SPIO
+                    MessageReceived(this, new MessageReceivedEventArgs()
+                    {
+                        Message = Encoding.UTF8.GetString(msg.Body),
+                        ContentType = msg.BasicProperties.Type,
+                        Sender = msg.BasicProperties.ReplyTo
+                    });
+
                     _model.BasicAck(msg.DeliveryTag, false);
                 };
             _model.QueueBind(queue.QueueName, ConfigurationApp.ExchangeName, queue.QueueName);
