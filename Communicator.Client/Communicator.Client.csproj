@@ -116,7 +116,20 @@
   <ItemGroup>
     <Resource Include="UI\settings_1616.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Communicator.Protocol\Communicator.Protocol.csproj">
+      <Project>{7FF557C6-C020-4291-8C22-D8797FBCDF26}</Project>
+      <Name>Communicator.Protocol</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Communicator.Queue\Communicator.Queue.csproj">
+      <Project>{3AAC5042-81E0-443B-B5FA-20263B5C20D4}</Project>
+      <Name>Communicator.Queue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Communicator.Untils\Communicator.Untils.csproj">
+      <Project>{1DCE70BD-2549-4C85-BC73-7C2BD6086F24}</Project>
+      <Name>Communicator.Untils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

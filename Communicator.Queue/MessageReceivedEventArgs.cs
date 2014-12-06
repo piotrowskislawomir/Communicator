@@ -2,8 +2,8 @@
 {
     public class MessageReceivedEventArgs
     {
-        public string Message { get; set; }
+        public byte[] Message { get; set; }
         public string ContentType { get; set; }
-        public string Sender { get; set; }
+        public string TopicSender { get; set; }
     }
 }

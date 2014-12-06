@@ -36,9 +36,9 @@ namespace Communicator.Queue.Services
                 {
                     MessageReceived(this, new MessageReceivedEventArgs()
                     {
-                        Message = Encoding.UTF8.GetString(msg.Body),
+                        Message = msg.Body,
                         ContentType = msg.BasicProperties.Type,
-                        Sender = msg.BasicProperties.ReplyTo
+                        TopicSender = msg.BasicProperties.ReplyTo
                     });
 
                     _model.BasicAck(msg.DeliveryTag, false);

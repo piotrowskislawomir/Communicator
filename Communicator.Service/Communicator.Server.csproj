@@ -71,6 +71,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Communicator.Protocol\Communicator.Protocol.csproj">
+      <Project>{7FF557C6-C020-4291-8C22-D8797FBCDF26}</Project>
+      <Name>Communicator.Protocol</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Communicator.Queue\Communicator.Queue.csproj">
       <Project>{3AAC5042-81E0-443B-B5FA-20263B5C20D4}</Project>
       <Name>Communicator.Queue</Name>

@@ -47,7 +47,7 @@ namespace Communicator.Queue.Services
 
         private MessageReceivedEventArgs CreateMessage(BasicDeliverEventArgs e)
         {
-           var msg = new MessageReceivedEventArgs {Message = Encoding.UTF8.GetString(e.Body)};
+           var msg = new MessageReceivedEventArgs {Message = e.Body};
             return msg;
         }
 
