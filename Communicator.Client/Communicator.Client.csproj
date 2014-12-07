@@ -53,6 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApplicationWindowBase.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Parts\ContactList.xaml.cs">
