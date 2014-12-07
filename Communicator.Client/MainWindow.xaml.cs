@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using Communicator.Protocol.Requests;
 using Communicator.Queue.Services;
 using Communicator.Untils;
-using Communicator.Untils.Serializers;
+//using Communicator.Untils.Serializers;
 
 namespace Communicator.Client
 {
@@ -78,6 +78,12 @@ namespace Communicator.Client
         private void ContactList_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoginWindow login = new LoginWindow();
+            login.Show();
         }
 
     }
