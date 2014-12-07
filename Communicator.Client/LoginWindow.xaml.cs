@@ -17,14 +17,8 @@ namespace Communicator.Client
     /// <summary>
     /// Interaction logic for LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow : Window
+    public sealed partial class LoginWindow : ApplicationWindowBase
     {
-        public void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
-        }
-
         private void Button_WinClose_Click(object sender, RoutedEventArgs e)
         {
 
