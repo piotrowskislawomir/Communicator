@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Communicator.Untils.Archivisers.Message
@@ -60,8 +62,23 @@ namespace Communicator.Untils.Archivisers.Message
                 CreateArchivizeXmlFile(msg);
        }
 
-        // wywołanie działania działania 
-        public static void Test()
+        public List<Message> Read(string Recipient)
+        {
+            XDocument doc = XDocument.Load(pathToArchivize);
+            var Messages = (from c in doc.Descendants("Message")
+                            where (string)c.Attribute("Recipient") == Recipient
+                            select new Message
+                            {
+                                Sender = (string)c.Attribute("Sender"),
+                                Recipient = (string)c.Attribute("Recipient"),
+                                DateTimeDelivery = (DateTime)c.Attribute("Date"),
+                                Body = (string)c.Element("Body")
+                            }).ToList();
+            return Messages;
+        }
+
+        // funkcja testowa do zapisu
+        public static void TestWrite()
         {
             Message msg = new Message();
             msg.Body = "Siema Sławek!";
@@ -82,6 +99,21 @@ namespace Communicator.Untils.Archivisers.Message
             arch.Save(msg);
             arch.Save(msg2);
             arch.Save(msg3);
+        }
+
+        //funkcja testowa do odczytu
+        public static void TestSearchMessages(string Recipient)
+        {
+            XmlMessageArchivizer obj = new XmlMessageArchivizer();
+            var res = obj.Read(Recipient);
+
+            foreach (Message s in res)
+            {
+                Console.WriteLine(s.Body);
+                Console.WriteLine(s.Recipient);
+                Console.WriteLine(s.Sender);
+                Console.WriteLine(s.DateTimeDelivery);
+            }
         }
     }
 }

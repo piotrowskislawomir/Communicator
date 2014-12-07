@@ -10,5 +10,6 @@ namespace Communicator.Untils.Archivisers.Message
     interface IMessageArchivizer
     {
             void Save(Message obj);
+            List<Message> Read(string user);
     }
 }
