@@ -1,6 +1,7 @@
-﻿<Window x:Class="Communicator.Client.LoginWindow"
+﻿<src:ApplicationWindowBase x:Class="Communicator.Client.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="clr-namespace:Communicator.Client"
         Title="LoginWindow" Height="200" Width="550"
         WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Icon="UI/app_icon.png" MouseDown="Window_MouseDown">
     <Border BorderBrush="#FF367FFF" BorderThickness="1">
@@ -27,4 +28,4 @@
         -->
         </Grid>
     </Border>
-</Window>
+</src:ApplicationWindowBase>
