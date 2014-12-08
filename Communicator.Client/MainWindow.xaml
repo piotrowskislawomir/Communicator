@@ -38,9 +38,10 @@
             </Grid>
             <Grid HorizontalAlignment="Stretch" Height="20" VerticalAlignment="Bottom" Background="#FF367FFF">
                 <Label Content="Gotowy..." HorizontalAlignment="Left" Margin="10,-3,0,0" VerticalAlignment="Top" Foreground="White" FontSize="11" Width="146"/>
+                <Button Content="Login_Test" HorizontalAlignment="Right" Width="71" Height="20" Background="#FF3063D1" Click="Button_Click" Margin="0,0,45,0"/>
                 <Image HorizontalAlignment="Right" Height="12" Margin="0,4,16,0" VerticalAlignment="Top" Width="12" Source="UI/settings_1616.png"/>
             </Grid>
-            <Button Content="Login_Test" HorizontalAlignment="Left" Margin="189,478,0,0" VerticalAlignment="Top" Width="71" Height="20" Background="#FF3063D1" Click="Button_Click"/>
+            
             <!--<Button Content="Button" HorizontalAlignment="Center" Margin="0,167,0,0" VerticalAlignment="Top" Width="75"/>
         -->
         </Grid>
