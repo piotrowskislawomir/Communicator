@@ -18,10 +18,14 @@
             </Grid>
             <!-- Bottom bar -->
             <Grid HorizontalAlignment="Stretch" Height="20" VerticalAlignment="Bottom" Background="#FF367FFF">
+
                 <Label Content="Zaloguj się lub zarejestruj" HorizontalAlignment="Left" Margin="10,-3,0,0" VerticalAlignment="Top" Foreground="White" FontSize="11" Width="146"/>
                 <Image HorizontalAlignment="Right" Height="12" Margin="0,4,16,0" VerticalAlignment="Top" Width="12" Source="UI/settings_1616.png"/>
             </Grid>
-            <Grid HorizontalAlignment="Center" Height="142" Margin="0,37,0,0" VerticalAlignment="Top" Width="549">
+            <Grid Style="{StaticResource Grid_MetroAnim}" HorizontalAlignment="Center" Height="142" Margin="0,37,0,0" VerticalAlignment="Top" Width="549">
+                <Grid.RenderTransform>
+                    <TranslateTransform X="-15"/>
+                </Grid.RenderTransform>
                 <Label Content="Login" HorizontalAlignment="Center" Margin="139,172,360,-60" VerticalAlignment="Top" Width="50" Height="30"/>
                 <TextBox HorizontalAlignment="Center" Height="30" Margin="194,172,180,-60" TextWrapping="Wrap" VerticalAlignment="Top" Width="175"/>
 
@@ -31,7 +35,12 @@
                 <Button Content="Zaloguj" HorizontalAlignment="Center" Margin="194,252,230,-140" VerticalAlignment="Top" Width="125" RenderTransformOrigin="0.471,0.5"/>
                 <Button Content="+" HorizontalAlignment="Center" Margin="334,252,180,-140" VerticalAlignment="Top" Width="35" Click="Button_Click" BorderThickness="0" RenderTransformOrigin="0.471,0.5"/>
             </Grid>
-            <Image HorizontalAlignment="Center" Height="140" Margin="34,59,29,0" VerticalAlignment="Top" Width="265" Source="UI/login.png" Stretch="None"/>
+            <Grid Style="{StaticResource Grid_MetroAnim}">
+                <Grid.RenderTransform>
+                    <TranslateTransform X="-15"/>
+                </Grid.RenderTransform>
+                <Image HorizontalAlignment="Center" Height="140" Margin="34,59,29,0" VerticalAlignment="Top" Width="265" Source="UI/login.png" Stretch="None"/>
+            </Grid>
         </Grid>
     </Border>
 </src:ApplicationWindowBase>
