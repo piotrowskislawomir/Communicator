@@ -13,9 +13,9 @@
                 <EventTrigger RoutedEvent="Window.Loaded">
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="100" Duration="0:1:2"/>
-                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.X)" To="-3" Duration="0:0:0.15" />
-                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.4" />
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.4" To="100" Duration="0:1:0"/>
+                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.X)" To="-4" Duration="0:0:0.1" />
+                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.5" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
