@@ -9,7 +9,7 @@ namespace Communicator.Untils.Archivisers.Message
     // w razie zapisu do innych formatów lub bazy danych
     interface IMessageArchivizer
     {
-            void Save(Message obj);
-            List<Message> Read(string user);
+            void Save(Message obj, string path);
+            List<Message> Read(string user, string path);
     }
 }

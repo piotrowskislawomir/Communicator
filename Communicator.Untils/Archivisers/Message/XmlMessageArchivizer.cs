@@ -8,9 +8,9 @@ namespace Communicator.Untils.Archivisers.Message
 {
     class XmlMessageArchivizer : IMessageArchivizer
     {
-        string pathToArchivize = "Archiwum_Wiadomości.xml";
+       // string pathToArchivize = "Archiwum_Wiadomości.xml";
 
-        private void CreateArchivizeXmlFile(Message msg)
+        private void CreateArchivizeXmlFile(Message msg, string pathToArchivize)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace Communicator.Untils.Archivisers.Message
             }
         }
 
-        private void AddNewElementToXmlFile(Message msg)
+        private void AddNewElementToXmlFile(Message msg, string pathToArchivize)
         {
             try
             {
@@ -54,15 +54,15 @@ namespace Communicator.Untils.Archivisers.Message
             }
         }
 
-        public void Save(Message msg)
+        public void Save(Message msg, string pathToArchivize)
         {
             if (File.Exists(pathToArchivize))
-                AddNewElementToXmlFile(msg);
+                AddNewElementToXmlFile(msg, pathToArchivize);
             else
-                CreateArchivizeXmlFile(msg);
+                CreateArchivizeXmlFile(msg, pathToArchivize);
        }
 
-        public List<Message> Read(string Recipient)
+        public List<Message> Read(string Recipient, string pathToArchivize)
         {
             XDocument doc = XDocument.Load(pathToArchivize);
             var Messages = (from c in doc.Descendants("Message")
@@ -96,16 +96,16 @@ namespace Communicator.Untils.Archivisers.Message
             msg2.Recipient = "Sławek";
 
             XmlMessageArchivizer arch = new XmlMessageArchivizer();
-            arch.Save(msg);
-            arch.Save(msg2);
-            arch.Save(msg3);
+            arch.Save(msg, "Archiwum_Wiadomości.xml");
+            arch.Save(msg2, "Archiwum_Wiadomości.xml");
+            arch.Save(msg3, "Archiwum_Wiadomości.xml");
         }
 
         //funkcja testowa do odczytu
         public static void TestSearchMessages(string Recipient)
         {
             XmlMessageArchivizer obj = new XmlMessageArchivizer();
-            var res = obj.Read(Recipient);
+            var res = obj.Read(Recipient, "Archiwum_Wiadomości.xml");
 
             foreach (Message s in res)
             {
