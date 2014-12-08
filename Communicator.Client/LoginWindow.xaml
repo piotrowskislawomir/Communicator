@@ -21,9 +21,13 @@
             </Grid>
             <Grid HorizontalAlignment="Left" Height="142" Margin="0,37,0,0" VerticalAlignment="Top" Width="549">
                 <Grid HorizontalAlignment="Left" Height="100" Margin="10,0,0,0" VerticalAlignment="Top" Width="100"/>
+                <Button Content="Zaloguj" HorizontalAlignment="Left" Margin="239,102,0,0" VerticalAlignment="Top" Width="105"/>
             </Grid>
-            <Label Content="Label" HorizontalAlignment="Left" Margin="129,59,0,0" VerticalAlignment="Top" Width="105"/>
-            <TextBox HorizontalAlignment="Left" Height="27" Margin="239,59,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="160"/>
+            <Label Content="Login" HorizontalAlignment="Left" Margin="129,59,0,0" VerticalAlignment="Top" Width="105"/>
+            <TextBox HorizontalAlignment="Left" Height="30" Margin="239,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+            <PasswordBox PasswordChar="•" HorizontalAlignment="Left" Height="30" Margin="239,94,0,0" VerticalAlignment="Top" Width="200"/>
+            <Label Content="Hasło" HorizontalAlignment="Left" Margin="129,94,0,0" VerticalAlignment="Top" Width="105"/>
+            <Button Content="Rejestracja" HorizontalAlignment="Left" Margin="354,139,0,0" VerticalAlignment="Top" Width="85" Click="Button_Click" BorderThickness="0"/>
             <!--<Button Content="Button" HorizontalAlignment="Center" Margin="0,167,0,0" VerticalAlignment="Top" Width="75"/>
         -->
         </Grid>

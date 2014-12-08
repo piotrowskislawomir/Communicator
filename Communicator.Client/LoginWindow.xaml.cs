@@ -34,5 +34,10 @@ namespace Communicator.Client
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Height = 500;
+        }
     }
 }
