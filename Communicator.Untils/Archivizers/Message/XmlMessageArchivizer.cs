@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Communicator.Untils.Archivisers.Message
+namespace Communicator.Untils.Archivizers.Message
 {
     class XmlMessageArchivizer : IMessageArchivizer
     {

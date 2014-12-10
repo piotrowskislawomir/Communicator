@@ -41,17 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Archivisers\Message\IMessageArchivizer.cs" />
-    <Compile Include="Archivisers\Message\Message.cs" />
-    <Compile Include="Archivisers\Message\XmlMessageArchivizer.cs" />
+    <Compile Include="Archivizers\Message\IMessageArchivizer.cs" />
+    <Compile Include="Archivizers\Message\Message.cs" />
+    <Compile Include="Archivizers\Message\XmlMessageArchivizer.cs" />
+    <Compile Include="Archivizers\UsersList\IUsersListOperationer.cs" />
+    <Compile Include="Archivizers\UsersList\User.cs" />
+    <Compile Include="Archivizers\UsersList\XmlUserList.cs" />
     <Compile Include="ConfigurationApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializers\IServiceSerializer.cs" />
     <Compile Include="Serializers\JSonSerializer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Archivisers\UsersList\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
