@@ -59,6 +59,18 @@ namespace Communicator.Client
 
         }
 
+        private void Button_Logout_Click(object sender, RoutedEventArgs e)
+        {
+            //wyloguj uzytkownika
+
+            //otwórz okno logowania
+            MainWindow login = new MainWindow();
+            login.Show();
+
+            //zamykam okno
+            this.Close();
+        }
+
 
     }
 }

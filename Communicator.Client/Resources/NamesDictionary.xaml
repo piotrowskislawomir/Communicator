@@ -12,6 +12,8 @@
     <system:String x:Key="ConfirmPassword">Powtórz hasło</system:String>
     <system:String x:Key="CreateAccount">Załóż konto</system:String>
     <system:String x:Key="RegisterWindowLabel">Zarejestruj się</system:String>
+    <system:String x:Key="Logout">Wyloguj</system:String>
+
     <system:String x:Key="Sent">Wyślij</system:String>
     <system:String x:Key="CommunicatorWindowLabel">Wysyłaj i obieraj wiadomości!</system:String>
     <system:String x:Key="Status1">Dostępny</system:String>
