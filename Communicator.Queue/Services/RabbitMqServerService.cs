@@ -17,20 +17,18 @@ namespace Communicator.Queue.Services
             _queueConnection = queueConnection;
         }
 
-        public void Initialize(string exchangeName, string userName, string password)
-        {
-       }
 
         public void Initialize(string host, string userName, string password, string exchangeName)
         {
-            _model = _queueConnection.CreateModel(host, userName, password, ExchangeType.Direct);
+            _model = _queueConnection.CreateModel(host, userName, password,exchangeName);
             _model.ExchangeDeclare(exchangeName, ExchangeType.Topic);
         }
 
         public void CreateConsumer(string queueName)
         {
-            var queue = _model.QueueDeclare(ConfigurationApp.MainQueueName, true, false, false,null);
+            var queue = _model.QueueDeclare(queueName, true, false, false, null);
             var consumer = new EventingBasicConsumer(_model);
+           
             consumer.Received +=
                 (_, msg) =>
                 {
@@ -43,8 +41,15 @@ namespace Communicator.Queue.Services
 
                     _model.BasicAck(msg.DeliveryTag, false);
                 };
-            _model.QueueBind(queue.QueueName, ConfigurationApp.ExchangeName, queue.QueueName);
+            _model.QueueBind(queue.QueueName, ConfigurationApp.ExchangeName,queue.QueueName);
             _model.BasicConsume(queue.QueueName, false, consumer);
+        }
+
+        public QueueingBasicConsumer CreateConsumerForClient(string queueName)
+        {
+            var consumer = new QueueingBasicConsumer(_model);
+            _model.BasicConsume(queueName, false, consumer);
+            return consumer;
         }
 
         public void SendData(string routingKey, byte[] data)
@@ -52,8 +57,15 @@ namespace Communicator.Queue.Services
             var properties = _model.CreateBasicProperties();
             properties.SetPersistent(true);
 
+            //TODO ExName
             _model.BasicPublish(ConfigurationApp.ExchangeName, routingKey, properties, data);
         }
 
+        public void CreateQueueForClient(string queueName)
+        {
+
+            var queue = _model.QueueDeclare(queueName, true, false, false, null);
+            _model.QueueBind(queue.QueueName, ConfigurationApp.ExchangeName, queueName);
+        }
     }
 }

@@ -10,6 +10,7 @@ using Communicator.Queue.Interfaces;
 using Communicator.Queue.Services;
 using Communicator.Untils;
 using Communicator.Untils.Serializers;
+using RabbitMQ.Client.Events;
 
 namespace Communicator.Server
 {
@@ -23,19 +24,29 @@ namespace Communicator.Server
 
         private void CreateNewListener()
         {
+            
+
             var queueServerService = new RabbitMqServerService(new RabbitMqConnection());
             queueServerService.Initialize(ConfigurationApp.Host, ConfigurationApp.UserName, ConfigurationApp.Password, ConfigurationApp.ExchangeName);
             queueServerService.MessageReceived += MessageReceived;
             queueServerService.CreateConsumer(ConfigurationApp.MainQueueName);
-
             //TODO SPIO czyszczenie
         }
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            var queueServerService = sender as IQueueServerService;
+            var queueServerService = (IQueueServerService)sender;
             var jsonSerializer = new JSonSerializer();
             var type = Type.GetType(e.ContentType);
+
+            if (type == typeof (CreateUserReq))
+            {
+                var createUserRequest = jsonSerializer.Deserialize<CreateUserReq>(e.Message);
+                var queueServerForClient = new RabbitMqServerService(new RabbitMqConnection());
+                queueServerForClient.Initialize(ConfigurationApp.Host, ConfigurationApp.UserName, ConfigurationApp.Password, ConfigurationApp.ExchangeName);
+                queueServerForClient.CreateQueueForClient(string.Format("archive.{0}", createUserRequest.Login));
+                return;
+            }
 
             if (type == typeof (AuthRequest))
             {
@@ -54,22 +65,46 @@ namespace Communicator.Server
                         topicList.Add(e.TopicSender);
                     }
                 }
+
+                var queueServerForClient = new RabbitMqServerService(new RabbitMqConnection());
+                queueServerForClient.Initialize(ConfigurationApp.Host, ConfigurationApp.UserName, ConfigurationApp.Password, ConfigurationApp.ExchangeName);
+                var consumer = queueServerForClient.CreateConsumerForClient(string.Format("archive.{0}", authRequest.Login));
+                while(true)
+                {
+                    BasicDeliverEventArgs basicDeliverEventArgs;
+                    consumer.Queue.Dequeue(1000, out basicDeliverEventArgs);
+
+                    if (basicDeliverEventArgs == null)
+                    {
+                        break;
+                    }
+
+                    queueServerService.SendData(String.Format("client.{0}", authRequest.Login), basicDeliverEventArgs.Body);
+                }
+                return;
             }
 
             if (type == typeof (MessageReq))
             {
                 var msgRequest = jsonSerializer.Deserialize<MessageReq>(e.Message);
-
+                bool userInstanceExists = false;
+                //TODO spr czy ta osoba jest zarejestrowana
                 if (_currentUsers.Contains(msgRequest.Recipient))
                 {
-                    if (queueServerService != null)
-                    {
-                        var topicList = (ICollection<string>) _currentUsers[msgRequest.Recipient];
-                        topicList.ToList()
-                            .ForEach(t => queueServerService.SendData(t, Encoding.UTF8.GetBytes(msgRequest.Message)));
+                    var topicList = (ICollection<string>) _currentUsers[msgRequest.Recipient];
 
+                    if (topicList.Any())
+                    {
+                        queueServerService.SendData(String.Format("client.{0}", msgRequest.Recipient), Encoding.UTF8.GetBytes(msgRequest.Message));
+                        userInstanceExists=true;
                     }
                 }
+
+                if (!userInstanceExists)
+                {
+                    queueServerService.SendData(String.Format("archive.{0}", msgRequest.Recipient), Encoding.UTF8.GetBytes(msgRequest.Message));
+                }
+                return;
             }
         }
 

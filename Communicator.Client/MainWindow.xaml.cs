@@ -16,6 +16,7 @@ using Communicator.Protocol.Requests;
 using Communicator.Queue.Services;
 using Communicator.Untils;
 //using Communicator.Untils.Serializers;
+using Communicator.Untils.Serializers;
 
 namespace Communicator.Client
 {
@@ -29,17 +30,25 @@ namespace Communicator.Client
         public MainWindow()
         {
             InitializeComponent();
-
-            /*var jsonSerializer = new JSonSerializer();
+            /*
+            var jsonSerializer = new JSonSerializer();
             var client = new RabbitMqClientService(new RabbitMqConnection());
             client.Initialize(ConfigurationApp.Host, ConfigurationApp.UserName, ConfigurationApp.Password, ConfigurationApp.ExchangeName);
 
             client.MessageReceived += (_, ee) =>
             {
-                MessageBox.Show("1 -" + Encoding.UTF8.GetString(ee.Message));
+                MessageBox.Show( Encoding.UTF8.GetString(ee.Message));
             };
             var token1 = client.GetUniqueTopic("login1");
             client.CreateConsumer(token1);
+            
+            /*var createUserRequest = new CreateUserReq()
+            {
+                Login = "login1"
+            };
+            byte[] data = jsonSerializer.Serialize(createUserRequest);
+            client.SendData(ConfigurationApp.MainQueueName, token1, data, typeof(CreateUserReq));
+            
 
             var authRequest = new AuthRequest()
             {
@@ -47,14 +56,14 @@ namespace Communicator.Client
             };
             byte[] data = jsonSerializer.Serialize(authRequest);
             client.SendData(ConfigurationApp.MainQueueName, token1, data, typeof(AuthRequest));
-
+            
             var msgRequest = new MessageReq()
             {
-                Message = "dupa1",
-                Recipient = "login1"
+                Message = "dupaArchive",
+                Recipient = "login2"
             };
 
-            data = jsonSerializer.Serialize(msgRequest);
+             data = jsonSerializer.Serialize(msgRequest);
             client.SendData(ConfigurationApp.MainQueueName, token1, data, typeof(MessageReq));*/
         }
 

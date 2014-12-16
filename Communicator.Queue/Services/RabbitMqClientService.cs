@@ -23,12 +23,13 @@ namespace Communicator.Queue.Services
 
         public string GetUniqueTopic(string login)
         {
-            return String.Format("client.{0}.{1}.{2}",Environment.MachineName,login,Guid.NewGuid());
+            return String.Format("client.{0}",login);
         }
 
         public void Initialize(string host, string userName, string password, string exchangeName)
         {
-            _model = _queueConnection.CreateModel(host, userName, password, ExchangeType.Direct);
+            _model = _queueConnection.CreateModel(host, userName, password, ExchangeType.Topic);
+            _model.ExchangeDeclare(exchangeName, ExchangeType.Topic);
         }
 
         public void CreateConsumer(string routingKey)
@@ -44,6 +45,8 @@ namespace Communicator.Queue.Services
             _model.QueueBind(queue.QueueName, ConfigurationApp.ExchangeName, routingKey);
             _model.BasicConsume(queue.QueueName, false, consumer);
         }
+
+    
 
         private MessageReceivedEventArgs CreateMessage(BasicDeliverEventArgs e)
         {
