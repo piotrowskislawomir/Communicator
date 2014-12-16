@@ -10,12 +10,16 @@
         <ViewModels:ContactViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <ListView Background="{x:Null}" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="230" ItemsSource="{Binding ContactList}" BorderThickness="0" Margin="20,30,0,0">
+        <ListView Background="{x:Null}" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="230" ItemsSource="{Binding ContactList}" BorderThickness="0" Margin="20,30,0,0" SelectionChanged="ListView_SelectionChanged">
             <ListView.ItemTemplate>
+                
                 <DataTemplate>
-                    <StackPanel Background="{x:Null}">
-                        <TextBlock Style="{StaticResource TextBloack_ContactName}" Text="{Binding Name}"/>
-                        <TextBox Style="{StaticResource PART_TextBox_Metro}" Text="{Binding Nick}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding StatusImageUri}" Stretch="None"  Margin="10"/>
+                        <TextBlock Style="{StaticResource TextBloack_ContactName}" Text="{Binding Login}" Margin="10"/>
+                        <!--<Image Source="../UI/some.jpg" Stretch="None"  Margin="10"/>
+                        Label Padding="10">My Button Text</-->
+                        
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

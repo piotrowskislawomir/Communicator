@@ -3,276 +3,282 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-
-        <Style TargetType="{x:Type Label}">
-            <Setter Property="Foreground" Value="#FFB4B4B4"/>
-        </Style>
-        <Style x:Key="Grid_MetroAnim" TargetType="{x:Type Grid}">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Style.Triggers>
-                <EventTrigger RoutedEvent="Window.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.4" To="100" Duration="0:1:0"/>
-                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.X)" To="-4" Duration="0:0:0.1" />
-                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.5" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="PART_TextBox_Metro" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="#FF3E3E3E"/>
-            <Setter Property="Foreground" Value="#FFB4B4B4"/>
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Border Background="{TemplateBinding Background}"
-                            BorderBrush="#FF555555"
-                            BorderThickness="1">
-                            <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF515151"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TextBox}">
-                                <Border Background="{TemplateBinding Background}"
-                            BorderBrush="#FF367FFF"
-                            BorderThickness="1">
-                                    <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="#FF595959"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TextBox}">
-                                <Border Background="{TemplateBinding Background}"
-                            BorderBrush="#FF367FFF"
-                            BorderThickness="1">
-                                    <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="#FF3E3E3E"/>
-            <Setter Property="Foreground" Value="#FFB4B4B4"/>
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Border Background="{TemplateBinding Background}"
-                            BorderBrush="#FF555555"
-                            BorderThickness="1">
-                            <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF515151"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TextBox}">
-                                <Border Background="{TemplateBinding Background}"
-                            BorderBrush="#FF367FFF"
-                            BorderThickness="1">
-                                    <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="#FF595959"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TextBox}">
-                                <Border Background="{TemplateBinding Background}"
-                            BorderBrush="#FF367FFF"
-                            BorderThickness="1">
-                                    <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="{x:Type PasswordBox}">
-            <Setter Property="Background" Value="#FF3E3E3E"/>
-            <Setter Property="Foreground" Value="#FFB4B4B4"/>
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type PasswordBox}">
-                        <Border Background="{TemplateBinding Background}"
-                            BorderBrush="#FF555555"
-                            BorderThickness="1">
-                            <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF515151"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type PasswordBox}">
-                                <Border Background="{TemplateBinding Background}"
-                            BorderBrush="#FF367FFF"
-                            BorderThickness="1">
-                                    <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="#FF595959"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type PasswordBox}">
-                                <Border Background="{TemplateBinding Background}"
-                            BorderBrush="#FF367FFF"
-                            BorderThickness="1">
-                                    <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="TextBloack_ContactName" TargetType="{x:Type TextBlock}">
-            <Setter Property="Background" Value="{x:Null}"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="FontFamily" Value="Segoe UI" />
-            <Setter Property="FontSize" Value="18" />
-
-        </Style>
-        <Style x:Key="MinButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#FF2E2E2E"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter x:Name="PART_Content"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          TextElement.Foreground="{TemplateBinding Foreground}"></ContentPresenter>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF515151"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#FF367FFF"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="CloseButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#FF2E2E2E"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter x:Name="PART_Content"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          TextElement.Foreground="{TemplateBinding Foreground}"></ContentPresenter>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF515151"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#FFC12424"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#FF4B4B4B"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}"
-                            BorderBrush="#FF367FFF"
-                            BorderThickness="2">
-                            <ContentPresenter x:Name="PART_Content"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          TextElement.Foreground="{TemplateBinding Foreground}"></ContentPresenter>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF616161"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#FF367FFF"/>
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1" ScaleY="1" />
-                        </Setter.Value>
-                    </Setter>
-                    <Trigger.EnterActions>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/NamesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="#FFB4B4B4"/>
+            </Style>
+            <Style x:Key="Grid_MetroAnim" TargetType="{x:Type Grid}">
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="Window.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation To="0.95" Duration="0:0:0.2" Storyboard.TargetProperty="RenderTransform.ScaleX"/>
-                                <DoubleAnimation To="0.95" Duration="0:0:0.2" Storyboard.TargetProperty="RenderTransform.ScaleY"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.4" To="100" Duration="0:1:0"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.X)" To="-4" Duration="0:0:0.1" />
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.5" />
                             </Storyboard>
                         </BeginStoryboard>
-                    </Trigger.EnterActions>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="PART_TextBox_Metro" TargetType="{x:Type TextBox}">
+                <Setter Property="Background" Value="#FF3E3E3E"/>
+                <Setter Property="Foreground" Value="#FFB4B4B4"/>
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#FF555555"
+                                BorderThickness="1">
+                                <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF515151"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#FF367FFF"
+                                BorderThickness="1">
+                                        <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="Background" Value="#FF595959"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#FF367FFF"
+                                BorderThickness="1">
+                                        <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Background" Value="#FF3E3E3E"/>
+                <Setter Property="Foreground" Value="#FFB4B4B4"/>
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#FF555555"
+                                BorderThickness="1">
+                                <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF515151"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#FF367FFF"
+                                BorderThickness="1">
+                                        <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="Background" Value="#FF595959"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#FF367FFF"
+                                BorderThickness="1">
+                                        <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type PasswordBox}">
+                <Setter Property="Background" Value="#FF3E3E3E"/>
+                <Setter Property="Foreground" Value="#FFB4B4B4"/>
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type PasswordBox}">
+                            <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#FF555555"
+                                BorderThickness="1">
+                                <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF515151"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                    <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#FF367FFF"
+                                BorderThickness="1">
+                                        <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="Background" Value="#FF595959"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                                    <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#FF367FFF"
+                                BorderThickness="1">
+                                        <ScrollViewer Margin="0"  x:Name="PART_ContentHost" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="TextBloack_ContactName" TargetType="{x:Type TextBlock}">
+                <Setter Property="Background" Value="{x:Null}"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontSize" Value="18" />
+
+            </Style>
+            <Style x:Key="MinButton" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="#FF2E2E2E"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter x:Name="PART_Content"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}"></ContentPresenter>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF515151"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#FF367FFF"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="CloseButton" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="#FF2E2E2E"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter x:Name="PART_Content"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}"></ContentPresenter>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF515151"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#FFC12424"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="#FF4B4B4B"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#FF367FFF"
+                                BorderThickness="2">
+                                <ContentPresenter x:Name="PART_Content"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}"></ContentPresenter>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF616161"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="Background" Value="#FF367FFF"/>
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                            </Setter.Value>
+                        </Setter>
+                        <Trigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation To="0.95" Duration="0:0:0.2" Storyboard.TargetProperty="RenderTransform.ScaleX"/>
+                                    <DoubleAnimation To="0.95" Duration="0:0:0.2" Storyboard.TargetProperty="RenderTransform.ScaleY"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.EnterActions>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>       
+            
+        </ResourceDictionary>
 
     </Application.Resources>
 </Application>

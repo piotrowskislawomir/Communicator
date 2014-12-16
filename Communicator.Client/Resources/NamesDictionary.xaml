@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="CommunicatorTitle">Komunikator Tornado</system:String>
+    <system:String x:Key="UserName">Login</system:String>
+    <system:String x:Key="Password">Hasło</system:String>
+    <system:String x:Key="Login">Zaloguj</system:String>
+    <system:String x:Key="Or">lub</system:String>
+    <system:String x:Key="Register">Zarejestruj</system:String>    
+    <system:String x:Key="LoginWindowLabel">Zaloguj się lub zarejestruj</system:String>
+    <system:String x:Key="ConfirmPassword">Powtórz hasło</system:String>
+    <system:String x:Key="CreateAccount">Załóż konto</system:String>
+    <system:String x:Key="RegisterWindowLabel">Zarejestruj się</system:String>
+    <system:String x:Key="Sent">Wyślij</system:String>
+    <system:String x:Key="CommunicatorWindowLabel">Wysyłaj i obieraj wiadomości!</system:String>
+    <system:String x:Key="Status1">Dostępny</system:String>
+    <system:String x:Key="Status3">Zaraz wracam</system:String>
+    <system:String x:Key="Status5">Niedostępny</system:String>
+    <system:String x:Key="FindUser">Znajdź użytkownika...</system:String>
+    <system:String x:Key="ClearDialWindow">Wyczyść okno rozmowy</system:String>
+    <system:String x:Key="ClearHistory">Wyczyść historię rozmowy</system:String>
+</ResourceDictionary>

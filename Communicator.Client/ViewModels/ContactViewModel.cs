@@ -1,4 +1,5 @@
 ﻿using Communicator.Client.Models;
+using Communicator.Protocol.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +16,16 @@ namespace Communicator.Client.ViewModels
         {
             ContactList = new List<ContactModel>{
                 new ContactModel{
-                    Name = "Jakiś1",
-                    Nick = "John",
-                    Status = 1
+                    Login = "John",
+                    Status = PresenceStatus.Offline
                 },
                 new ContactModel{
-                    Name = "Jakiś2",
-                    Nick = "Doe",
-                    Status = 1
+                    Login = "Doe",
+                    Status = PresenceStatus.Online
                 },
                 new ContactModel{
-                    Name = "Jakiś3",
-                    Nick = "JohnDoe",
-                    Status = 1
+                    Login = "JohnDoe",
+                    Status = PresenceStatus.Offline
                 }
             };
 

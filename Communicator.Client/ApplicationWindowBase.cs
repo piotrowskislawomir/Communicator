@@ -15,6 +15,16 @@ namespace Communicator.Client
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
+
+        public void Button_WinClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        public void Button_WinMin_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
     
     }
 }
