@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Communicator.Protocol.Requests;
 
 namespace Communicator.Untils.Archivizers.UsersList
 {
     class XmlUserList : IUsersListOperationer
     {
         //Dodaje nowego użytkownika jesli jego login nie jest zajęty
-        public bool CreateNewUser(User user, string path)
+        public bool CreateNewUser(CreateUserReq user, string path)
         {
             bool createSucces = false;
             if (File.Exists(path))
@@ -30,7 +31,7 @@ namespace Communicator.Untils.Archivizers.UsersList
         }
 
         // autentykacja użytkonika
-        public bool AuthenticationUser(User user, string path)
+        public bool AuthenticationUser(AuthRequest user, string path)
         {
             XDocument doc = XDocument.Load(path);
 
@@ -55,7 +56,7 @@ namespace Communicator.Untils.Archivizers.UsersList
         }
 
         // pierwszy wspis do pliku, stworzenie pliku z użytkownikami
-        private void CreateArchivizeXmlFile(User usr, string pathToArchivize)
+        private void CreateArchivizeXmlFile(CreateUserReq usr, string pathToArchivize)
         {
             try
             {
@@ -74,7 +75,7 @@ namespace Communicator.Untils.Archivizers.UsersList
         }
 
         // wpisanie użytkownika do pliku
-        private void Add(User user, string path)
+        private void Add(CreateUserReq user, string path)
         {
             try
             {
@@ -96,7 +97,7 @@ namespace Communicator.Untils.Archivizers.UsersList
         }
 
         // sprawdza czy dany login jest zajęty
-        private bool CheckAvailability(User user, string path)
+        private bool CheckAvailability(CreateUserReq user, string path)
         {
             XDocument doc = XDocument.Load(path);
 
@@ -110,6 +111,7 @@ namespace Communicator.Untils.Archivizers.UsersList
         //funkcja testowa 
         public static void TestFunctionality()
         {
+            /*
             User u1 = new User();
             u1.Login = "koala";
             u1.Password = "tajnehaslo";
@@ -136,7 +138,7 @@ namespace Communicator.Untils.Archivizers.UsersList
 
             foreach (User u in nl)
                 Console.WriteLine(u.Login);
-
+            */
         }
     }
 }

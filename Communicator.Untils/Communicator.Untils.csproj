@@ -51,8 +51,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializers\IServiceSerializer.cs" />
     <Compile Include="Serializers\JSonSerializer.cs" />
+    <Compile Include="Simula.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Communicator.Protocol\Communicator.Protocol.csproj">
+      <Project>{7ff557c6-c020-4291-8c22-d8797fbcdf26}</Project>
+      <Name>Communicator.Protocol</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
