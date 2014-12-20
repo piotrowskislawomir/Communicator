@@ -1,11 +1,7 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Communicator.BusinessLayer.Services;
 using Communicator.Queue.Services;
-using Communicator.Untils;
+using Communicator.Untils.Configuration;
+using Communicator.Untils.Serializers;
 using Topshelf;
 
 namespace Communicator.Server
@@ -18,7 +14,7 @@ namespace Communicator.Server
             {
                 x.Service<ServerApplication>(s =>
                 {
-                    s.ConstructUsing(name => new ServerApplication());
+                    s.ConstructUsing(name => new ServerApplication(new RabbitMqServerService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecognizerService(new RabbitMqQueueManagerService(new RabbitMqConnection()),new JSonSerializerService() )) );
                     s.WhenStarted(tc => tc.Start());
                     s.WhenStopped(tc => tc.Stop());
                 });

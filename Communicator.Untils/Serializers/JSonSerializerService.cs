@@ -3,7 +3,7 @@ using System.Runtime.Serialization.Json;
 
 namespace Communicator.Untils.Serializers
 {
-    public class JSonSerializer : IServiceSerializer
+    public class JSonSerializerService : ISerializerService
     {
             public byte[] Serialize<T>(T dto)
             {

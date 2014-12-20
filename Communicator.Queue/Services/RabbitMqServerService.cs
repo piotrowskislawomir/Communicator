@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using Communicator.Queue.Interfaces;
 using Communicator.Untils;
+using Communicator.Untils.Configuration;
+using Communicator.Untils.Serializers;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -10,13 +12,14 @@ namespace Communicator.Queue.Services
     {
         public event MessageReceivedEventHandler MessageReceived;
         private readonly IQueueConnection _queueConnection;
+        private readonly ISerializerService _serializerService;
         private IModel _model;
 
-        public RabbitMqServerService(IQueueConnection queueConnection)
+        public RabbitMqServerService(IQueueConnection queueConnection, ISerializerService serializerService)
         {
             _queueConnection = queueConnection;
+            _serializerService = serializerService;
         }
-
 
         public void Initialize(string host, string userName, string password, string exchangeName)
         {
@@ -24,7 +27,7 @@ namespace Communicator.Queue.Services
             _model.ExchangeDeclare(exchangeName, ExchangeType.Topic);
         }
 
-        public void CreateConsumer(string queueName)
+        public void CreateConsumer(string queueName, string exchangeName)
         {
             var queue = _model.QueueDeclare(queueName, true, false, false, null);
             var consumer = new EventingBasicConsumer(_model);
@@ -41,31 +44,20 @@ namespace Communicator.Queue.Services
 
                     _model.BasicAck(msg.DeliveryTag, false);
                 };
-            _model.QueueBind(queue.QueueName, ConfigurationApp.ExchangeName,queue.QueueName);
+            _model.QueueBind(queue.QueueName, exchangeName, queue.QueueName);
             _model.BasicConsume(queue.QueueName, false, consumer);
         }
 
-        public QueueingBasicConsumer CreateConsumerForClient(string queueName)
-        {
-            var consumer = new QueueingBasicConsumer(_model);
-            _model.BasicConsume(queueName, false, consumer);
-            return consumer;
-        }
-
-        public void SendData(string routingKey, byte[] data)
+        public void SendData<T>(string routingKey, string exchangeName, T data)
         {
             var properties = _model.CreateBasicProperties();
             properties.SetPersistent(true);
+            properties.ReplyTo = routingKey;
+            properties.Type = typeof(T).AssemblyQualifiedName;
 
-            //TODO ExName
-            _model.BasicPublish(ConfigurationApp.ExchangeName, routingKey, properties, data);
+            byte[] buffer = _serializerService.Serialize(data);
+            _model.BasicPublish(exchangeName, routingKey, properties, buffer);
         }
 
-        public void CreateQueueForClient(string queueName)
-        {
-
-            var queue = _model.QueueDeclare(queueName, true, false, false, null);
-            _model.QueueBind(queue.QueueName, ConfigurationApp.ExchangeName, queueName);
-        }
     }
 }

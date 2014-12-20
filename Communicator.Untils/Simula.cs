@@ -23,7 +23,7 @@ namespace Communicator.Untils
             cur.Login = "login12";
         
         
-            var js = new JSonSerializer();
+            var js = new JSonSerializerService();
             byte[] buff = js.Serialize(cur);
 
             // WRZUCENIE DO RABBITA

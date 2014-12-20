@@ -46,12 +46,14 @@
   <ItemGroup>
     <Compile Include="Interfaces\IQueueClientService.cs" />
     <Compile Include="Interfaces\IQueueConnection.cs" />
+    <Compile Include="Interfaces\IQueueManagerService.cs" />
     <Compile Include="Interfaces\IQueueServerService.cs" />
     <Compile Include="Interfaces\IQueueService.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RabbitMqConnection.cs" />
     <Compile Include="Services\RabbitMqClientService.cs" />
+    <Compile Include="Services\RabbitMqQueueManagerService.cs" />
     <Compile Include="Services\RabbitMqServerService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -47,10 +47,11 @@
     <Compile Include="Archivizers\UsersList\IUsersListOperationer.cs" />
     <Compile Include="Archivizers\UsersList\User.cs" />
     <Compile Include="Archivizers\UsersList\XmlUserList.cs" />
-    <Compile Include="ConfigurationApp.cs" />
+    <Compile Include="Configuration\IConfigurationService.cs" />
+    <Compile Include="Configuration\XmlConfigurationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serializers\IServiceSerializer.cs" />
-    <Compile Include="Serializers\JSonSerializer.cs" />
+    <Compile Include="Serializers\ISerializerService.cs" />
+    <Compile Include="Serializers\JSonSerializerService.cs" />
     <Compile Include="Simula.cs" />
   </ItemGroup>
   <ItemGroup>

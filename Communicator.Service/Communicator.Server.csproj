@@ -75,6 +75,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Communicator.BusinessLayer\Communicator.BusinessLayer.csproj">
+      <Project>{7E6ABD19-7C85-4924-BE66-1212E94FC6FB}</Project>
+      <Name>Communicator.BusinessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Communicator.Protocol\Communicator.Protocol.csproj">
       <Project>{7FF557C6-C020-4291-8C22-D8797FBCDF26}</Project>
       <Name>Communicator.Protocol</Name>
