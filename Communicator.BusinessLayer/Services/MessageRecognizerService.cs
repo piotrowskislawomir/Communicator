@@ -12,6 +12,7 @@ using Communicator.Queue;
 using Communicator.Queue.Interfaces;
 using Communicator.Untils.Configuration;
 using Communicator.Untils.Serializers;
+using Communicator.Untils.Archivizers.UsersList;
 using RabbitMQ.Client.Events;
 
 namespace Communicator.BusinessLayer.Services
@@ -159,6 +160,7 @@ namespace Communicator.BusinessLayer.Services
             var authRequest = _serializerService.Deserialize<AuthRequest>(message.Message);
 
             //TODO sprawdzanie czy istnieje taki login i pass
+            bool exist = CommonUserList.UserAuthentication(authRequest);
 
             if (!_currentUsers.Contains(authRequest.Login))
             {
@@ -215,14 +217,15 @@ namespace Communicator.BusinessLayer.Services
 
         private void CreateUserProcess(MessageReceivedEventArgs message)
         {
-            var createUserRequest = _serializerService.Deserialize<CreateUserReq>(message.Message);
+            var createUserRequest = _serializerService.Deserialize<CreateUserReq>(message.Message); // hasło i login
             _queueManagerService.CreateQueue(string.Format("archive.{0}", createUserRequest.Login), ConfigurationService.ExchangeName);
 
             //TODO sprawdzanie czy juz istnieje
 
             var createUserResponse = new CreateUserResponse
             {
-                CreatedSuccessfully = true
+               CreatedSuccessfully = CommonUserList.CreateNewUser(createUserRequest)
+               //CreatedSuccessfully = true
             };
 
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, createUserResponse);

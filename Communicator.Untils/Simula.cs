@@ -33,7 +33,7 @@ namespace Communicator.Untils
            
             var xmlUserList = new XmlUserList();
             var createUserResponse = new CreateUserResponse();
-            createUserResponse.CreatedSuccessfully = xmlUserList.CreateNewUser(cuRequest, "ListaUserów.xml");
+            //createUserResponse.CreatedSuccessfully = xmlUserList.CreateNewUser(cuRequest, "ListaUserów.xml");
 
             // serializacja po stronie serwera
             byte[] response = js.Serialize(createUserResponse);
@@ -65,7 +65,7 @@ namespace Communicator.Untils
 
             var ul = new XmlUserList();
             var authResp = new AuthResponse();
-            authResp.IsAuthenticated =  ul.AuthenticationUser(autReqServer, "ListaUserów.xml");
+           // authResp.IsAuthenticated =  ul.AuthenticationUser(autReqServer, "ListaUserów.xml");
 
             buff2 = js.Serialize(authResp);
             

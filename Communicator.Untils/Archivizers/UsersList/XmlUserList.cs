@@ -9,8 +9,17 @@ namespace Communicator.Untils.Archivizers.UsersList
 {
     class XmlUserList : IUsersListOperationer
     {
+        
+        public static void CreateNewUser(string path, CreateUserReq user)
+        {
+            if (File.Exists(path))
+                     Add(user, path);
+            else
+                CreateArchivizeXmlFile(user, path);
+        }
+
         //Dodaje nowego użytkownika jesli jego login nie jest zajęty
-        public bool CreateNewUser(CreateUserReq user, string path)
+      /*  public bool CreateNewUser(CreateUserReq user, string path)
         {
             bool createSucces = false;
             if (File.Exists(path))
@@ -24,12 +33,14 @@ namespace Communicator.Untils.Archivizers.UsersList
             else
             {
                 CreateArchivizeXmlFile(user, path);
+                CommonUserList.RefreshCommonList(path); // odświeżenie z pliku
                 createSucces = true;
             }
 
             return createSucces;
         }
-
+        */
+        /*
         // autentykacja użytkonika
         public bool AuthenticationUser(AuthRequest user, string path)
         {
@@ -41,7 +52,8 @@ namespace Communicator.Untils.Archivizers.UsersList
 
             return query.Any(); // jeli jest true jesli nie false
         }
-
+        */
+        /*
         // zwraca listę wszystkich użytkowników
         public List<User> ReadList(User user, string path)
         {
@@ -54,9 +66,9 @@ namespace Communicator.Untils.Archivizers.UsersList
                          }).ToList();
             return users;
         }
-
+        */
         // pierwszy wspis do pliku, stworzenie pliku z użytkownikami
-        private void CreateArchivizeXmlFile(CreateUserReq usr, string pathToArchivize)
+        private static void CreateArchivizeXmlFile(CreateUserReq usr, string pathToArchivize)
         {
             try
             {
@@ -75,7 +87,7 @@ namespace Communicator.Untils.Archivizers.UsersList
         }
 
         // wpisanie użytkownika do pliku
-        private void Add(CreateUserReq user, string path)
+        private static void Add(CreateUserReq user, string path)
         {
             try
             {
@@ -96,6 +108,7 @@ namespace Communicator.Untils.Archivizers.UsersList
             }
         }
 
+        /*
         // sprawdza czy dany login jest zajęty
         private bool CheckAvailability(CreateUserReq user, string path)
         {
@@ -107,6 +120,7 @@ namespace Communicator.Untils.Archivizers.UsersList
 
             return query.Any(); // jeli jest true jesli nie false
         }
+         * */
 
         //funkcja testowa 
         public static void TestFunctionality()

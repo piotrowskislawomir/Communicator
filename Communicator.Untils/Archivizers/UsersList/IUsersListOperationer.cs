@@ -9,10 +9,10 @@ namespace Communicator.Untils.Archivizers.UsersList
 {
     interface IUsersListOperationer
     {
-        bool CreateNewUser(CreateUserReq userReg, string path);
-        bool AuthenticationUser(AuthRequest userAuth, string path);
+     //   void CreateNewUser(CreateUserReq userReg, string path);
+       // bool AuthenticationUser(AuthRequest userAuth, string path);
 
         // user żeby nie zczytać własnego loginu
-        List<User> ReadList(User user, string path); 
+      //  List<User> ReadList(User user, string path); 
     }
 }
