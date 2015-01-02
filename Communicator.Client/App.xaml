@@ -175,7 +175,7 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            <Style x:Key="TextBloack_ContactName" TargetType="{x:Type TextBlock}">
+            <Style x:Key="TextBlock_ContactName" TargetType="{x:Type TextBlock}">
                 <Setter Property="Background" Value="{x:Null}"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="OverridesDefaultStyle" Value="True" />

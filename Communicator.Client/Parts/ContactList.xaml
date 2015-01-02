@@ -5,20 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"             
              xmlns:ViewModels="clr-namespace:Communicator.Client.ViewModels" 
              x:Class="Communicator.Client.ViewModels.ContactList"              
-             mc:Ignorable="d" d:DesignWidth="393.308" d:DesignHeight="274.887" >
-    <UserControl.DataContext>
-        <ViewModels:ContactViewModel/>
-    </UserControl.DataContext>
+             mc:Ignorable="d" d:DesignWidth="393.308" d:DesignHeight="274.887" 
+    d:DataContext="{x:Type ViewModels:ContactViewModel}">
+    <UserControl.Resources>
+        <ViewModels:ContactViewModel x:Key="Vm"/>
+    </UserControl.Resources>
     <Grid>
-        <ListView Background="{x:Null}" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="230" ItemsSource="{Binding ContactList}" BorderThickness="0" Margin="20,30,0,0" SelectionChanged="ListView_SelectionChanged">
-            <ListView.ItemTemplate>
-                
+        <ListView Background="{x:Null}" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="230" 
+                  ItemsSource="{Binding Contact}" BorderThickness="0" Margin="20,30,0,0" 
+                  SelectionChanged="ListView_SelectionChanged">
+            <ListView.ItemTemplate>                
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding StatusImageUri}" Stretch="None"  Margin="10"/>
-                        <TextBlock Style="{StaticResource TextBloack_ContactName}" Text="{Binding Login}" Margin="10"/>
-                        <!--<Image Source="../UI/some.jpg" Stretch="None"  Margin="10"/>
-                        Label Padding="10">My Button Text</-->
+                        <Image Width="10" Height="20" Source="{Binding StatusImageUri}" Stretch="None"  Margin="10"/>
+                        <Button Content="{Binding Login}" Margin="10"
+                                Command="{Binding Path=DataContext.ChangeStatusCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ViewModels:ContactList}}}"
+                                CommandParameter="{Binding Login}"/>                      
                         
                     </StackPanel>
                 </DataTemplate>

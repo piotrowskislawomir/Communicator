@@ -19,33 +19,12 @@ namespace Communicator.Client.ViewModels
     /// <summary>
     /// Logika interakcji dla klasy ContactList.xaml
     /// </summary>
-    public partial class ContactList : UserControl, INotifyPropertyChanged
+    public partial class ContactList : UserControl
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private Uri statusImageUri;
-
-        public Uri StatusImageUri
-        {
-            //sorawdź login dla obecnego użytkownika
-            //sprawdz status i zwroc odpowiedni link do orbrazka
-            get
-            {
-                return statusImageUri;
-            }
-            set
-            {
-                statusImageUri = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("StatusImageUri"));
-                }
-            }
-        }
-
         public ContactList()
         {
             InitializeComponent();
+            DataContext = new ContactViewModel();
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)

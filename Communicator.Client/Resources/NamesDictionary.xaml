@@ -12,14 +12,18 @@
     <system:String x:Key="ConfirmPassword">Powtórz hasło</system:String>
     <system:String x:Key="CreateAccount">Załóż konto</system:String>
     <system:String x:Key="RegisterWindowLabel">Zarejestruj się</system:String>
+
+    <system:String x:Key="FindUser">Znajdź użytkownika...</system:String>
     <system:String x:Key="Logout">Wyloguj</system:String>
+    <system:String x:Key="CommunicatorWindowLabel">Wysyłaj i obieraj wiadomości!</system:String>
 
     <system:String x:Key="Sent">Wyślij</system:String>
-    <system:String x:Key="CommunicatorWindowLabel">Wysyłaj i obieraj wiadomości!</system:String>
-    <system:String x:Key="Status1">Dostępny</system:String>
-    <system:String x:Key="Status3">Zaraz wracam</system:String>
-    <system:String x:Key="Status5">Niedostępny</system:String>
-    <system:String x:Key="FindUser">Znajdź użytkownika...</system:String>
+    <!--
+    <system:String x:Key="StatusGreen">Dostępny</system:String>
+    <system:String x:Key="StatusBlue">Zaraz wracam</system:String>
+    <system:String x:Key="StatusRed">Niedostępny</system:String>
+    -->
+    
     <system:String x:Key="ClearDialWindow">Wyczyść okno rozmowy</system:String>
     <system:String x:Key="ClearHistory">Wyczyść historię rozmowy</system:String>
 </ResourceDictionary>
