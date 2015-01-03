@@ -113,8 +113,11 @@ namespace Communicator.BusinessLayer.Services
         {
             var userListRequest = _serializerService.Deserialize<UserListReq>(message.Message);
 
-            //TODO lista wszystkich uzytkownikow
-            var userListResponse = new UserListResponse {Users = new List<User>()};
+            //DONE//TODO lista wszystkich uzytkownikow
+            //var userListResponse = new UserListResponse {Users = new List<User>()};
+            // zwraca listę wszystkich aktywnych użytkowników z wyłączeniem użytkownika który ją wywołuje
+            var userListResponse = new UserListResponse { Users = ActivityUserList.GetList(userListRequest)}; 
+            
 
             foreach (string user in _currentUsers.Keys)
             {
@@ -130,6 +133,8 @@ namespace Communicator.BusinessLayer.Services
             bool userInstanceExists = false;
 
             //TODO spr czy ta osoba jest zarejestrowana
+            bool avaliable = ActivityUserList.CheckUserAvalibility(msgRequest);
+
             if (_currentUsers.Contains(msgRequest.Recipient))
             {
                 var topicList = (ICollection<string>)_currentUsers[msgRequest.Recipient];
@@ -159,7 +164,7 @@ namespace Communicator.BusinessLayer.Services
         {
             var authRequest = _serializerService.Deserialize<AuthRequest>(message.Message);
 
-            //TODO sprawdzanie czy istnieje taki login i pass
+            //DONE////TODO sprawdzanie czy istnieje taki login i pass
             bool exist = CommonUserList.UserAuthentication(authRequest);
 
             if (!_currentUsers.Contains(authRequest.Login))
@@ -220,8 +225,8 @@ namespace Communicator.BusinessLayer.Services
             var createUserRequest = _serializerService.Deserialize<CreateUserReq>(message.Message); // hasło i login
             _queueManagerService.CreateQueue(string.Format("archive.{0}", createUserRequest.Login), ConfigurationService.ExchangeName);
 
-            //TODO sprawdzanie czy juz istnieje
-
+            //DONE//TODO sprawdzanie czy juz istnieje
+            
             var createUserResponse = new CreateUserResponse
             {
                CreatedSuccessfully = CommonUserList.CreateNewUser(createUserRequest)

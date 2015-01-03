@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Communicator.Untils.Archivizers.UsersList
 {
-    class User
+    class CommonUsers
     {
         public string Login { get; set; }
         public string Password { get; set; }

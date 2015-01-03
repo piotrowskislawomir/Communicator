@@ -12,7 +12,7 @@ namespace Communicator.Untils.Archivizers.UsersList
 {
     public class CommonUserList
     {
-        private static List<User> commonList = null;
+        private static List<CommonUsers> commonList = null;
         private static string pathToFile = "";
        
         //przy starcie serwera wczytanie użytkowników gdy plik istnieje gdy nie to pusta lista
@@ -23,12 +23,13 @@ namespace Communicator.Untils.Archivizers.UsersList
             {
                XDocument doc = XDocument.Load(path);
                commonList = (from c in doc.Descendants("User")
-                         select new User
+                         select new CommonUsers
                          {
                              Login = (string)c.Attribute("Login"),
+                             Password = (string)c.Attribute("Password")
                          }).ToList();
            }
-           else commonList = new List<User>();
+           else commonList = new List<CommonUsers>();
         }
 
         // sprawdzanie dostępności loginu
@@ -39,14 +40,16 @@ namespace Communicator.Untils.Archivizers.UsersList
             foreach (var us in commonList)
             {
                 if (us.Login == user.Login)
-                {
                     createSuccesfully = false;
-                    var newUser = new User();
-                    us.Login = user.Login;
-                    us.Password = user.Password;
+            }
+
+            if (createSuccesfully)
+            {
+                    var newUser = new CommonUsers();
+                    newUser.Login = user.Login;
+                    newUser.Password = user.Password;
                     commonList.Add(newUser);
                     XmlUserList.CreateNewUser(pathToFile, user);
-                }
             }
 
             return createSuccesfully; // true taki użytkownik istnieje false nie istnieje i został stworzony
@@ -59,9 +62,11 @@ namespace Communicator.Untils.Archivizers.UsersList
             foreach (var us in commonList)
             {
                 if (us.Login == user.Login && us.Password == user.Password)
+                { 
                     exist = true;
+                    ActivityUserList.AddToList(user);
+                }
             }
-           
             return exist; 
         }
 

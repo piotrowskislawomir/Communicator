@@ -46,8 +46,8 @@
     <Compile Include="Archivizers\Message\XmlMessageArchivizer.cs" />
     <Compile Include="Archivizers\UsersList\ActivityUserList.cs" />
     <Compile Include="Archivizers\UsersList\CommonUserList.cs" />
+    <Compile Include="Archivizers\UsersList\CommonUsers.cs" />
     <Compile Include="Archivizers\UsersList\IUsersListOperationer.cs" />
-    <Compile Include="Archivizers\UsersList\User.cs" />
     <Compile Include="Archivizers\UsersList\XmlUserList.cs" />
     <Compile Include="Configuration\IConfigurationService.cs" />
     <Compile Include="Configuration\XmlConfigurationService.cs" />
