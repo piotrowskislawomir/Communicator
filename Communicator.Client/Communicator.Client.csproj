@@ -239,6 +239,18 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\oval_logout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\oval_history.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\oval_triangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="UI\info_users.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

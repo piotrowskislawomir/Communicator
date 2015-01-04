@@ -71,6 +71,12 @@ namespace Communicator.Client
             this.Close();
         }
 
+        private void Button_HistoryWindow_Click(object sender, RoutedEventArgs e)
+        {
+            HistoryWindow history = new HistoryWindow();
+            history.Show();
+        }
+
 
     }
 }
