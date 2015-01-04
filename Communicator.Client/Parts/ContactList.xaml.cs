@@ -31,5 +31,11 @@ namespace Communicator.Client.ViewModels
         {
 
         }
+
+        private void DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ConversationWindow sample = new ConversationWindow();
+            sample.Show();
+        }
     }
 }

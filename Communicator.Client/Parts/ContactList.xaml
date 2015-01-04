@@ -13,7 +13,7 @@
     <Grid>
         <ListView Background="{x:Null}" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="230" 
                   ItemsSource="{Binding Contact}" BorderThickness="0" Margin="20,30,0,0" 
-                  SelectionChanged="ListView_SelectionChanged">
+                  SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="DoubleClick">
             <ListView.ItemTemplate>                
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

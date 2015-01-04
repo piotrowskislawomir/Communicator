@@ -16,6 +16,7 @@
     <system:String x:Key="FindUser">Znajdź użytkownika...</system:String>
     <system:String x:Key="Logout">Wyloguj</system:String>
     <system:String x:Key="CommunicatorWindowLabel">Wysyłaj i obieraj wiadomości!</system:String>
+    <system:String x:Key="ConversationWindowLabel">Rozmowa z użytkownikiem</system:String>
 
     <system:String x:Key="Sent">Wyślij</system:String>
     <!--
