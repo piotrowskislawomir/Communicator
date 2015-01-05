@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Communicator.Protocol.Model;
 using Communicator.Protocol.Requests;
 using Communicator.Protocol.Responses;
 using Communicator.Untils;
@@ -15,65 +16,56 @@ namespace Communicator.Untils
     {
         public static void Simulation()
         {
-         //// SYMULACJA REJESTRACJI
-         
-            //KLIENT
-            var cur = new CreateUserReq();
-            cur.Password = "hasłtajne";
-            cur.Login = "login12";
-        
-        
-            var js = new JSonSerializerService();
-            byte[] buff = js.Serialize(cur);
+            #region SYMULACJA REJESTRACJI AUTENTYKACJI I POBIERANIA LISTY UŻYTKOWNIKÓW
+            CommonUserList.LoadAllUsersFromFile("C:\\lista.xml");
 
-            // WRZUCENIE DO RABBITA
+            var us1 = new CreateUserReq();
+            us1.Login = "s34353";
+            us1.Password = "tajehasło";
 
-            //SERWER
-            var cuRequest = js.Deserialize<CreateUserReq>(buff);
-           
-            var xmlUserList = new XmlUserList();
-            var createUserResponse = new CreateUserResponse();
-            //createUserResponse.CreatedSuccessfully = xmlUserList.CreateNewUser(cuRequest, "ListaUserów.xml");
+            var us2 = new CreateUserReq();
+            us2.Login = "s34353";
+            us2.Password = "tadshasło";
 
-            // serializacja po stronie serwera
-            byte[] response = js.Serialize(createUserResponse);
+            var us3 = new CreateUserReq();
+            us3.Login = "s34358";
+            us3.Password = "tajehasło";
 
-            //Rabbit
 
-            //// KLient
-            //deserializacja
-            var objResponse = js.Deserialize<CreateUserResponse>(response);
-            Console.WriteLine("Czy utowrzono użytkonika: " + objResponse.CreatedSuccessfully);
+            CommonUserList.CreateNewUser(us1);
+            CommonUserList.CreateNewUser(us2);
+            CommonUserList.CreateNewUser(us3);
 
-           
 
-            /// LOGOWANIE/////
+            var ar1 = new AuthRequest();
+            ar1.Login = "s34353";
+            ar1.Password = "tajehasło";
 
-            var authReq = new AuthRequest();
-            authReq.Login = "Jan";
-            authReq.Password = "Mis";
+            var ar2 = new AuthRequest();
+            ar2.Login = "Karol";
+            ar2.Password = "ŹÓŁŻĄ";
 
-            //serializacja
-            byte[] buff2 = js.Serialize(authReq);
+            var ar3 = new AuthRequest();
+            ar3.Login = "s34358";
+            ar3.Password = "tajehasło";
 
-            //rabbit
 
-            //SERWER
-            var autReqServer = js.Deserialize<AuthRequest>(buff2);
-            //Console.WriteLine(autReqServer.Password);
-            //Console.WriteLine(autReqServer.Login);
+            Console.WriteLine(CommonUserList.UserAuthentication(ar1));
+            Console.WriteLine(CommonUserList.UserAuthentication(ar2));
+            Console.WriteLine(CommonUserList.UserAuthentication(ar3));
 
-            var ul = new XmlUserList();
-            var authResp = new AuthResponse();
-           // authResp.IsAuthenticated =  ul.AuthenticationUser(autReqServer, "ListaUserów.xml");
+            var ulr = new UserListReq();
+            ulr.Login = "s34353";
 
-            buff2 = js.Serialize(authResp);
-            
-            //Rabbit
-            
-            var AuthResp = js.Deserialize<AuthResponse>(buff2);
-            Console.WriteLine("Czy logowanie powiodło się:" + AuthResp.IsAuthenticated);
+            List<User> list = ActivityUserList.GetList(ulr);
 
-        }   
+            foreach (var user in list)
+            {
+                Console.WriteLine(user.Login + " " + user.Status);
+            }
+
+            # endregion
+
+ }   
     }
 }

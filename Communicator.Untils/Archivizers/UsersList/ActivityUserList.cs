@@ -29,19 +29,24 @@ namespace Communicator.Untils.Archivizers.UsersList
         public static List<User> GetList(UserListReq user)
         {
             var userListResponse = new List<User>();
-            foreach (var u in ActivityList)
-            {
-                if (u.Login != user.Login)
-                    userListResponse.Add(u);
+            if(ActivityList != null)
+            { 
+                foreach (var u in ActivityList)
+                {
+                    if (u.Login != user.Login)
+                        userListResponse.Add(u);
+                }
             }
             return userListResponse;
         }
 
         public static void AddToList(AuthRequest user)
         {
+            if (ActivityList == null)  ActivityList = new List<User>();
             var newActiveUser = new User();
             newActiveUser.Login = user.Login;
             newActiveUser.Status = PresenceStatus.Online;
+            ActivityList.Add(newActiveUser);
         }
 
         public void ChangeStatus(User user, PresenceStatus newStatus)
