@@ -16,26 +16,15 @@ namespace Communicator.Untils.Archivizers.UsersList
 
         public static bool CheckUserAvalibility(MessageReq mReq)
         {
-            bool avaliable = false;
-            foreach (var user in ActivityList)
-            {
-                if (user.Login == mReq.Recipient)
-                    avaliable = true;
-            }
-            return avaliable;
-
+             return ActivityList.Any(user => user.Login == mReq.Recipient);
         }
         
         public static List<User> GetList(UserListReq user)
         {
             var userListResponse = new List<User>();
             if(ActivityList != null)
-            { 
-                foreach (var u in ActivityList)
-                {
-                    if (u.Login != user.Login)
-                        userListResponse.Add(u);
-                }
+            {
+                userListResponse.AddRange(ActivityList.Where(u => u.Login != user.Login));
             }
             return userListResponse;
         }
@@ -43,35 +32,26 @@ namespace Communicator.Untils.Archivizers.UsersList
         public static void AddToList(AuthRequest user)
         {
             if (ActivityList == null)  ActivityList = new List<User>();
-            var newActiveUser = new User();
-            newActiveUser.Login = user.Login;
-            newActiveUser.Status = PresenceStatus.Online;
+            var newActiveUser = new User {Login = user.Login, Status = PresenceStatus.Online};
             ActivityList.Add(newActiveUser);
         }
 
         public void ChangeStatus(User user, PresenceStatus newStatus)
         {
-            foreach (var us in ActivityList)
+            foreach (var us in ActivityList.Where(us => us.Login == user.Login))
             {
-                if (us.Login == user.Login)
-                {
-                    us.Status = newStatus;
-                }
+                us.Status = newStatus;
+                return;
             }
-           
         }
 
         public void DeleteFromList(User user)
         {
-            int count = 0;
-            foreach (var us in ActivityList)
+            var activeUser = ActivityList.SingleOrDefault(u => u.Login == user.Login);
+            if(activeUser != null)
             {
-                if (us.Login == user.Login)
-                    ActivityList.RemoveAt(count);
-                
-                count++;
+                ActivityList.Remove(activeUser);
             }
-            
         }
     }
 }

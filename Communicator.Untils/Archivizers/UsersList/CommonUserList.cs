@@ -48,8 +48,8 @@ namespace Communicator.Untils.Archivizers.UsersList
                     var newUser = new CommonUsers();
                     newUser.Login = user.Login;
                     newUser.Password = user.Password;
+                    XmlUserList.CreateNewUser(pathToFile, user);    
                     commonList.Add(newUser);
-                    XmlUserList.CreateNewUser(pathToFile, user);
             }
 
             return createSuccesfully; // true taki użytkownik istnieje false nie istnieje i został stworzony
@@ -57,18 +57,28 @@ namespace Communicator.Untils.Archivizers.UsersList
 
         public static bool UserAuthentication(AuthRequest user)
         {
-            bool exist = false;
-           
             foreach (var us in commonList)
             {
                 if (us.Login == user.Login && us.Password == user.Password)
                 { 
-                    exist = true;
                     ActivityUserList.AddToList(user);
+                    return true;
                 }
             }
-            return exist; 
+            return false;
         }
+
+       public static bool UserExist (MessageReq mr)
+       {
+            foreach (var us in commonList)
+            {
+                if (us.Login == mr.Recipient)
+                {
+                    return true;
+                }
+            }
+            return false;
+       }
 
     }
 }

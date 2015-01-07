@@ -68,7 +68,7 @@ namespace Communicator.BusinessLayer.Services
                     return;
                 }
 
-                if (type == typeof (ActivityNotification))
+                if (type == typeof (ActivityNotification)) // PresestStatusNotification
                 {
                     PresenceStatusNotificationProcess(message);
                     return;
@@ -133,7 +133,7 @@ namespace Communicator.BusinessLayer.Services
             bool userInstanceExists = false;
 
             //TODO spr czy ta osoba jest zarejestrowana
-            bool avaliable = ActivityUserList.CheckUserAvalibility(msgRequest);
+            bool avaliable = CommonUserList.UserExist(msgRequest); 
 
             if (_currentUsers.Contains(msgRequest.Recipient))
             {
@@ -157,6 +157,8 @@ namespace Communicator.BusinessLayer.Services
 
             var messageResponse = new MessageResponse();
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, messageResponse);
+
+            //archiwizacja
                         
         }
 
