@@ -25,7 +25,7 @@ namespace Communicator.Client
         {
             InitializeComponent();
 
-            /*var jsonSerializer = new JSonSerializer();
+	        /*var jsonSerializer = new JSonSerializer();
             var client = new RabbitMqClientService(new RabbitMqConnection());
             client.Initialize(ConfigurationApp.Host, ConfigurationApp.UserName, ConfigurationApp.Password, ConfigurationApp.ExchangeName);
 

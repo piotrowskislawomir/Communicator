@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="clr-namespace:Communicator.Client"
         Title="Rozmowa z..." Height="450" Width="350" MinHeight="300" MinWidth="300"
-                           WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Icon="UI/app_icon.png" MouseDown="Window_MouseDown">
+                           WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Icon="UI/app_icon.png" MouseDown="Window_MouseDown">
     <Border BorderBrush="#FF367FFF" BorderThickness="1">
         <Grid HorizontalAlignment="Stretch" Background="#FF2E2E2E">
-                <!-- Title bar -->
+                <!-- Title bar  -->
 
             <Grid Margin="0" Width="NaN" VerticalAlignment="Top">
                 <Grid HorizontalAlignment="Left" Height="30" VerticalAlignment="Top"/>

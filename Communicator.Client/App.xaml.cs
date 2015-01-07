@@ -13,5 +13,14 @@ namespace Communicator.Client
     /// </summary>
     public partial class App : Application
     {
+	    protected override void OnDeactivated(EventArgs e)
+	    {
+		    base.OnDeactivated(e);
+	    }
+
+	    protected override void OnExit(ExitEventArgs e)
+	    {
+		    base.OnExit(e);
+	    }
     }
 }

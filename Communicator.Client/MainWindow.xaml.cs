@@ -45,10 +45,16 @@ namespace Communicator.Client
             
             //otwórz komunikator, po prawidłowym zalogowaniu
             CommunicatorWindow chat = new CommunicatorWindow();
-            chat.Show();
+			//chat.Owner = this;
+			chat.Show();
+
+			// MAGIA !!!!
+	        // chat.Closed += (s, args) => this.Close();
+	        
 
             //zamykam okno
-            this.Close();
+			//this.Hide();
+			this.Close();
         }
     }
 }

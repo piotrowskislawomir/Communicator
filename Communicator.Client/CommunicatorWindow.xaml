@@ -5,7 +5,7 @@
         xmlns:src="clr-namespace:Communicator.Client"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         MinHeight="500" MinWidth="300" Height="500" Width="300"
-        WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Icon="UI/app_icon.png" MouseDown="Window_MouseDown">
+        WindowStartupLocation="CenterScreen"  WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Icon="UI/app_icon.png" MouseDown="Window_MouseDown">
 
     <Border BorderBrush="#FF367FFF" BorderThickness="1">
         <Grid Background="#FF2E2E2E">

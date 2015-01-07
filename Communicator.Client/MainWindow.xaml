@@ -4,7 +4,7 @@
         xmlns:src="clr-namespace:Communicator.Client"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         Title="MainWindow" MinHeight="400" MinWidth="330" Height="400" Width="330"
-        WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Icon="UI/app_icon.png" MouseDown="Window_MouseDown">
+        WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Icon="UI/app_icon.png" MouseDown="Window_MouseDown">
     <!-- Main window frame -->
     <Border BorderBrush="#FF367FFF" BorderThickness="1">
         <Grid HorizontalAlignment="Stretch" Background="#FF2E2E2E" Margin="0">
