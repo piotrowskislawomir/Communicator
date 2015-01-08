@@ -1,62 +1,57 @@
-﻿using Communicator.Client.Models;
-using Communicator.Protocol.Enums;
-using Microsoft.Practices.Prism.Commands;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+using Communicator.Client.Models;
+using Communicator.Protocol.Enums;
 
 namespace Communicator.Client.ViewModels
 {
-    public class ContactViewModel 
+    public class ContactViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<ContactModel> Contact { get; set; }
-
-        private static string avaible = "../UI/statusGreen.jpg";
-        private static string unavaible = "../UI/statusRed.jpg";
-
-        public ContactViewModel()
+        private ContactModel _contact;
+        public ContactViewModel(ContactModel c)
         {
-            Contact = new ObservableCollection<ContactModel>{
-                new ContactModel{
-                    Login = "John",
-                    Status = PresenceStatus.Offline,
-                    StatusImageUri = unavaible
-                },
-                new ContactModel{
-                    Login = "Doe",
-                    Status = PresenceStatus.Online,
-                    StatusImageUri = avaible
-                },
-                new ContactModel{
-                    Login = "JohnDoe",
-                    Status = PresenceStatus.Offline,
-                    StatusImageUri = unavaible
-                }
-            };
-
-            ChangeStatusCommand = new DelegateCommand<string>(OnStatusChange);
-        }
-        
-        public ICommand ChangeStatusCommand { get; set; }
-
-
-        private void OnStatusChange(string userName)
-        {
-            //sprawdź login dla obecnego użytkownika
-            ContactModel user = Contact.Where(c => c.Login == userName).FirstOrDefault();
-            
-            //sprawdz status i zwroc odpowiedni link do obrazka 
-            if (user.StatusImageUri == unavaible)
-                user.StatusImageUri = avaible;
-            else
-                user.StatusImageUri = unavaible;
+            _contact = c;
         }
 
+        public PresenceStatus Status
+        {
+            get { return _contact.Status; }
+            set
+            {
+                _contact.Status = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Login
+        {
+            get { return _contact.Login; }
+            set
+            {
+                _contact.Login = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string StatusImageUri
+        {
+            get { return _contact.StatusImageUri; }
+            set
+            {
+                _contact.StatusImageUri = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName]string name = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
     }
 }

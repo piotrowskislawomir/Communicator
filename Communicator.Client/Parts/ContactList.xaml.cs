@@ -24,7 +24,7 @@ namespace Communicator.Client.ViewModels
         public ContactList()
         {
             InitializeComponent();
-            DataContext = new ContactViewModel();
+            DataContext = new ContactsViewModel();
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)

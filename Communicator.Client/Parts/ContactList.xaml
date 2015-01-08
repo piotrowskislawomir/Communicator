@@ -6,13 +6,13 @@
              xmlns:ViewModels="clr-namespace:Communicator.Client.ViewModels" 
              x:Class="Communicator.Client.ViewModels.ContactList"              
              mc:Ignorable="d" d:DesignWidth="393.308" d:DesignHeight="274.887" 
-    d:DataContext="{x:Type ViewModels:ContactViewModel}">
+             d:DataContext="{x:Type ViewModels:ContactsViewModel}">
     <UserControl.Resources>
-        <ViewModels:ContactViewModel x:Key="Vm"/>
+        <ViewModels:ContactsViewModel x:Key="Vm"/>
     </UserControl.Resources>
     <Grid>
         <ListView Background="{x:Null}" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="230" 
-                  ItemsSource="{Binding Contact}" BorderThickness="0" Margin="20,30,0,0" 
+                  ItemsSource="{Binding Contacts}" BorderThickness="0" Margin="20,30,0,0" 
                   SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="DoubleClick">
             <ListView.ItemTemplate>                
                 <DataTemplate>

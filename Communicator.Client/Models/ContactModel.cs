@@ -1,12 +1,5 @@
 ﻿using Communicator.Protocol.Enums;
 using Microsoft.Practices.Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Communicator.Client.Models
 {
@@ -33,22 +26,7 @@ namespace Communicator.Client.Models
         public string StatusImageUri
         {
             get { return _statusImageUri; }
-            set 
-            { 
-                SetProperty(ref _statusImageUri, value);
-                OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string name = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
+            set { SetProperty(ref _statusImageUri, value); }
         }
     }
 }
