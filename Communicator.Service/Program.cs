@@ -1,5 +1,6 @@
 ﻿using Communicator.BusinessLayer.Services;
 using Communicator.Queue.Services;
+using Communicator.Untils.Archivizers.UsersList;
 using Communicator.Untils.Configuration;
 using Communicator.Untils.Serializers;
 using Topshelf;
@@ -14,7 +15,7 @@ namespace Communicator.Server
             {
                 x.Service<ServerApplication>(s =>
                 {
-                    s.ConstructUsing(name => new ServerApplication(new RabbitMqServerService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecognizerService(new RabbitMqQueueManagerService(new RabbitMqConnection()),new JSonSerializerService() )) );
+                    s.ConstructUsing(name => new ServerApplication(new RabbitMqServerService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecognizerService(new RabbitMqQueueManagerService(new RabbitMqConnection()),new JSonSerializerService(), new CommonUserListService() )) );
                     s.WhenStarted(tc => tc.Start());
                     s.WhenStopped(tc => tc.Stop());
                 });

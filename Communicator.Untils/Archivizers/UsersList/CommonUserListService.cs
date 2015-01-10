@@ -10,34 +10,34 @@ using Communicator.Protocol.Requests;
 
 namespace Communicator.Untils.Archivizers.UsersList
 {
-    public class CommonUserList
+    public class CommonUserListService:ICommonUserListService
     {
-        private static List<CommonUsers> commonList = null;
-        private static string pathToFile = "";
+         List<CommonUsers> _commonList = new List<CommonUsers>();
+        public  string FilePath { get; set; }
        
         //przy starcie serwera wczytanie użytkowników gdy plik istnieje gdy nie to pusta lista
-        public static void LoadAllUsersFromFile(string path)
+        public void LoadAllUsersFromFile()
         {
-            pathToFile = path;
-            if(File.Exists(path))
+            if (File.Exists(FilePath))
             {
-               XDocument doc = XDocument.Load(path);
-               commonList = (from c in doc.Descendants("User")
+                XDocument doc = XDocument.Load(FilePath);
+               _commonList = (from c in doc.Descendants("User")
                          select new CommonUsers
                          {
                              Login = (string)c.Attribute("Login"),
                              Password = (string)c.Attribute("Password")
                          }).ToList();
            }
-           else commonList = new List<CommonUsers>();
+           else _commonList = new List<CommonUsers>();
         }
 
         // sprawdzanie dostępności loginu
-        public static bool CreateNewUser(CreateUserReq user)
+
+        public bool CreateNewUser(CreateUserReq user)
         {
             bool createSuccesfully = true;
            
-            foreach (var us in commonList)
+            foreach (var us in _commonList)
             {
                 if (us.Login == user.Login)
                     createSuccesfully = false;
@@ -48,16 +48,16 @@ namespace Communicator.Untils.Archivizers.UsersList
                     var newUser = new CommonUsers();
                     newUser.Login = user.Login;
                     newUser.Password = user.Password;
-                    XmlUserList.CreateNewUser(pathToFile, user);    
-                    commonList.Add(newUser);
+                    XmlUserList.CreateNewUser(FilePath, user);    
+                    _commonList.Add(newUser);
             }
 
             return createSuccesfully; // true taki użytkownik istnieje false nie istnieje i został stworzony
         }
 
-        public static bool UserAuthentication(AuthRequest user)
+        public bool UserAuthentication(AuthRequest user)
         {
-            foreach (var us in commonList)
+            foreach (var us in _commonList)
             {
                 if (us.Login == user.Login && us.Password == user.Password)
                 { 
@@ -68,9 +68,9 @@ namespace Communicator.Untils.Archivizers.UsersList
             return false;
         }
 
-       public static bool UserExist (MessageReq mr)
+       public bool UserExist (MessageReq mr)
        {
-            foreach (var us in commonList)
+            foreach (var us in _commonList)
             {
                 if (us.Login == mr.Recipient)
                 {
@@ -81,4 +81,5 @@ namespace Communicator.Untils.Archivizers.UsersList
        }
 
     }
+
 }

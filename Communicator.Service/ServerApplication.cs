@@ -21,6 +21,7 @@ namespace Communicator.Server
 
             _messageRecognizerService.QueueServerService = queueServerService;
             _messageRecognizerService.ConfigurationService = configurationService;
+            _messageRecognizerService.Initialize();
         }
 
         public void Start()
@@ -32,6 +33,7 @@ namespace Communicator.Server
         {
             _queueServerService.Initialize(_configurationService.Host, _configurationService.UserName,
                 _configurationService.Password, _configurationService.ExchangeName);
+
             _queueServerService.MessageReceived += MessageReceived;
             _queueServerService.CreateConsumer(_configurationService.MainQueueName, _configurationService.ExchangeName);
         }

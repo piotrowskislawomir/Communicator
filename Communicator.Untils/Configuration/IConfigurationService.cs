@@ -7,5 +7,6 @@
         string Password { get; }
         string ExchangeName { get; }
         string MainQueueName { get; }
+        string UserListFileName { get; }
     }
 }

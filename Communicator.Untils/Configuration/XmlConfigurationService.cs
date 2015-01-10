@@ -27,6 +27,11 @@ namespace Communicator.Untils.Configuration
             get { return GetValueFromConfig("mainqueuename", "CommunicatorMainQueue"); }
         }
 
+        public string UserListFileName
+        {
+            get { return GetValueFromConfig("mainqueuename", "C:\\userList.xml"); }
+        }
+
         private static string GetValueFromConfig(string key, string defaultValue)
         {
             if (ConfigurationManager.AppSettings.AllKeys.Contains(key))

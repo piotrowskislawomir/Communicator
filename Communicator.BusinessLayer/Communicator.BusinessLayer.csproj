@@ -44,8 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\ActionTypes.cs" />
+    <Compile Include="Interfaces\ILogicClient.cs" />
+    <Compile Include="Interfaces\IMessageRecognizerClientService.cs" />
     <Compile Include="Interfaces\IMessageRecognizerService.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepeaterEventArgs.cs" />
+    <Compile Include="RepeaterEventHandler.cs" />
+    <Compile Include="Services\LogicClient.cs" />
+    <Compile Include="Services\MessageRecoginzerClientService.cs" />
     <Compile Include="Services\MessageRecognizerService.cs" />
   </ItemGroup>
   <ItemGroup>

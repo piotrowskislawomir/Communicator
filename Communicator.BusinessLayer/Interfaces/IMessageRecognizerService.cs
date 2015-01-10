@@ -14,5 +14,6 @@ namespace Communicator.BusinessLayer.Interfaces
         IConfigurationService ConfigurationService { get; set; }
         IQueueServerService QueueServerService { get; set; }
         void ProcessMessage(MessageReceivedEventArgs messageReceivedEventArgs);
+        void Initialize();
     }
 }

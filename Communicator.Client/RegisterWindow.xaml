@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="clr-namespace:Communicator.Client"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:models="clr-namespace:Communicator.Client.Models"
         Title="RegisterWindow" MinHeight="450" MinWidth="380" Height="450" Width="380"
         WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Icon="UI/app_icon.png" MouseDown="Window_MouseDown">
 
@@ -34,15 +35,16 @@
                     <TranslateTransform X="-15"/>
                 </Grid.RenderTransform>
                 <Label Content="{DynamicResource UserName}" HorizontalAlignment="Center" Margin="135,181,319,-69" VerticalAlignment="Top" Width="94" Height="30"/>
-                <TextBox HorizontalAlignment="Center" Height="30" Margin="233,181,139,-69" TextWrapping="Wrap" VerticalAlignment="Top" Width="176"/>
+                <TextBox Text="{Binding Login}" HorizontalAlignment="Center" Height="30" Margin="233,181,139,-69" TextWrapping="Wrap" VerticalAlignment="Top" Width="176"/>
 
                 <Label Content="{DynamicResource Password}" HorizontalAlignment="Center" Margin="135,216,319,-104" VerticalAlignment="Top" Width="94" Height="30"/>
-                <PasswordBox PasswordChar="•" HorizontalAlignment="Center" Height="30" Margin="233,216,139,-104" VerticalAlignment="Top" Width="176"/>
+                <TextBox Text="{Binding Password}"
+                    HorizontalAlignment="Center" Height="30" Margin="233,216,139,-104" VerticalAlignment="Top" Width="176"/>
 
                 <Label Content="{DynamicResource ConfirmPassword}" HorizontalAlignment="Center" Margin="135,246,319,-134" VerticalAlignment="Top" Width="94" Height="30"/>
-                <PasswordBox PasswordChar="•" HorizontalAlignment="Center" Height="30" Margin="233,251,139,-139" VerticalAlignment="Top" Width="176"/>
+                <TextBox Text="{Binding ConfirmedPassword}" HorizontalAlignment="Center" Height="30" Margin="233,251,139,-139" VerticalAlignment="Top" Width="176"/>
 
-                <Button Content="{DynamicResource CreateAccount}" HorizontalAlignment="Center" Margin="233,307,189,-195" VerticalAlignment="Top" Width="126" Click="Button_Register_Click" RenderTransformOrigin="0.471,0.5"/>
+                <Button Content="{DynamicResource CreateAccount}" HorizontalAlignment="Center" Margin="233,307,189,-195" VerticalAlignment="Top" Width="126" RenderTransformOrigin="0.471,0.5"  Command="{Binding CreateAccountCommand}" />
             </Grid>
             <Grid Style="{StaticResource Grid_MetroAnim}">
                 <Grid.RenderTransform>

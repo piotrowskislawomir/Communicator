@@ -11,6 +11,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Communicator.BusinessLayer.Services;
+using Communicator.Client.ViewModels;
+using Communicator.Queue.Services;
+using Communicator.Untils.Configuration;
+using Communicator.Untils.Serializers;
 
 namespace Communicator.Client
 {
@@ -22,15 +27,11 @@ namespace Communicator.Client
         public RegisterWindow()
         {
             InitializeComponent();
+            var clientLogic = new LogicClient(new RabbitMqClientService(new RabbitMqConnection(), new JSonSerializerService()),new XmlConfigurationService(), new MessageRecoginzerClientService(new JSonSerializerService()));
+            clientLogic.RouteKey = Guid.NewGuid().ToString();
+            clientLogic.Initialize();
+            DataContext = new RegisterViewModel(clientLogic);
         }
 
-        
-
-        private void Button_Register_Click(object sender, RoutedEventArgs e)
-        {
-            //zapisywanie danych dot. użytkownika
-            //zamykam okno
-            this.Close();
-        }
     }
 }

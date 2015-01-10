@@ -21,21 +21,31 @@ namespace Communicator.BusinessLayer.Services
     {
         private readonly IQueueManagerService _queueManagerService;
         private readonly ISerializerService _serializerService;
+        private readonly ICommonUserListService _commonUserListService;
         public IConfigurationService ConfigurationService { get; set; }
         public IQueueServerService QueueServerService { get; set; }
 
         private readonly IDictionary _currentUsers = new Dictionary<string, ICollection<string>>();
 
-        public MessageRecognizerService(IQueueManagerService queueManagerService,  ISerializerService serializerService)
+        public MessageRecognizerService(IQueueManagerService queueManagerService,  ISerializerService serializerService, ICommonUserListService commonUserListService)
         {
             _queueManagerService = queueManagerService;
             _serializerService = serializerService;
+            _commonUserListService = commonUserListService;
+
+        }
+
+        public void Initialize()
+        {
+            _queueManagerService.Initialize(ConfigurationService.Host, ConfigurationService.UserName, ConfigurationService.Password, ConfigurationService.ExchangeName);
+            _commonUserListService.FilePath = ConfigurationService.UserListFileName;
         }
 
         public void ProcessMessage(MessageReceivedEventArgs message)
         {
             try
             {
+                
                 var type = Type.GetType(message.ContentType);
 
                 if (type == typeof (CreateUserReq))
@@ -74,7 +84,7 @@ namespace Communicator.BusinessLayer.Services
                     return;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 {
                 }
@@ -133,7 +143,7 @@ namespace Communicator.BusinessLayer.Services
             bool userInstanceExists = false;
 
             //TODO spr czy ta osoba jest zarejestrowana
-            bool avaliable = CommonUserList.UserExist(msgRequest); 
+            bool avaliable = _commonUserListService.UserExist(msgRequest); 
 
             if (_currentUsers.Contains(msgRequest.Recipient))
             {
@@ -167,7 +177,7 @@ namespace Communicator.BusinessLayer.Services
             var authRequest = _serializerService.Deserialize<AuthRequest>(message.Message);
 
             //DONE////TODO sprawdzanie czy istnieje taki login i pass
-            bool exist = CommonUserList.UserAuthentication(authRequest);
+            bool exist = _commonUserListService.UserAuthentication(authRequest);
 
             if (!_currentUsers.Contains(authRequest.Login))
             {
@@ -231,7 +241,7 @@ namespace Communicator.BusinessLayer.Services
             
             var createUserResponse = new CreateUserResponse
             {
-               CreatedSuccessfully = CommonUserList.CreateNewUser(createUserRequest)
+                CreatedSuccessfully = _commonUserListService.CreateNewUser(createUserRequest)
                //CreatedSuccessfully = true
             };
 

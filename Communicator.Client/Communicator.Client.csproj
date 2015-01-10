@@ -106,15 +106,18 @@
     <Compile Include="ApplicationWindowBase.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Models\PasswordHelper.cs" />
     <Compile Include="Parts\ContactList.xaml.cs">
       <DependentUpon>ContactList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ContactsViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Page Include="ConversationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -195,6 +198,10 @@
     <Resource Include="UI\settings_1616.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Communicator.BusinessLayer\Communicator.BusinessLayer.csproj">
+      <Project>{7E6ABD19-7C85-4924-BE66-1212E94FC6FB}</Project>
+      <Name>Communicator.BusinessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Communicator.Protocol\Communicator.Protocol.csproj">
       <Project>{7FF557C6-C020-4291-8C22-D8797FBCDF26}</Project>
       <Name>Communicator.Protocol</Name>
@@ -251,6 +258,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\info_users.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
