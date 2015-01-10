@@ -11,6 +11,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Communicator.BusinessLayer.Services;
+using Communicator.Client.ViewModels;
+using Communicator.Queue.Services;
+using Communicator.Untils.Configuration;
+using Communicator.Untils.Serializers;
 
 namespace Communicator.Client
 {
@@ -19,7 +24,11 @@ namespace Communicator.Client
         public MainWindow()
         {
             InitializeComponent();
-            SetDictionary();
+            var clientLogic = new LogicClient(new RabbitMqClientService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecoginzerClientService(new JSonSerializerService()));
+            clientLogic.RouteKey = Guid.NewGuid().ToString();
+            clientLogic.Initialize();
+            DataContext = new LoginViewModel(clientLogic);
+            // SetDictionary();
         }
         private void SetDictionary()
         {
@@ -29,32 +38,5 @@ namespace Communicator.Client
             this.Resources.MergedDictionaries.Add(dict);
         }
 
-        private void Button_Register_Click(object sender, RoutedEventArgs e)
-        {
-            RegisterWindow register = new RegisterWindow();
-            register.Show();
-
-            //to to samo co wyżej: (new RegisterWindow()).Show();
-        }
-
-        private void Button_Login_Click(object sender, RoutedEventArgs e)
-        {
-            //Application.Current.MainWindow.Height = 500;
-
-            //sprawdzam poprawność danych użytkownika
-            
-            //otwórz komunikator, po prawidłowym zalogowaniu
-            CommunicatorWindow chat = new CommunicatorWindow();
-			//chat.Owner = this;
-			chat.Show();
-
-			// MAGIA !!!!
-	        // chat.Closed += (s, args) => this.Close();
-	        
-
-            //zamykam okno
-			//this.Hide();
-			this.Close();
-        }
     }
 }

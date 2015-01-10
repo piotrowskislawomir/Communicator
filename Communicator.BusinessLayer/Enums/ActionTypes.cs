@@ -8,6 +8,7 @@ namespace Communicator.BusinessLayer.Enums
 {
     public  enum ActionTypes
     {
-        UserCreatedSuccess
+        UserCreate,
+        Login
     }
 }

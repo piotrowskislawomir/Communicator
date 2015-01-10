@@ -116,6 +116,7 @@
     </Compile>
     <Compile Include="ViewModels\ContactsViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Page Include="ConversationWindow.xaml">

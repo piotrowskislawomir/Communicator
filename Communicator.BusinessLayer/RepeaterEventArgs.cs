@@ -9,6 +9,7 @@ namespace Communicator.BusinessLayer
 {
     public class RepeaterEventArgs
     {
-        public ActionTypes Type;
+        public ActionTypes Type { get; set; }
+        public bool Result { get; set; }
     }
 }

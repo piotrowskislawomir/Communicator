@@ -50,5 +50,12 @@ namespace Communicator.BusinessLayer.Services
             var createUserReq = new CreateUserReq {Login = user.Login, Password = user.Password};
             _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, createUserReq);
         }
+
+        public void LoginUser(UserModel user)
+        {
+            var authReq = new AuthRequest {Login = user.Login, Password = user.Password};
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, authReq);
+
+        }
     }
 }

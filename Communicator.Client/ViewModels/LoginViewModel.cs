@@ -3,47 +3,61 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using Communicator.BusinessLayer;
 using Communicator.BusinessLayer.Enums;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Models;
 using Communicator.Client.Annotations;
-using Communicator.Client.Models;
 using Communicator.Protocol.Model;
-using Communicator.Queue.Interfaces;
 using Microsoft.Practices.Prism.Commands;
 
 namespace Communicator.Client.ViewModels
 {
-    public class RegisterViewModel:INotifyPropertyChanged
+    public class LoginViewModel:INotifyPropertyChanged
     {
         private readonly ILogicClient _logicClient;
-
-        public UserModel User { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand CreateAccountCommand
+        public ICommand LoginCommand
         {
-            get { return new DelegateCommand(CreateAccount); }
+            get
+            {
+                return new DelegateCommand(LoginAction);
+            }
         }
 
-        private void CreateAccount()
+        public ICommand RegisterCommand
         {
-            _logicClient.RegisterUser(User);
+            get
+            {
+                return new DelegateCommand(RegisterAction);
+            }
         }
 
-        public RegisterViewModel(ILogicClient logicClient)
+        public LoginViewModel(ILogicClient logicClient)
         {
             _logicClient = logicClient;
+            User =new UserModel();
             _logicClient.Repeater += ProceedCommand;
-            User = new UserModel();
         }
 
+        private void RegisterAction()
+        {
+            var registerWindow = new RegisterWindow();
+            registerWindow.Show();
+        }
+
+        private void LoginAction()
+        {
+            _logicClient.LoginUser(User);
+        }
+
+        public UserModel User { get; set; }
 
         public string Login
         {
@@ -53,7 +67,6 @@ namespace Communicator.Client.ViewModels
                 User.Login = value;
                 OnPropertyChanged();
             }
-
         }
 
         public string Password
@@ -66,21 +79,11 @@ namespace Communicator.Client.ViewModels
             }
         }
 
-        public string ConfirmedPassword
-        {
-            get{return User.ConfirmedPassword;}
-            set
-            {
-                User.ConfirmedPassword = value;
-                OnPropertyChanged();
-            }
-        }
-
         public void ProceedCommand(object sender, RepeaterEventArgs e)
         {
-            if (e.Type == ActionTypes.UserCreate)
+            if (e.Type == ActionTypes.Login)
             {
-                MessageBox.Show("Zarejestrowano");
+                MessageBox.Show("Logowanie: " + e.Result);
             }
         }
 
@@ -89,6 +92,7 @@ namespace Communicator.Client.ViewModels
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+
         }
     }
 }

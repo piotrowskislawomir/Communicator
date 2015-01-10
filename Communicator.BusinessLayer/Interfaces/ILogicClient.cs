@@ -11,5 +11,6 @@ namespace Communicator.BusinessLayer.Interfaces
     {
         event RepeaterEventHandler Repeater;
         void RegisterUser(UserModel user);
+        void LoginUser(UserModel user);
     }
 }

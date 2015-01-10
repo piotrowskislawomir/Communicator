@@ -39,6 +39,7 @@ namespace Communicator.BusinessLayer.Services
         {
             _queueManagerService.Initialize(ConfigurationService.Host, ConfigurationService.UserName, ConfigurationService.Password, ConfigurationService.ExchangeName);
             _commonUserListService.FilePath = ConfigurationService.UserListFileName;
+            _commonUserListService.LoadAllUsersFromFile();
         }
 
         public void ProcessMessage(MessageReceivedEventArgs message)
@@ -177,7 +178,7 @@ namespace Communicator.BusinessLayer.Services
             var authRequest = _serializerService.Deserialize<AuthRequest>(message.Message);
 
             //DONE////TODO sprawdzanie czy istnieje taki login i pass
-            bool exist = _commonUserListService.UserAuthentication(authRequest);
+            bool exists = _commonUserListService.UserAuthentication(authRequest);
 
             if (!_currentUsers.Contains(authRequest.Login))
             {
@@ -205,14 +206,14 @@ namespace Communicator.BusinessLayer.Services
                 }
 
                 //to moze niepoprawnie dzialac
-                QueueServerService.SendData(String.Format("client.{0}", authRequest.Login),
+                QueueServerService.SendData(message.TopicSender,
                     ConfigurationService.ExchangeName,
                     basicDeliverEventArgs.Body);
             }
 
             var authResponse = new AuthResponse
             {
-                IsAuthenticated = true
+                IsAuthenticated = exists
             };
 
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, authResponse);
@@ -229,6 +230,7 @@ namespace Communicator.BusinessLayer.Services
                 QueueServerService.SendData(String.Format("client.{0}", login),
                     ConfigurationService.ExchangeName, presenceStatusNotification);
             }
+
 
         }
 

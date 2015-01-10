@@ -29,24 +29,34 @@ namespace Communicator.BusinessLayer.Services
             if (type == typeof (CreateUserResponse))
             {
                 CreateUserProcess(message);
+                return;
             }
+
+            if (type == typeof (AuthResponse))
+            {
+                LoginUserProcess(message);
+            }
+        }
+
+        private void LoginUserProcess(MessageReceivedEventArgs message)
+        {
+            var authResponse = _serializerService.Deserialize<AuthResponse>(message.Message);
+
+            OnRepeater(ActionTypes.Login, authResponse.IsAuthenticated);
         }
 
         private void CreateUserProcess(MessageReceivedEventArgs message)
         {
             var createUserResponse = _serializerService.Deserialize<CreateUserResponse>(message.Message);
 
-            if (createUserResponse.CreatedSuccessfully)
-            {
-                OnRepeater(ActionTypes.UserCreatedSuccess);
-            }
-          }
+            OnRepeater(ActionTypes.UserCreate, createUserResponse.CreatedSuccessfully);
+        }
 
-        public void OnRepeater(ActionTypes actionTypes)
+        public void OnRepeater(ActionTypes actionTypes, bool result)
         {
             if (Repeater != null)
             {
-                Repeater(this, new RepeaterEventArgs{Type = actionTypes});
+                Repeater(this, new RepeaterEventArgs{Type = actionTypes, Result=result});
             }
         }
     }
