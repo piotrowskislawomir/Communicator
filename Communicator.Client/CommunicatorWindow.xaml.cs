@@ -56,7 +56,7 @@ namespace Communicator.Client
         
         private void ContactList_Loaded(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void Button_Logout_Click(object sender, RoutedEventArgs e)

@@ -9,6 +9,7 @@ namespace Communicator.BusinessLayer.Enums
     public  enum ActionTypes
     {
         UserCreate,
-        Login
+        Login, 
+        ContactList
     }
 }

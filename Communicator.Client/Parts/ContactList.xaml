@@ -6,11 +6,8 @@
              xmlns:ViewModels="clr-namespace:Communicator.Client.ViewModels" 
              x:Class="Communicator.Client.ViewModels.ContactList"              
              mc:Ignorable="d" d:DesignWidth="393.308" d:DesignHeight="274.887" 
-             d:DataContext="{x:Type ViewModels:ContactsViewModel}">
-    <UserControl.Resources>
-        <ViewModels:ContactsViewModel x:Key="Vm"/>
-    </UserControl.Resources>
-    <Grid>
+             >
+    <Grid><!--
         <ListView Background="{x:Null}" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="230" 
                   ItemsSource="{Binding Contacts}" BorderThickness="0" Margin="20,30,0,0" 
                   SelectionChanged="ListView_SelectionChanged" MouseDoubleClick="DoubleClick">
@@ -27,5 +24,5 @@
             </ListView.ItemTemplate>
         </ListView>
 
-    </Grid>
+   --> </Grid>
 </UserControl>

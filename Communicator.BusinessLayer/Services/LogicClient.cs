@@ -19,6 +19,7 @@ namespace Communicator.BusinessLayer.Services
         private readonly IMessageRecognizerClientService _messageRecognizerClientService;
 
         public string RouteKey { get; set; }
+        public string Login { get; set; }
 
         public LogicClient(IQueueClientService queueClientService, IConfigurationService configurationService, IMessageRecognizerClientService messageRecognizerClientService)
         {
@@ -56,6 +57,12 @@ namespace Communicator.BusinessLayer.Services
             var authReq = new AuthRequest {Login = user.Login, Password = user.Password};
             _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, authReq);
 
+        }
+
+        public void GetUserList()
+        {
+            var userListReq = new UserListReq() {Login = Login};
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, userListReq);
         }
     }
 }

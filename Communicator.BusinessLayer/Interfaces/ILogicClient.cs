@@ -10,7 +10,11 @@ namespace Communicator.BusinessLayer.Interfaces
     public interface ILogicClient
     {
         event RepeaterEventHandler Repeater;
+        string Login { get; set; }
         void RegisterUser(UserModel user);
         void LoginUser(UserModel user);
+        void GetUserList();
     }
+
+   
 }

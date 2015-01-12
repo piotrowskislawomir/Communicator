@@ -36,6 +36,18 @@ namespace Communicator.BusinessLayer.Services
             {
                 LoginUserProcess(message);
             }
+
+            if (type == typeof (UserListResponse))
+            {
+                UserListProcess(message);
+            }
+        }
+
+        private void UserListProcess(MessageReceivedEventArgs message)
+        {
+            var userListResponse = _serializerService.Deserialize<UserListResponse>(message.Message);
+
+            OnRepeater(ActionTypes.ContactList, true, userListResponse.Users);
         }
 
         private void LoginUserProcess(MessageReceivedEventArgs message)
@@ -52,11 +64,11 @@ namespace Communicator.BusinessLayer.Services
             OnRepeater(ActionTypes.UserCreate, createUserResponse.CreatedSuccessfully);
         }
 
-        public void OnRepeater(ActionTypes actionTypes, bool result)
+        public void OnRepeater(ActionTypes actionTypes, bool result, object data = null)
         {
             if (Repeater != null)
             {
-                Repeater(this, new RepeaterEventArgs{Type = actionTypes, Result=result});
+                Repeater(this, new RepeaterEventArgs{Type = actionTypes, Result=result, Data = data});
             }
         }
     }

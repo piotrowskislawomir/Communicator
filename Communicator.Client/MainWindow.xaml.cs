@@ -27,7 +27,9 @@ namespace Communicator.Client
             var clientLogic = new LogicClient(new RabbitMqClientService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecoginzerClientService(new JSonSerializerService()));
             clientLogic.RouteKey = Guid.NewGuid().ToString();
             clientLogic.Initialize();
-            DataContext = new LoginViewModel(clientLogic);
+            var loginViewModel = new LoginViewModel(clientLogic);
+            loginViewModel.OnRequestClose += (s, e) => this.Close();
+            DataContext = loginViewModel;
             // SetDictionary();
         }
         private void SetDictionary()

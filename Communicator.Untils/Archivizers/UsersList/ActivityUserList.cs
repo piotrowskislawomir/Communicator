@@ -19,12 +19,12 @@ namespace Communicator.Untils.Archivizers.UsersList
              return ActivityList.Any(user => user.Login == mReq.Recipient);
         }
         
-        public static List<User> GetList(UserListReq user)
+        public static List<User> GetList()
         {
             var userListResponse = new List<User>();
             if(ActivityList != null)
             {
-                userListResponse.AddRange(ActivityList.Where(u => u.Login != user.Login));
+                userListResponse.AddRange(ActivityList);
             }
             return userListResponse;
         }
