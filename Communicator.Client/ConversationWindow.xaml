@@ -24,12 +24,21 @@
                 </Grid.RenderTransform>
                 <Grid x:Name="ConversationGrid" Margin="10,37,10,140">
                     <Border BorderThickness="1" BorderBrush="#FF424242"/>
+                    <ListBox x:Name="ConversationListBox" ItemsSource="{Binding Messages}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <TextBlock Text="{Binding Message}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Grid>
 
             <Grid x:Name="EditorGrid" VerticalAlignment="Bottom" Margin="10,0,10,30" Height="100">
-                    <TextBox x:Name="TextBox_Message"  VerticalContentAlignment="Top" Margin="0,0,0,35"></TextBox>
+                    <TextBox Text="{Binding Message}" x:Name="TextBox_Message"  VerticalContentAlignment="Top" Margin="0,0,0,35"></TextBox>
                 <Grid x:Name="EditorButtons" VerticalAlignment="Bottom">
-                    <Button x:Name="Button_SendMsg" Content="Wyślij" VerticalAlignment="Bottom" Width="75" Margin="0,10,0,0" HorizontalAlignment="Right"/>
+                        <Button Command="{Binding SendCommand}" x:Name="Button_SendMsg" Content="Wyślij" VerticalAlignment="Bottom" Width="75" Margin="0,10,0,0" HorizontalAlignment="Right"/>
                 </Grid>
             </Grid>
             </Grid>

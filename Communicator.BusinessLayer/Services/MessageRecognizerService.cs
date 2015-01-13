@@ -138,9 +138,9 @@ namespace Communicator.BusinessLayer.Services
 
             foreach (var user in allUsers)
             {
-                if (userListResponse.Users.All(u => u.Login != user.Login))
+                if (user.Login != userListRequest.Login)
                 {
-                    if (user.Login != userListRequest.Login)
+                    if (!userListResponse.Users.Any(u => u.Login == user.Login))
                     {
                         userListResponse.Users.Add(user);
                     }
@@ -158,16 +158,16 @@ namespace Communicator.BusinessLayer.Services
             //TODO spr czy ta osoba jest zarejestrowana
             bool avaliable = _commonUserListService.UserExist(msgRequest);
 
-            var activeUser = _currentUsers.SingleOrDefault(u => u.Key.Login == msgRequest.Login);
+            var activeUser = _currentUsers.SingleOrDefault(u => u.Key.Login == msgRequest.Recipient);
             if (activeUser.Key != null)
             {
-                if (activeUser.Value.Any())
+                activeUser.Value.ToList().ForEach(topic =>
                 {
-                    QueueServerService.SendData(String.Format("client.{0}", msgRequest.Recipient),
+                    QueueServerService.SendData(topic,
                         ConfigurationService.ExchangeName,
-                        msgRequest.Message);
+                        msgRequest);
                     userInstanceExists = true;
-                }
+                });
             }
 
             if (!userInstanceExists)

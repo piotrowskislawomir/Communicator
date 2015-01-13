@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Communicator.BusinessLayer.Enums;
 using Communicator.BusinessLayer.Interfaces;
+using Communicator.Protocol.Requests;
 using Communicator.Protocol.Responses;
 using Communicator.Queue;
 using Communicator.Untils.Serializers;
@@ -35,12 +36,27 @@ namespace Communicator.BusinessLayer.Services
             if (type == typeof (AuthResponse))
             {
                 LoginUserProcess(message);
+                return;
             }
 
             if (type == typeof (UserListResponse))
             {
                 UserListProcess(message);
+                return;
             }
+
+            if (type == typeof (MessageReq))
+            {
+                MessageProcess(message);
+            }
+
+        }
+
+        private void MessageProcess(MessageReceivedEventArgs message)
+        {
+            var messageReq = _serializerService.Deserialize<MessageReq>(message.Message);
+
+            OnRepeater(ActionTypes.Message, true, messageReq);
         }
 
         private void UserListProcess(MessageReceivedEventArgs message)

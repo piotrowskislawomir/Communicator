@@ -64,5 +64,18 @@ namespace Communicator.BusinessLayer.Services
             var userListReq = new UserListReq() {Login = Login};
             _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, userListReq);
         }
+
+        public void SendMessage(string recipient,string message)
+        {
+            var messageReq = new MessageReq()
+            {
+                Login = Login,
+                Message = message,
+                Recipient = recipient
+            };
+
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, messageReq);
+        
+        }
     }
 }

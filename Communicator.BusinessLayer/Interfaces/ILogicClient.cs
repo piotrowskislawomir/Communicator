@@ -14,6 +14,7 @@ namespace Communicator.BusinessLayer.Interfaces
         void RegisterUser(UserModel user);
         void LoginUser(UserModel user);
         void GetUserList();
+        void SendMessage(string recipient,string message);
     }
 
    

@@ -108,15 +108,13 @@
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\PasswordHelper.cs" />
-    <Compile Include="Parts\ContactList.xaml.cs">
-      <DependentUpon>ContactList.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CommunicatorViewModel.cs" />
     <Compile Include="ViewModels\ContactViewModel.cs" />
+    <Compile Include="ViewModels\ConversationViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MessageViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
@@ -145,10 +143,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\NamesDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Parts\ContactList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

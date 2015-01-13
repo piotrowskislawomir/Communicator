@@ -10,6 +10,7 @@ namespace Communicator.BusinessLayer.Enums
     {
         UserCreate,
         Login, 
-        ContactList
+        ContactList,
+        Message
     }
 }
