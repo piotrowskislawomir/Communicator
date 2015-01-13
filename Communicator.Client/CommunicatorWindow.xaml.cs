@@ -77,6 +77,16 @@ namespace Communicator.Client
             history.Show();
         }
 
+		private void Button_ProfileOptions_Click(object sender, RoutedEventArgs e)
+		{
+			popup.IsOpen = true;
+		}
+
+		private void Button_OptClose_Click(object sender, RoutedEventArgs e)
+		{
+			popup.IsOpen = false;
+		}
+
 
     }
 }

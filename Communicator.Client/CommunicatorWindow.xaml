@@ -35,17 +35,28 @@
                             <ImageSource x:Key="icon">UI/oval_history.png</ImageSource>
                         </Button.Resources>
                     </Button>
-                    <Button Style="{DynamicResource OvalButton_Small}" x:Name="Button_ProfileOptions" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,37,177,0" ToolTip="Opcje statusu">
-                        <Button.Resources>
-                            <ImageSource x:Key="icon">UI/oval_triangle.png</ImageSource>
-                        </Button.Resources>
-                        <Button.ContextMenu>
-                            <ContextMenu x:Name="popup">
-                                ...
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
-                </Grid>
+
+					<Button Style="{DynamicResource OvalButton_Small}" x:Name="Button_ProfileOptions" Click="Button_ProfileOptions_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,37,177,0" ToolTip="Opcje statusu">
+						<Button.Resources>
+							<ImageSource x:Key="icon">UI/oval_triangle.png</ImageSource>
+						</Button.Resources>
+					</Button>
+					<Popup x:Name="popup" IsOpen="False" Placement="MousePoint" Width="144">
+						<Border BorderBrush="#FF367FFF" BorderThickness="1" Background="#FF2E2E2E">
+							<Grid Width="142" Style="{StaticResource Grid_MetroAnim}">
+								<Button x:Name="Button_OptClose" Style="{StaticResource CloseButton}" Content="x" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Panel.ZIndex="1" Click="Button_OptClose_Click" BorderThickness="0"  FontSize="10" FontWeight="Bold" FontFamily="OCR A Std"/>
+								<StackPanel>
+									<Button x:Name="Option_Available" Style="{StaticResource Button_MenuOption}" Content="Dostępny" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
+									<Button x:Name="Option_Away" Style="{StaticResource Button_MenuOption}" Content="Z dala od komputera" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
+									<Button x:Name="Option_Hidden" Style="{StaticResource Button_MenuOption}" Content="Niewidoczny" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
+									<Grid Height="1" Background="Gray"></Grid>
+									<Button x:Name="Option_SetDesc" Style="{StaticResource Button_MenuOption}" Content="Ustaw opis..." VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
+								</StackPanel>
+
+							</Grid>
+						</Border>
+					</Popup>
+				</Grid>
 
                 <Grid Style="{StaticResource Grid_MetroAnim}" x:Name="Grid_Contacts" HorizontalAlignment="Center" Height="317" Margin="20,120,20,-383" VerticalAlignment="Top" Width="254" Background="#FF2E2E2E">
                     <Grid.RenderTransform>

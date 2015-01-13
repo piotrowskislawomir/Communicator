@@ -23,11 +23,23 @@ namespace Communicator.Client
     {       
         public MainWindow()
         {
-            InitializeComponent();
-            var clientLogic = new LogicClient(new RabbitMqClientService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecoginzerClientService(new JSonSerializerService()));
-            clientLogic.RouteKey = Guid.NewGuid().ToString();
-            clientLogic.Initialize();
-            DataContext = new LoginViewModel(clientLogic);
+			// Ten blok należy zakomentować...
+			
+			CommunicatorWindow cm = new CommunicatorWindow();
+	        cm.Show();
+
+			ConversationWindow cm1 = new ConversationWindow();
+	        cm1.Show();
+
+			// ...Dotąd
+
+			InitializeComponent();
+			// Ten należy odkomentować
+
+            //var clientLogic = new LogicClient(new RabbitMqClientService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecoginzerClientService(new JSonSerializerService()));
+            //clientLogic.RouteKey = Guid.NewGuid().ToString();
+            //clientLogic.Initialize();
+            //DataContext = new LoginViewModel(clientLogic);
             // SetDictionary();
         }
         private void SetDictionary()
