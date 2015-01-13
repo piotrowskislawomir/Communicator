@@ -49,6 +49,7 @@ namespace Communicator.Client.ViewModels
         private void SendAction()
         {
             _logicClient.SendMessage(Recipeint,Message);
+            Message = string.Empty;
         }
 
         public ICommand CloseCommand
@@ -93,9 +94,15 @@ namespace Communicator.Client.ViewModels
                     var message = (MessageReq) e.Data;
                     if (message.Login == Recipeint)
                     {
+                        var messageModel = new MessageModel
+                        {
+                            DateTimeDelivery = message.SendTime,
+                            Message = message.Message,
+                            Sender = message.Login
+                        };
                         DispatchService.Invoke(() =>
                         {
-                            Messages.Add(new MessageModel() {Message = message.Message});
+                            Messages.Add(messageModel);
                         });
                     }
                 }

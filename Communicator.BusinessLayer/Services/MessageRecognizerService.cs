@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Communicator.BusinessLayer.Interfaces;
+using Communicator.BusinessLayer.Models;
 using Communicator.Protocol.Enums;
 using Communicator.Protocol.Model;
 using Communicator.Protocol.Notifications;
@@ -25,7 +27,7 @@ namespace Communicator.BusinessLayer.Services
         public IConfigurationService ConfigurationService { get; set; }
         public IQueueServerService QueueServerService { get; set; }
 
-        private readonly IDictionary<User, ICollection<string>> _currentUsers = new Dictionary<User, ICollection<string>>();
+        private readonly IDictionary<User, UserDetails> _currentUsers = new Dictionary<User, UserDetails>();
 
         public MessageRecognizerService(IQueueManagerService queueManagerService,  ISerializerService serializerService, ICommonUserListService commonUserListService)
         {
@@ -40,13 +42,28 @@ namespace Communicator.BusinessLayer.Services
             _queueManagerService.Initialize(ConfigurationService.Host, ConfigurationService.UserName, ConfigurationService.Password, ConfigurationService.ExchangeName);
             _commonUserListService.FilePath = ConfigurationService.UserListFileName;
             _commonUserListService.LoadAllUsersFromFile();
+
+            InitTimer();
+        }
+
+        private void InitTimer()
+        {
+           // var timer = new Timer(timer_Tick,null, 0, 30*1000);
+        }
+
+        private void timer_Tick(object sender)
+        {
+            var userToDelete =_currentUsers.Where(cu => cu.Value.ActivityTime < DateTime.Now.AddSeconds(-40));
+            foreach (var user in userToDelete)
+            {
+                _currentUsers.Remove(user);
+            }
         }
 
         public void ProcessMessage(MessageReceivedEventArgs message)
         {
             try
             {
-                
                 var type = Type.GetType(message.ContentType);
 
                 if (type == typeof (CreateUserReq))
@@ -104,17 +121,17 @@ namespace Communicator.BusinessLayer.Services
                 if (activeUser.Key.Status != presenceStatusNotification.PresenceStatus)
                 {
                     activeUser.Key.Status = presenceStatusNotification.PresenceStatus;
+                    activeUser.Value.ActivityTime = DateTime.Now;
+
                     foreach (var user in _currentUsers.Keys)
                     {
-                        _currentUsers[user].ToList().ForEach(topic =>
+                        _currentUsers[user].TopicList.ToList().ForEach(topic =>
                         {
                             QueueServerService.SendData(topic, ConfigurationService.ExchangeName, presenceStatusNotification);
                         });
                     }
                 }
             }
-           
-            
         } 
 
         private void ActivityProcess(MessageReceivedEventArgs message)
@@ -177,7 +194,7 @@ namespace Communicator.BusinessLayer.Services
 
                 _currentUsers.Where(u => u.Key.Login == userListRequest.Login).ToList().ForEach(topic =>
                 {
-                    topic.Value.ToList().ForEach(t =>
+                    topic.Value.TopicList.ToList().ForEach(t =>
                     {
                         QueueServerService.SendData(t, ConfigurationService.ExchangeName, messageReq);
                     });
@@ -189,6 +206,7 @@ namespace Communicator.BusinessLayer.Services
         private void MessageProcess(MessageReceivedEventArgs message)
         {
             var msgRequest = _serializerService.Deserialize<MessageReq>(message.Message);
+            msgRequest.SendTime = DateTimeOffset.Now;
             bool userInstanceExists = false;
 
             //TODO spr czy ta osoba jest zarejestrowana
@@ -197,7 +215,7 @@ namespace Communicator.BusinessLayer.Services
             var activeUser = _currentUsers.SingleOrDefault(u => u.Key.Login == msgRequest.Recipient);
             if (activeUser.Key != null)
             {
-                activeUser.Value.ToList().ForEach(topic =>
+                activeUser.Value.TopicList.ToList().ForEach(topic =>
                 {
                     QueueServerService.SendData(topic,
                         ConfigurationService.ExchangeName,
@@ -206,7 +224,7 @@ namespace Communicator.BusinessLayer.Services
                 });
             }
 
-            if (!userInstanceExists)
+            if (avaliable && !userInstanceExists)
             {
                 QueueServerService.SendData(String.Format("archive.{0}", msgRequest.Recipient),
                     ConfigurationService.ExchangeName,
@@ -231,14 +249,14 @@ namespace Communicator.BusinessLayer.Services
             if (activeUser.Key == null)
             {
                 var topicList = new List<string> {message.TopicSender};
-                _currentUsers.Add(new User{Login = authRequest.Login, Status = PresenceStatus.Online}, topicList);
+                _currentUsers.Add(new User{Login = authRequest.Login, Status = PresenceStatus.Online}, new UserDetails{ActivityTime = DateTime.Now, TopicList = topicList});
             }
             else
             {
 
-                if (!activeUser.Value.Contains(message.TopicSender))
+                if (!activeUser.Value.TopicList.Contains(message.TopicSender))
                 {
-                    activeUser.Value.Add(message.TopicSender);
+                    activeUser.Value.TopicList.Add(message.TopicSender);
                 }
             }
 
@@ -260,7 +278,7 @@ namespace Communicator.BusinessLayer.Services
 
                 foreach (var user in _currentUsers.Keys)
                 {
-                    _currentUsers[user].ToList().ForEach(topic =>
+                    _currentUsers[user].TopicList.ToList().ForEach(topic =>
                     {
                         QueueServerService.SendData(topic, ConfigurationService.ExchangeName, presenceStatusNotification);
                     });

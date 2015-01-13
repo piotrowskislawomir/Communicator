@@ -94,6 +94,7 @@ namespace Communicator.Client.ViewModels
                         _logicClient.Login = Login;
                         var communicatorWindow = new CommunicatorWindow();
                         var communicatorViewModel = new CommunicatorViewModel(_logicClient);
+                        communicatorViewModel.OnRequestClose += (s,ee) => communicatorWindow.Close();
                         communicatorWindow.DataContext = communicatorViewModel;
                         communicatorWindow.Show();
                         communicatorViewModel.Inicialize();

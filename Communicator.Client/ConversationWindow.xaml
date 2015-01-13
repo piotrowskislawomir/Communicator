@@ -24,11 +24,21 @@
                 </Grid.RenderTransform>
                 <Grid x:Name="ConversationGrid" Margin="10,37,10,140">
                     <Border BorderThickness="1" BorderBrush="#FF424242"/>
-                    <ListBox x:Name="ConversationListBox" ItemsSource="{Binding Messages}">
+                    <ListBox Background="{x:Null}" x:Name="ConversationListBox" ItemsSource="{Binding Messages}"  Margin="3,0,-3,0">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="0,2">
-                                    <TextBlock Text="{Binding Message}" />
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding DateTimeDelivery}"></TextBlock>
+
+                                    <TextBlock Grid.Row="1"  Text="{Binding Sender}" />
+                                    <TextBlock Grid.Row="2"  Text="{Binding Message}" />
+                                    
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

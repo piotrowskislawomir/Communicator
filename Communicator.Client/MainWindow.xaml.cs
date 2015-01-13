@@ -32,13 +32,13 @@ namespace Communicator.Client
             DataContext = loginViewModel;
             // SetDictionary();
         }
-        private void SetDictionary()
+       /* private void SetDictionary()
         {
             var dict = new ResourceDictionary();
             dict.Source = new Uri("..\\Resources\\NamesDictionary.xaml", UriKind.Relative);
             Application.Current.Resources.MergedDictionaries.Add(dict);
             this.Resources.MergedDictionaries.Add(dict);
-        }
+        }*/
 
     }
 }
