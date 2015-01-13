@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Communicator.BusinessLayer.Models;
+using Communicator.Protocol.Enums;
 
 namespace Communicator.BusinessLayer.Interfaces
 {
@@ -15,6 +16,7 @@ namespace Communicator.BusinessLayer.Interfaces
         void LoginUser(UserModel user);
         void GetUserList();
         void SendMessage(string recipient,string message);
+        void SendPing(PresenceStatus status);
     }
 
    

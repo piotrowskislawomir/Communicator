@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Communicator.BusinessLayer.Enums;
 using Communicator.BusinessLayer.Interfaces;
+using Communicator.Protocol.Notifications;
 using Communicator.Protocol.Requests;
 using Communicator.Protocol.Responses;
 using Communicator.Queue;
@@ -48,8 +49,22 @@ namespace Communicator.BusinessLayer.Services
             if (type == typeof (MessageReq))
             {
                 MessageProcess(message);
+                return;
             }
 
+            if (type == typeof (PresenceStatusNotification))
+            {
+                PresenceNotificationProgress(message);
+            }
+
+
+        }
+
+        private void PresenceNotificationProgress(MessageReceivedEventArgs message)
+        {
+            var presenceNotification = _serializerService.Deserialize<PresenceStatusNotification>(message.Message);
+
+            OnRepeater(ActionTypes.PresenceNotification, true, presenceNotification);
         }
 
         private void MessageProcess(MessageReceivedEventArgs message)

@@ -9,7 +9,7 @@ using Communicator.Protocol.Requests;
 
 namespace Communicator.Untils.Archivizers.UsersList
 {
-    public class ActivityUserList
+  /*  public class ActivityUserList
     {
         private static List<User> ActivityList = null;
 
@@ -53,5 +53,5 @@ namespace Communicator.Untils.Archivizers.UsersList
                 ActivityList.Remove(activeUser);
             }
         }
-    }
+    }*/
 }

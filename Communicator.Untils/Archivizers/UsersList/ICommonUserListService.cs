@@ -18,5 +18,7 @@ namespace Communicator.Untils.Archivizers.UsersList
         bool UserAuthentication(AuthRequest user);
 
         bool UserExist(MessageReq mr);
+
+        List<CommonUsers> GetUsers();
     }
 }

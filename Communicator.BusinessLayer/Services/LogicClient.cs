@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Models;
+using Communicator.Protocol.Enums;
+using Communicator.Protocol.Notifications;
 using Communicator.Protocol.Requests;
 using Communicator.Queue.Interfaces;
 using Communicator.Untils.Archivizers.UsersList;
@@ -75,6 +77,13 @@ namespace Communicator.BusinessLayer.Services
             };
 
             _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, messageReq);
+        
+        }
+
+        public void SendPing(PresenceStatus status)
+        {
+            var presenceNotification = new PresenceStatusNotification {Login = Login, PresenceStatus = status};
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, presenceNotification);
         
         }
     }

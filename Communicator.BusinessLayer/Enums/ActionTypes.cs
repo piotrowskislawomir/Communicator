@@ -11,6 +11,7 @@ namespace Communicator.BusinessLayer.Enums
         UserCreate,
         Login, 
         ContactList,
-        Message
+        Message,
+        PresenceNotification
     }
 }

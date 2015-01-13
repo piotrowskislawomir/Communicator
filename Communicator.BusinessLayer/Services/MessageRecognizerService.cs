@@ -79,7 +79,7 @@ namespace Communicator.BusinessLayer.Services
                     return;
                 }
 
-                if (type == typeof (ActivityNotification)) // PresestStatusNotification
+                if (type == typeof (PresenceStatusNotification)) // PresestStatusNotification
                 {
                     PresenceStatusNotificationProcess(message);
                     return;
@@ -97,11 +97,24 @@ namespace Communicator.BusinessLayer.Services
         {
             var presenceStatusNotification = _serializerService.Deserialize<PresenceStatusNotification>(message.Message);
 
-            //jesli bedzie roznil sie od obecnego to wysylaj do wszystkich
-            foreach (var login in _currentUsers.Keys)
+            var activeUser = _currentUsers.SingleOrDefault(u => u.Key.Login == presenceStatusNotification.Login);
+
+            if (activeUser.Key != null)
             {
-                QueueServerService.SendData(string.Format("client.{0}", login), ConfigurationService.ExchangeName, presenceStatusNotification);
+                if (activeUser.Key.Status != presenceStatusNotification.PresenceStatus)
+                {
+                    activeUser.Key.Status = presenceStatusNotification.PresenceStatus;
+                    foreach (var user in _currentUsers.Keys)
+                    {
+                        _currentUsers[user].ToList().ForEach(topic =>
+                        {
+                            QueueServerService.SendData(topic, ConfigurationService.ExchangeName, presenceStatusNotification);
+                        });
+                    }
+                }
             }
+           
+            
         } 
 
         private void ActivityProcess(MessageReceivedEventArgs message)
@@ -127,7 +140,7 @@ namespace Communicator.BusinessLayer.Services
             //DONE//TODO lista wszystkich uzytkownikow
             //var userListResponse = new UserListResponse {Users = new List<User>()};
             // zwraca listę wszystkich aktywnych użytkowników z wyłączeniem użytkownika który ją wywołuje
-            var allUsers = ActivityUserList.GetList();
+            var allUsers = _commonUserListService.GetUsers();
             var userListResponse = new UserListResponse();
             userListResponse.Users = new List<User>();
 
@@ -142,12 +155,35 @@ namespace Communicator.BusinessLayer.Services
                 {
                     if (!userListResponse.Users.Any(u => u.Login == user.Login))
                     {
-                        userListResponse.Users.Add(user);
+                        userListResponse.Users.Add(new User(){Login = user.Login, Status = PresenceStatus.Offline});
                     }
                 }
             }
 
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, userListResponse);
+
+             var consumer = _queueManagerService.CreateConsumerForClient(string.Format("archive.{0}", userListRequest.Login));
+            while (true)
+            {
+                BasicDeliverEventArgs basicDeliverEventArgs;
+                consumer.Queue.Dequeue(50, out basicDeliverEventArgs);
+
+                if (basicDeliverEventArgs == null)
+                {
+                    break;
+                }
+
+                var messageReq = _serializerService.Deserialize<MessageReq>(basicDeliverEventArgs.Body);
+
+                _currentUsers.Where(u => u.Key.Login == userListRequest.Login).ToList().ForEach(topic =>
+                {
+                    topic.Value.ToList().ForEach(t =>
+                    {
+                        QueueServerService.SendData(t, ConfigurationService.ExchangeName, messageReq);
+                    });
+                });
+                _queueManagerService.SendAck(basicDeliverEventArgs.DeliveryTag);
+            }
         }
 
         private void MessageProcess(MessageReceivedEventArgs message)
@@ -174,7 +210,7 @@ namespace Communicator.BusinessLayer.Services
             {
                 QueueServerService.SendData(String.Format("archive.{0}", msgRequest.Recipient),
                     ConfigurationService.ExchangeName,
-                    msgRequest.Message);
+                    msgRequest);
             }
 
             var messageResponse = new MessageResponse();
@@ -190,7 +226,7 @@ namespace Communicator.BusinessLayer.Services
 
             //DONE////TODO sprawdzanie czy istnieje taki login i pass
             bool exists = _commonUserListService.UserAuthentication(authRequest);
-
+           
             var activeUser = _currentUsers.SingleOrDefault(u => u.Key.Login == authRequest.Login);
             if (activeUser.Key == null)
             {
@@ -206,23 +242,7 @@ namespace Communicator.BusinessLayer.Services
                 }
             }
 
-            var consumer = _queueManagerService.CreateConsumerForClient(string.Format("archive.{0}", authRequest.Login));
-            while (true)
-            {
-                BasicDeliverEventArgs basicDeliverEventArgs;
-                consumer.Queue.Dequeue(50, out basicDeliverEventArgs);
-
-                if (basicDeliverEventArgs == null)
-                {
-                    break;
-                }
-
-                //to moze niepoprawnie dzialac
-                QueueServerService.SendData(message.TopicSender,
-                    ConfigurationService.ExchangeName,
-                    basicDeliverEventArgs.Body);
-            }
-
+           
             var authResponse = new AuthResponse
             {
                 IsAuthenticated = exists
@@ -230,20 +250,23 @@ namespace Communicator.BusinessLayer.Services
 
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, authResponse);
 
-
-            var presenceStatusNotification = new PresenceStatusNotification
+            if (exists)
             {
-                Login = authRequest.Login,
-                PresenceStatus = PresenceStatus.Online
-            };
+                var presenceStatusNotification = new PresenceStatusNotification
+                {
+                    Login = authRequest.Login,
+                    PresenceStatus = PresenceStatus.Online
+                };
 
-            foreach (var login in _currentUsers.Keys)
-            {
-                QueueServerService.SendData(String.Format("client.{0}", login.Login),
-                    ConfigurationService.ExchangeName, presenceStatusNotification);
+                foreach (var user in _currentUsers.Keys)
+                {
+                    _currentUsers[user].ToList().ForEach(topic =>
+                    {
+                        QueueServerService.SendData(topic, ConfigurationService.ExchangeName, presenceStatusNotification);
+                    });
+
+                }
             }
-
-
         }
 
         private void CreateUserProcess(MessageReceivedEventArgs message)
@@ -252,10 +275,15 @@ namespace Communicator.BusinessLayer.Services
             _queueManagerService.CreateQueue(string.Format("archive.{0}", createUserRequest.Login), ConfigurationService.ExchangeName);
 
             //DONE//TODO sprawdzanie czy juz istnieje
-            
+
+            bool success = _commonUserListService.CreateNewUser(createUserRequest);
+            if (success)
+            {
+                _commonUserListService.LoadAllUsersFromFile();
+            }
             var createUserResponse = new CreateUserResponse
             {
-                CreatedSuccessfully = _commonUserListService.CreateNewUser(createUserRequest)
+                CreatedSuccessfully = success
                //CreatedSuccessfully = true
             };
 

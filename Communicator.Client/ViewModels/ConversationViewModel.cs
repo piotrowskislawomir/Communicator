@@ -21,6 +21,7 @@ namespace Communicator.Client.ViewModels
     public class ConversationViewModel : INotifyPropertyChanged
     {
         private readonly ILogicClient _logicClient;
+        public event EventHandler OnRequestClose;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<MessageModel> Messages { get; set; }
@@ -48,6 +49,22 @@ namespace Communicator.Client.ViewModels
         private void SendAction()
         {
             _logicClient.SendMessage(Recipeint,Message);
+        }
+
+        public ICommand CloseCommand
+        {
+            get
+            {
+                return new DelegateCommand(CloseAction);
+            }
+        }
+
+        private void CloseAction()
+        {
+            if (OnRequestClose != null)
+            {
+                OnRequestClose(this, new EventArgs());
+            }
         }
 
         public ConversationViewModel(ILogicClient logicClient)

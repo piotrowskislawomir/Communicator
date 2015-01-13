@@ -6,6 +6,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Communicator.Protocol.Model;
 using Communicator.Protocol.Requests;
 
 namespace Communicator.Untils.Archivizers.UsersList
@@ -61,7 +62,6 @@ namespace Communicator.Untils.Archivizers.UsersList
             {
                 if (us.Login == user.Login && us.Password == user.Password)
                 { 
-                    ActivityUserList.AddToList(user);
                     return true;
                 }
             }
@@ -79,6 +79,11 @@ namespace Communicator.Untils.Archivizers.UsersList
             }
             return false;
        }
+
+        public List<CommonUsers> GetUsers()
+        {
+            return _commonList;
+        }
 
     }
 

@@ -10,7 +10,7 @@
 
             <Grid Margin="0" Width="NaN" VerticalAlignment="Top">
                 <Grid HorizontalAlignment="Left" Height="30" VerticalAlignment="Top"/>
-                <Button x:Name="Button_WinClose" Style="{StaticResource CloseButton}" Content="x" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="30" Panel.ZIndex="1" Click="Button_WinClose_Click" BorderThickness="0"  FontSize="16" FontWeight="Bold" FontFamily="OCR A Std"/>
+                <Button x:Name="Button_WinClose" Style="{StaticResource CloseButton}" Content="x" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="30" Panel.ZIndex="1" Command="{Binding CloseCommand}" BorderThickness="0"  FontSize="16" FontWeight="Bold" FontFamily="OCR A Std"/>
                 <Button x:Name="Button_WinMin" Style="{StaticResource MinButton}" Content="_" HorizontalAlignment="Right" Height="30" Margin="0,0,30,0" Panel.ZIndex="100" VerticalAlignment="Top" Width="30" BorderThickness="0" FontSize="16" FontWeight="Bold" FontFamily="OCR A Std" Click="Button_WinMin_Click"/>
                 <Label Content="{DynamicResource CommunicatorTitle}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" Width="200" Margin="30,3,0,0" Foreground="White"/>
 
