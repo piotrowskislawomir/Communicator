@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Models;
+using Communicator.Protocol.Enums;
+using Communicator.Protocol.Notifications;
 using Communicator.Protocol.Requests;
 using Communicator.Queue.Interfaces;
 using Communicator.Untils.Archivizers.UsersList;
@@ -19,6 +21,7 @@ namespace Communicator.BusinessLayer.Services
         private readonly IMessageRecognizerClientService _messageRecognizerClientService;
 
         public string RouteKey { get; set; }
+        public string Login { get; set; }
 
         public LogicClient(IQueueClientService queueClientService, IConfigurationService configurationService, IMessageRecognizerClientService messageRecognizerClientService)
         {
@@ -56,6 +59,32 @@ namespace Communicator.BusinessLayer.Services
             var authReq = new AuthRequest {Login = user.Login, Password = user.Password};
             _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, authReq);
 
+        }
+
+        public void GetUserList()
+        {
+            var userListReq = new UserListReq() {Login = Login};
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, userListReq);
+        }
+
+        public void SendMessage(string recipient,string message)
+        {
+            var messageReq = new MessageReq()
+            {
+                Login = Login,
+                Message = message,
+                Recipient = recipient
+            };
+
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, messageReq);
+        
+        }
+
+        public void SendPing(PresenceStatus status)
+        {
+            var presenceNotification = new PresenceStatusNotification {Login = Login, PresenceStatus = status};
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, presenceNotification);
+        
         }
     }
 }

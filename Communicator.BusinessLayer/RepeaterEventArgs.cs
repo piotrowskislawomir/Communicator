@@ -11,5 +11,6 @@ namespace Communicator.BusinessLayer
     {
         public ActionTypes Type { get; set; }
         public bool Result { get; set; }
+        public object Data { get; set; }
     }
 }

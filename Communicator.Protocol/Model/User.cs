@@ -1,4 +1,5 @@
-﻿using Communicator.Protocol.Enums;
+﻿using System;
+using Communicator.Protocol.Enums;
 
 namespace Communicator.Protocol.Model
 {

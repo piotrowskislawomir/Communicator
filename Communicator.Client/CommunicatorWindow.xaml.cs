@@ -53,6 +53,7 @@ namespace Communicator.Client
             client.SendData(ConfigurationApp.MainQueueName, token1, data, typeof(MessageReq));*/
         }
 
+<<<<<<< HEAD
         
         private void ContactList_Loaded(object sender, RoutedEventArgs e)
         {
@@ -87,6 +88,8 @@ namespace Communicator.Client
 			popup.IsOpen = false;
 		}
 
+=======
+>>>>>>> cff151ec7034986c4cf008861bbcd5a941a78b98
 
     }
 }
