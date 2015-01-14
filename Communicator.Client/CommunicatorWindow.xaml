@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:Communicator.Client.ViewModels"
         xmlns:src="clr-namespace:Communicator.Client"
-        xmlns:ViewModels="clr-namespace:Communicator.Client.ViewModels" 
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         MinHeight="500" MinWidth="300" Height="500" Width="300"
         WindowStartupLocation="CenterScreen"  WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Icon="UI/app_icon.png" MouseDown="Window_MouseDown">
@@ -13,8 +12,8 @@
 
             <Grid Margin="0" HorizontalAlignment="Stretch" Width="NaN" VerticalAlignment="Top">
                 <Grid HorizontalAlignment="Left" Height="30" VerticalAlignment="Top"/>
-                <Button x:Name="Button_WinClose" Style="{StaticResource CloseButton}" Content="x" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="30" Panel.ZIndex="1"  BorderThickness="0"  FontSize="16" FontWeight="Bold" FontFamily="OCR A Std"/>
-                <Button x:Name="Button_WinMin" Style="{StaticResource MinButton}" Content="_" HorizontalAlignment="Right" Height="30" Margin="0,0,30,0" Panel.ZIndex="100" VerticalAlignment="Top" Width="30" BorderThickness="0" FontSize="16" FontWeight="Bold" FontFamily="OCR A Std" />
+                <Button x:Name="Button_WinClose" Style="{StaticResource CloseButton}" Content="x" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="30" Panel.ZIndex="1" Click="Button_WinClose_Click" BorderThickness="0"  FontSize="16" FontWeight="Bold" FontFamily="OCR A Std"/>
+                <Button x:Name="Button_WinMin" Style="{StaticResource MinButton}" Content="_" HorizontalAlignment="Right" Height="30" Margin="0,0,30,0" Panel.ZIndex="100" VerticalAlignment="Top" Width="30" BorderThickness="0" FontSize="16" FontWeight="Bold" FontFamily="OCR A Std" Click="Button_WinMin_Click"/>
                 <Label Content="{DynamicResource CommunicatorTitle}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" Width="200" Margin="30,3,0,0" Foreground="White"/>
                 <Grid Height="210" Margin="0,32,0,-212" VerticalAlignment="Top" HorizontalAlignment="Stretch">
 
@@ -26,12 +25,12 @@
                     </Grid.Background>
                     <Image HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" Width="260" Source="UI/avatar_bg.png" Height="76" Stretch="None"/>
                     <Label Content="Opis..." HorizontalAlignment="Center" Margin="121,58,28,0" VerticalAlignment="Top" Foreground="AliceBlue" Width="149" FontSize="11"/>
-                    <Button Command="{Binding CloseCommand}" Style="{DynamicResource OvalButton}" x:Name="Button_Logout" HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,15,28,0" ToolTip="Wyloguj">
+                    <Button Style="{DynamicResource OvalButton}" x:Name="Button_Logout" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Logout_Click" Margin="0,15,28,0" ToolTip="Wyloguj">
                         <Button.Resources>
                             <ImageSource x:Key="icon">UI/oval_logout.png</ImageSource>
                         </Button.Resources>
                     </Button>
-                    <Button Style="{DynamicResource OvalButton}" x:Name="Button_HistoryWindow" HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,15,72,0" ToolTip="Historia">
+                    <Button Style="{DynamicResource OvalButton}" x:Name="Button_HistoryWindow" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_HistoryWindow_Click" Margin="0,15,72,0" ToolTip="Historia">
                         <Button.Resources>
                             <ImageSource x:Key="icon">UI/oval_history.png</ImageSource>
                         </Button.Resources>
@@ -75,18 +74,7 @@
                         <Label Content="X użytkowników dostępnych." Margin="25,0,0,-3"></Label>
                     </Grid>
                     <Grid>
-                        <ListView Background="{x:Null}" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="230" 
-                            ItemsSource="{Binding Contacts}" BorderThickness="0" Margin="20,30,0,0"  >
-                            <ListView.ItemTemplate>
-                                <DataTemplate >
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Image Width="10" Height="20" Source="{Binding StatusImageUri}" Stretch="None"  Margin="10"/>
-                                        <Button  Content="{Binding Login}" Command="{Binding Path=DataContext.ContactCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type src:CommunicatorWindow}}}"
-                                            CommandParameter="{Binding Login}" Margin="10" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                        <vm:ContactList x:Name="ContactList" Loaded="ContactList_Loaded" Margin="-10,0,10,0"/>
                     </Grid>
                 </Grid>
 
