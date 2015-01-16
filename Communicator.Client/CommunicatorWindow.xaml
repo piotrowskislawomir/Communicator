@@ -46,13 +46,13 @@
 							<Grid Width="142" Style="{StaticResource Grid_MetroAnim}">
 								<Button x:Name="Button_OptClose" Style="{StaticResource CloseButton}" Content="x" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Panel.ZIndex="1" Click="Button_OptClose_Click" BorderThickness="0"  FontSize="10" FontWeight="Bold" FontFamily="OCR A Std"/>
 								<StackPanel>
-									<Button x:Name="Option_Available" Style="{StaticResource Button_MenuOption}" Content="Dostępny" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
-									<Button x:Name="Option_Away" Style="{StaticResource Button_MenuOption}" Content="Z dala od komputera" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
-									<Button x:Name="Option_Hidden" Style="{StaticResource Button_MenuOption}" Content="Niewidoczny" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
-									<Grid Height="1" Background="Gray"></Grid>
-									<Button x:Name="Option_SetDesc" Style="{StaticResource Button_MenuOption}" Content="Ustaw opis..." VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
+									<Button x:Name="Option_Available" Style="{StaticResource Button_MenuOption}" Content="{StaticResource StatusAvaible}" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
+									<Button x:Name="Option_Away" Style="{StaticResource Button_MenuOption}" Content="{StaticResource StatusBackSoon}" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
+                                    <Button x:Name="Option_Hidden" Style="{StaticResource Button_MenuOption}" Content="{StaticResource StatusHidden}" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
+                                    <Button x:Name="Option_Unavaible" Style="{StaticResource Button_MenuOption}" Content="{StaticResource StatusUnavaible}" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
+                                    <Grid Height="1" Background="Gray"></Grid>
+									<Button x:Name="Option_SetDesc" Style="{StaticResource Button_MenuOption}" Content="{StaticResource SetDiscription}" VerticalAlignment="Top" Height="25" Click="Button_OptClose_Click"/>
 								</StackPanel>
-
 							</Grid>
 						</Border>
 					</Popup>

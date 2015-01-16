@@ -18,10 +18,9 @@ using Microsoft.Practices.Prism.Commands;
 
 namespace Communicator.Client.ViewModels
 {
-    public class LoginViewModel:INotifyPropertyChanged
+    public class LoginViewModel : ViewModelBase
     {
         private readonly ILogicClient _logicClient;
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand LoginCommand
         {
@@ -85,14 +84,6 @@ namespace Communicator.Client.ViewModels
             {
                 MessageBox.Show("Logowanie: " + e.Result);
             }
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-
         }
     }
 }

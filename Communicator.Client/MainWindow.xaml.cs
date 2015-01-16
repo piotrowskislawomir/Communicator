@@ -26,13 +26,13 @@ namespace Communicator.Client
 			// Ten blok należy zakomentować...
 			
 			CommunicatorWindow cm = new CommunicatorWindow();
-	        cm.Show();
+	        //cm.Show();
 
 			ConversationWindow cm1 = new ConversationWindow();
 	        cm1.Show();
 
 			// ...Dotąd
-
+            SetDictionary();
 			InitializeComponent();
 			// Ten należy odkomentować
 
@@ -40,12 +40,14 @@ namespace Communicator.Client
             //clientLogic.RouteKey = Guid.NewGuid().ToString();
             //clientLogic.Initialize();
             //DataContext = new LoginViewModel(clientLogic);
-            // SetDictionary();
+            
         }
         private void SetDictionary()
         {
-            var dict = new ResourceDictionary();
-            dict.Source = new Uri("..\\Resources\\NamesDictionary.xaml", UriKind.Relative);
+            var dict = new ResourceDictionary
+            {
+                Source = new Uri("..\\Resources\\NamesDictionary.xaml", UriKind.Relative)
+            };
             Application.Current.Resources.MergedDictionaries.Add(dict);
             this.Resources.MergedDictionaries.Add(dict);
         }
