@@ -50,7 +50,7 @@
                     <TextBox x:Name="TextBox_Message"  VerticalContentAlignment="Top" Margin="0,0,0,35"></TextBox>
                     <Grid x:Name="EditorButtons" VerticalAlignment="Bottom">
                         <Button x:Name="Button_SendMsg" Content="{StaticResource Send}" VerticalAlignment="Bottom" Width="75" Margin="0,10,0,0" HorizontalAlignment="Right"
-                            Command="{Binding Path=(viewModels:MessageViewModel.AddMessageCommand), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type viewModels:MessageViewModel}} }"
+                            Command="{Binding AddMessageCommand}"
                             CommandParameter="{Binding Text, ElementName=TextBox_Message}"/>
                     </Grid>
                 </Grid>
