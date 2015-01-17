@@ -12,6 +12,7 @@ namespace Communicator.BusinessLayer.Enums
         Login,
         ContactList,
         Message,
-        PresenceNotification
+        PresenceNotification,
+        UserWriting
     }
 }

@@ -95,5 +95,17 @@ namespace Communicator.BusinessLayer.Services
             _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, presenceNotification);
 
         }
+
+        public void SendUserWriting(string recipient)
+        {
+            var activityReq = new ActivityReq()
+            {
+                IsWriting = true,
+                Recipient = recipient,
+                Login = Login
+            };
+
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, activityReq);
+        }
     }
 }

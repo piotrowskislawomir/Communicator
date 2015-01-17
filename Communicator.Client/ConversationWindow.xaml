@@ -27,37 +27,39 @@
                     <TranslateTransform X="-15"/>
                 </Grid.RenderTransform>
                 <Grid x:Name="ConversationGrid" Margin="10,37,10,140">
-                    <Border BorderThickness="1" BorderBrush="#FF424242"/>
-                    <ListView Background="{x:Null}" HorizontalAlignment="Left" Height="261" VerticalAlignment="Top" Width="318" 
+                    <Border  BorderThickness="1" BorderBrush="#FF424242" Margin="0,0,0,19"/>
+                    <ListView  Background="{x:Null}" HorizontalAlignment="Left" Height="242" VerticalAlignment="Top" Width="318" 
                       ItemsSource="{Binding Messages}" BorderThickness="0" Margin="10,10,0,0">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Width="304" >
-                                     <Grid>
+                                    <Grid>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition />
+                                            <RowDefinition  />
                                             <RowDefinition />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                         <Grid.ColumnDefinitions>
-                                             <ColumnDefinition/>
-                                             <ColumnDefinition/>
-                                         </Grid.ColumnDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
                                         <Label Grid.Row="0" Grid.Column="0" Content="{Binding Sender}" />
                                         <Label Grid.Row="0" Grid.Column="1"  Content="{Binding DateTimeDelivery}" />
                                         <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Foreground="Beige" Width="258" Height="20" Text="{Binding Message}" />
                                         <Image Grid.Row="2" Grid.ColumnSpan="2" Source="{Binding Image}" MaxWidth="100" MaxHeight="100"/>
 
                                     </Grid>
-                                  </StackPanel>
+                                </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
 
                 </Grid>
-
-                <Grid x:Name="EditorGrid" VerticalAlignment="Bottom" Margin="10,0,10,30" Height="100">
-                    <TextBox x:Name="TextBox_Message" Text="{Binding Message}"  VerticalContentAlignment="Top" Margin="0,0,0,35"></TextBox>
+                <Grid x:Name="EditorGrid" VerticalAlignment="Bottom" Margin="10,0,10,30" Height="110">
+                    <Label Foreground="white"  Content="{Binding UserWriting}" Margin="2,-16,197,92"/>
+                    <TextBox  x:Name="TextBox_Message"  Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"  VerticalContentAlignment="Top" Margin="0,10,0,35">
+                      
+                    </TextBox>
                     <Button Content="{StaticResource AttachImage}" VerticalAlignment="Bottom" Width="75" Margin="0,0,240,0" HorizontalAlignment="Right"
                             Command="{Binding AttachImageCommand}"/>
                     <Grid x:Name="EditorButtons" VerticalAlignment="Bottom">

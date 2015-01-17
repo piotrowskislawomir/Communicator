@@ -55,9 +55,24 @@ namespace Communicator.BusinessLayer.Services
             if (type == typeof(PresenceStatusNotification))
             {
                 PresenceNotificationProgress(message);
+                return;
+            }
+
+            if (type == typeof (ActivityNotification))
+            {
+                ActivityNotificationProcess(message);
+                return;
             }
 
 
+
+        }
+
+        private void ActivityNotificationProcess(MessageReceivedEventArgs message)
+        {
+            var activityNotification = _serializerService.Deserialize<ActivityNotification>(message.Message);
+
+            OnRepeater(ActionTypes.UserWriting, true, activityNotification);
         }
 
         private void PresenceNotificationProgress(MessageReceivedEventArgs message)

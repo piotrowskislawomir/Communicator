@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +20,7 @@ using Communicator.Client.Annotations;
 using Communicator.Client.Helpers;
 using Communicator.Client.Models;
 using Communicator.Protocol.Model;
+using Communicator.Protocol.Notifications;
 using Communicator.Protocol.Requests;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Win32;
@@ -31,7 +33,9 @@ namespace Communicator.Client.ViewModels
         public event EventHandler OnRequestClose;
 
         public ObservableCollection<MessageModel> Messages { get; set; }
+
         public string Recipeint { get; set; }
+        public DateTime LastSendWritingNotification { get; set; }
 
         private string _message;
         public string Message
@@ -40,6 +44,18 @@ namespace Communicator.Client.ViewModels
             set
             {
                 _message = value;
+                OnPropertyChanged();
+                MessageInputAction();
+            }
+        }
+
+        private string _userWriting;
+        public string UserWriting
+        {
+            get { return _userWriting; }
+            set
+            {
+                _userWriting = value;
                 OnPropertyChanged();
             }
         }
@@ -60,6 +76,15 @@ namespace Communicator.Client.ViewModels
             get
             {
                 return new DelegateCommand(AttachImageAction);
+            }
+        }
+        
+        private void MessageInputAction()
+        {
+            if (LastSendWritingNotification < DateTime.Now.AddSeconds(-2))
+            {
+                _logicClient.SendUserWriting(Recipeint);
+                LastSendWritingNotification = DateTime.Now;
             }
         }
 
@@ -114,6 +139,7 @@ namespace Communicator.Client.ViewModels
             _logicClient = logicClient;
             _logicClient.Repeater += ProceedCommand;
             Messages = new ObservableCollection<MessageModel>();
+            LastSendWritingNotification = DateTime.Now;
         }
 
         public void Initialize(string login)
@@ -168,6 +194,33 @@ namespace Communicator.Client.ViewModels
                        
                             Messages.Add(messageModel);
                         });
+                    }
+                }
+                
+            }
+            else if (e.Type == ActionTypes.UserWriting)
+            {
+                if (e.Result)
+                {
+                    var notification = (ActivityNotification)e.Data;
+                    if (notification.Sender == Recipeint)
+                    {
+                        Task.Factory.StartNew(() =>
+                        {
+                            DispatchService.Invoke(() =>
+                            {
+                                UserWriting = notification.IsWriting ? "Użytkownik pisze..." : "";
+                            });
+
+                                Thread.Sleep(3000);
+                                DispatchService.Invoke(() =>
+                                {
+                                    UserWriting = "";
+                                });
+                                
+                            
+                        });
+
                     }
                 }
             }

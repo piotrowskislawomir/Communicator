@@ -17,6 +17,7 @@ namespace Communicator.BusinessLayer.Interfaces
         void GetUserList();
         void SendMessage(string recipient, string message, byte[] imageData);
         void SendPing(PresenceStatus status);
+        void SendUserWriting(string recipient);
     }
 
 

@@ -173,6 +173,16 @@ namespace Communicator.BusinessLayer.Services
                 IsWriting = activityRequest.IsWriting
             };
 
+            var activeUser = _currentUsers.SingleOrDefault(u => u.Key.Login == activityRequest.Recipient);
+
+            if (activeUser.Key != null)
+            {
+                activeUser.Value.TopicList.ToList().ForEach(topic =>
+                {
+                    QueueServerService.SendData(topic, ConfigurationService.ExchangeName, activityNotification);
+                });
+            }
+
             QueueServerService.SendData(activityRequest.Recipient, ConfigurationService.ExchangeName, activityNotification);
 
             var activityResponse = new ActivityResponse();
