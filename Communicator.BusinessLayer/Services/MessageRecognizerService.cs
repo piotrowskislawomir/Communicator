@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Models;
 using Communicator.Protocol.Enums;
@@ -48,15 +49,35 @@ namespace Communicator.BusinessLayer.Services
 
         private void InitTimer()
         {
-           // var timer = new Timer(timer_Tick,null, 0, 30*1000);
+            Task.Factory.StartNew(() => timer());
         }
 
-        private void timer_Tick(object sender)
+        private void timer()
         {
-            var userToDelete =_currentUsers.Where(cu => cu.Value.ActivityTime < DateTime.Now.AddSeconds(-40));
-            foreach (var user in userToDelete)
+            while (true)
             {
-                _currentUsers.Remove(user);
+                var userToDelete = _currentUsers.Where(cu => cu.Value.ActivityTime < DateTime.Now.AddSeconds(-40));
+                foreach (var userDel in userToDelete)
+                {
+                    _currentUsers.Remove(userDel);
+
+                    var presenceStatusNotification = new PresenceStatusNotification
+                    {
+                        Login = userDel.Key.Login,
+                        PresenceStatus = PresenceStatus.Offline
+                    };
+
+                    foreach (var user in _currentUsers.Keys)
+                    {
+                        _currentUsers[user].TopicList.ToList().ForEach(topic =>
+                        {
+                            QueueServerService.SendData(topic, ConfigurationService.ExchangeName,
+                                presenceStatusNotification);
+                        });
+                    }
+                }
+
+                Thread.Sleep(30000);
             }
         }
 
@@ -118,10 +139,10 @@ namespace Communicator.BusinessLayer.Services
 
             if (activeUser.Key != null)
             {
+                activeUser.Value.ActivityTime = DateTime.Now;
                 if (activeUser.Key.Status != presenceStatusNotification.PresenceStatus)
                 {
                     activeUser.Key.Status = presenceStatusNotification.PresenceStatus;
-                    activeUser.Value.ActivityTime = DateTime.Now;
 
                     foreach (var user in _currentUsers.Keys)
                     {
