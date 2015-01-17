@@ -6,10 +6,12 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Communicator.BusinessLayer.Interfaces;
+using Communicator.BusinessLayer.Models;
 using Communicator.Protocol.Model;
 using Communicator.Protocol.Requests;
 
-namespace Communicator.Untils.Archivizers.UsersList
+namespace Communicator.BusinessLayer.Services
 {
     public class CommonUserListService : ICommonUserListService
     {

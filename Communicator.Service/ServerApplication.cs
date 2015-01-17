@@ -1,11 +1,11 @@
 ﻿using Communicator.BusinessLayer.Interfaces;
 using Communicator.Queue;
 using Communicator.Queue.Interfaces;
-using Communicator.Untils.Configuration;
+using Communicator.Untils.Interfaces;
 
 namespace Communicator.Server
 {
-    public class ServerApplication
+    public class ServerApplication : IServerApplication
     {
         private readonly IQueueServerService _queueServerService;
         private readonly IConfigurationService _configurationService;

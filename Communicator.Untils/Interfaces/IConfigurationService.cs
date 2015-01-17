@@ -1,4 +1,4 @@
-﻿namespace Communicator.Untils.Configuration
+﻿namespace Communicator.Untils.Interfaces
 {
     public interface IConfigurationService
     {

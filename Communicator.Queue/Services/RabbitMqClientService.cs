@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Text;
 using Communicator.Queue.Interfaces;
-using Communicator.Untils;
-using Communicator.Untils.Configuration;
-using Communicator.Untils.Serializers;
+using Communicator.Untils.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 

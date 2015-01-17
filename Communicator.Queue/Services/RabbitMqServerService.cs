@@ -1,8 +1,5 @@
-﻿using System.Text;
-using Communicator.Queue.Interfaces;
-using Communicator.Untils;
-using Communicator.Untils.Configuration;
-using Communicator.Untils.Serializers;
+﻿using Communicator.Queue.Interfaces;
+using Communicator.Untils.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -60,4 +57,5 @@ namespace Communicator.Queue.Services
         }
 
     }
+
 }

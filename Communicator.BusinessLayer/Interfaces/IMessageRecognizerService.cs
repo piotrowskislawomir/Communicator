@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Communicator.Queue;
+﻿using Communicator.Queue;
 using Communicator.Queue.Interfaces;
-using Communicator.Untils.Configuration;
+using Communicator.Untils.Interfaces;
 
 namespace Communicator.BusinessLayer.Interfaces
 {

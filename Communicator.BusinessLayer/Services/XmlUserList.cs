@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Communicator.BusinessLayer.Interfaces;
 using Communicator.Protocol.Requests;
 
-namespace Communicator.Untils.Archivizers.UsersList
+namespace Communicator.BusinessLayer.Services
 {
-    class XmlUserList : IUsersListOperationer
+    public class XmlUserList : IUsersListOperationer
     {
 
         public static void CreateNewUser(string path, CreateUserReq user)

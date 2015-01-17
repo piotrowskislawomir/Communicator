@@ -1,5 +1,5 @@
 ﻿
-namespace Communicator.Untils.Serializers
+namespace Communicator.Untils.Interfaces
 {
     public interface ISerializerService
     {

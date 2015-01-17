@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Communicator.Queue.Interfaces;
-using Communicator.Untils;
-using Communicator.Untils.Configuration;
+﻿using Communicator.Queue.Interfaces;
 using RabbitMQ.Client;
 
 namespace Communicator.Queue.Services

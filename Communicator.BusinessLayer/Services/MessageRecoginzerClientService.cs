@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Communicator.BusinessLayer.Enums;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.Protocol.Notifications;
 using Communicator.Protocol.Requests;
 using Communicator.Protocol.Responses;
 using Communicator.Queue;
-using Communicator.Untils.Serializers;
+using Communicator.Untils.Interfaces;
 
 namespace Communicator.BusinessLayer.Services
 {

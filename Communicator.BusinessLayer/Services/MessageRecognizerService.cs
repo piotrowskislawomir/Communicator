@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,9 +12,7 @@ using Communicator.Protocol.Requests;
 using Communicator.Protocol.Responses;
 using Communicator.Queue;
 using Communicator.Queue.Interfaces;
-using Communicator.Untils.Configuration;
-using Communicator.Untils.Serializers;
-using Communicator.Untils.Archivizers.UsersList;
+using Communicator.Untils.Interfaces;
 using RabbitMQ.Client.Events;
 
 namespace Communicator.BusinessLayer.Services

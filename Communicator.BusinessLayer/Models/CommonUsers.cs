@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Communicator.Untils.Archivizers.UsersList
+namespace Communicator.BusinessLayer.Models
 {
     public class CommonUsers
     {

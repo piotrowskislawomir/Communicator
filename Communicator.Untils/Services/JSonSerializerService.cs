@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Json;
+using Communicator.Untils.Interfaces;
 
-namespace Communicator.Untils.Serializers
+namespace Communicator.Untils.Services
 {
     public class JSonSerializerService : ISerializerService
     {

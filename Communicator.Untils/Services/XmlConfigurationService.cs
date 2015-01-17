@@ -1,7 +1,8 @@
 ﻿using System.Configuration;
 using System.Linq;
+using Communicator.Untils.Interfaces;
 
-namespace Communicator.Untils.Configuration
+namespace Communicator.Untils.Services
 {
     public class XmlConfigurationService : IConfigurationService
     {

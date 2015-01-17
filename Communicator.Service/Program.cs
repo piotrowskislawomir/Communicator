@@ -1,8 +1,7 @@
-﻿using Communicator.BusinessLayer.Services;
+﻿using Autofac;
+using Communicator.BusinessLayer.Services;
 using Communicator.Queue.Services;
-using Communicator.Untils.Archivizers.UsersList;
-using Communicator.Untils.Configuration;
-using Communicator.Untils.Serializers;
+using Communicator.Untils.Services;
 using Topshelf;
 
 namespace Communicator.Server
@@ -11,11 +10,14 @@ namespace Communicator.Server
     {
         static void Main(string[] args)
         {
+
             var host = HostFactory.New(x =>
             {
+                InstanceContainer.Init();
                 x.Service<ServerApplication>(s =>
                 {
-                    s.ConstructUsing(name => new ServerApplication(new RabbitMqServerService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecognizerService(new RabbitMqQueueManagerService(new RabbitMqConnection()),new JSonSerializerService(), new CommonUserListService() )) );
+                    //s.ConstructUsing(name => new ServerApplication(new RabbitMqServerService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecognizerService(new RabbitMqQueueManagerService(new RabbitMqConnection()),new JSonSerializerService(), new CommonUserListService() )) );
+                    s.ConstructUsing(name => (ServerApplication) InstanceContainer.Container.Resolve<IServerApplication>());
                     s.WhenStarted(tc => tc.Start());
                     s.WhenStopped(tc => tc.Stop());
                 });

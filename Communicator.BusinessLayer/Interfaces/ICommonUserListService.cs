@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Communicator.BusinessLayer.Models;
 using Communicator.Protocol.Requests;
 
-namespace Communicator.Untils.Archivizers.UsersList
+namespace Communicator.BusinessLayer.Interfaces
 {
     public interface ICommonUserListService
     {

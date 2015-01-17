@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
-using Communicator.BusinessLayer.Interfaces;
+﻿using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Models;
 using Communicator.Protocol.Enums;
 using Communicator.Protocol.Model;
 using Communicator.Protocol.Notifications;
 using Communicator.Protocol.Requests;
 using Communicator.Queue.Interfaces;
-using Communicator.Untils.Archivizers.UsersList;
-using Communicator.Untils.Configuration;
+using Communicator.Untils.Interfaces;
 
 namespace Communicator.BusinessLayer.Services
 {

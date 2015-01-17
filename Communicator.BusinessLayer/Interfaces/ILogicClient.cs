@@ -12,12 +12,14 @@ namespace Communicator.BusinessLayer.Interfaces
     {
         event RepeaterEventHandler Repeater;
         string Login { get; set; }
+        string RouteKey { get; set; }
         void RegisterUser(UserModel user);
         void LoginUser(UserModel user);
         void GetUserList();
         void SendMessage(string recipient, string message, byte[] imageData);
         void SendPing(PresenceStatus status);
         void SendUserWriting(string recipient);
+        void Initialize();
     }
 
 
