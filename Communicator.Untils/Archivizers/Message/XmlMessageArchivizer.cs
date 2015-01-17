@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Xml.Linq;
+using Communicator.Protocol.Model;
+using Communicator.Protocol.Requests;
 
 namespace Communicator.Untils.Archivizers.Message
 {
-    class XmlMessageArchivizer : IMessageArchivizer
+    public class XmlMessageArchivizer : IMessageArchivizer
     {
        // string pathToArchivize = "Archiwum_Wiadomości.xml";
 
-        private void CreateArchivizeXmlFile(Message msg, string pathToArchivize)
+        private void CreateArchivizeXmlFile(MessageReq msg, string pathToArchivize)
         {
             try
             {
@@ -18,31 +24,38 @@ namespace Communicator.Untils.Archivizers.Message
                     new XElement("Messages",
                     new XElement("Message",
                                              new XAttribute("Recipient", msg.Recipient),
-                                              new XAttribute("Sender", msg.Sender),
-                                              new XAttribute("Date", DateTime.Now),
-                                new XElement("Body", msg.Body)
+                                             new XAttribute("Sender", msg.Login),
+                                             new XAttribute("Date", DateTime.Now),
+                                new XElement("Body", msg.Message),
+                                    new XElement("AttachmentData", msg.Attachment.Data),
+                                    new XElement("AttachmentMimeType", msg.Attachment.MimeType),
+                                    new XElement("AttachmentName", msg.Attachment.Name)
                                         ));
 
                 newMessage.Save(pathToArchivize);
             }
             catch (Exception)
             {
-                Console.WriteLine("Błąd w tworzeniu pliku");
+                Console.WriteLine("Błąd w tworzeniu pliku archiwizacji wiadomości");
             }
         }
 
-        private void AddNewElementToXmlFile(Message msg, string pathToArchivize)
+        private void AddNewElementToXmlFile(MessageReq msg, string pathToArchivize)
         {
             try
             {
                 var xmlFile = XDocument.Load(pathToArchivize);
 
                 var newMessage =
-                                new XElement("Message",
+                                
+                    new XElement("Message",
                                              new XAttribute("Recipient", msg.Recipient),
-                                              new XAttribute("Sender", msg.Sender),
+                                              new XAttribute("Sender", msg.Login),
                                               new XAttribute("Date", DateTime.Now),
-                                new XElement("Body", msg.Body)
+                                new XElement("Body", msg.Message),
+                                    new XElement("AttachmentData", msg.Attachment.Data),
+                                    new XElement("AttachmentMimeType", msg.Attachment.MimeType),
+                                    new XElement("AttachmentName", msg.Attachment.Name)
                                         );
 
                 xmlFile.Element("Messages").Add(newMessage);
@@ -54,7 +67,7 @@ namespace Communicator.Untils.Archivizers.Message
             }
         }
 
-        public void Save(Message msg, string pathToArchivize)
+        public void Save(MessageReq msg, string pathToArchivize)
         {
             if (File.Exists(pathToArchivize))
                 AddNewElementToXmlFile(msg, pathToArchivize);
@@ -62,58 +75,54 @@ namespace Communicator.Untils.Archivizers.Message
                 CreateArchivizeXmlFile(msg, pathToArchivize);
        }
 
-        public List<Message> Read(string Recipient, string pathToArchivize)
+        public List<MessageNotification> Read(User user, string pathToArchivize)
         {
             XDocument doc = XDocument.Load(pathToArchivize);
             var Messages = (from c in doc.Descendants("Message")
-                            where (string)c.Attribute("Recipient") == Recipient
-                            select new Message
-                            {
-                                Sender = (string)c.Attribute("Sender"),
-                                Recipient = (string)c.Attribute("Recipient"),
-                                DateTimeDelivery = (DateTime)c.Attribute("Date"),
-                                Body = (string)c.Element("Body")
-                            }).ToList();
-            return Messages;
+                where (string) c.Attribute("Recipient") == user.Login || (string) c.Attribute("Sender") == user.Login
+                select new MessageNotification
+                {
+                    Sender = (string) c.Attribute("Sender"),
+                    Recipient = (string) c.Attribute("Recipient"),
+                    Message = (string) c.Element("Body"),
+                    SendTime = (DateTime) c.Attribute("Date"),
+                    
+                    Attachment = new Attachment
+                    {
+                        Data = Encoding.ASCII.GetBytes((string)c.Element("AttachmentData")),
+                        MimeType = (string) c.Element("AttachmentMimeType"),
+                        Name = (string) c.Element("AttachmentName")
+                    }
+               }
+            ).ToList();
+           return Messages;
         }
 
-        // funkcja testowa do zapisu
+        // funkcja testowa do zapisuss
         public static void TestWrite()
         {
-            Message msg = new Message();
-            msg.Body = "Siema Sławek!";
-            msg.Sender = "Michał";
+            var msg = new MessageReq();
+            msg.Message = "Siema Sławek!";
+            msg.Login = "Michał";
             msg.Recipient = "Sławek";
+            msg.Attachment = new Attachment();
 
-            Message msg2 = new Message();
-            msg2.Body = "Siema dubfiusdbgsudg sdgdfshdhsgdsjjgdj sdgdfshdhsgdsjjgdj sdgdfshdhsgdsjjgdjsdgdfshdhsgdsjjgdjsdgdfshdhsgdsjjgdj!";
-            msg2.Sender = "Adrian";
-            msg2.Recipient = "Michał";
+            var msg2 = new MessageReq();
+            msg.Message = "Siema Monika!";
+            msg.Login = "Sławek";
+            msg.Recipient = "Monika";
+            msg.Attachment = new Attachment();
 
-            Message msg3 = new Message();
-            msg2.Body = "Siema dsfh gsdibgf sg dsijfg seiuge!";
-            msg2.Sender = "Monika";
-            msg2.Recipient = "Sławek";
+            var msg3 = new MessageReq();
+            msg.Message = "Siema Adrian!";
+            msg.Login = "Monika";
+            msg.Recipient = "Adrian";
+            msg.Attachment = new Attachment();
 
-            XmlMessageArchivizer arch = new XmlMessageArchivizer();
+            var arch = new XmlMessageArchivizer();
             arch.Save(msg, "Archiwum_Wiadomości.xml");
             arch.Save(msg2, "Archiwum_Wiadomości.xml");
             arch.Save(msg3, "Archiwum_Wiadomości.xml");
-        }
-
-        //funkcja testowa do odczytu
-        public static void TestSearchMessages(string Recipient)
-        {
-            XmlMessageArchivizer obj = new XmlMessageArchivizer();
-            var res = obj.Read(Recipient, "Archiwum_Wiadomości.xml");
-
-            foreach (Message s in res)
-            {
-                Console.WriteLine(s.Body);
-                Console.WriteLine(s.Recipient);
-                Console.WriteLine(s.Sender);
-                Console.WriteLine(s.DateTimeDelivery);
-            }
         }
     }
 }
