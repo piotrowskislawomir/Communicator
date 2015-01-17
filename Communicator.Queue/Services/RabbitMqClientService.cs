@@ -27,7 +27,7 @@ namespace Communicator.Queue.Services
 
         public string GetUniqueTopic(string login)
         {
-            return String.Format("client.{0}",login);
+            return String.Format("client.{0}", login);
         }
 
         public void Initialize(string host, string userName, string password, string exchangeName)
@@ -52,16 +52,16 @@ namespace Communicator.Queue.Services
 
         private MessageReceivedEventArgs CreateMessage(BasicDeliverEventArgs e)
         {
-           var msg = new MessageReceivedEventArgs
-           {
-               Message = e.Body,
-               ContentType = e.BasicProperties.Type,
-               TopicSender = e.BasicProperties.ReplyTo
-           };
-           return msg;
+            var msg = new MessageReceivedEventArgs
+            {
+                Message = e.Body,
+                ContentType = e.BasicProperties.Type,
+                TopicSender = e.BasicProperties.ReplyTo
+            };
+            return msg;
         }
 
-        public void SendData<T>(string queueName,string routingKey,string exchangeName, T data)
+        public void SendData<T>(string queueName, string routingKey, string exchangeName, T data)
         {
             var properties = _model.CreateBasicProperties();
             properties.SetPersistent(true);

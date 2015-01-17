@@ -10,7 +10,7 @@ using RabbitMQ.Client;
 
 namespace Communicator.Queue.Services
 {
-    public class RabbitMqQueueManagerService: IQueueManagerService
+    public class RabbitMqQueueManagerService : IQueueManagerService
     {
         private readonly IQueueConnection _queueConnection;
         private IModel _model;
@@ -24,7 +24,7 @@ namespace Communicator.Queue.Services
             _model = _queueConnection.CreateModel(host, userName, password, ExchangeType.Topic);
             _model.ExchangeDeclare(exchangeName, ExchangeType.Topic);
         }
-       
+
         public void CreateQueue(string queueName, string exchangeName)
         {
             var queue = _model.QueueDeclare(queueName, true, false, false, null);
@@ -36,6 +36,11 @@ namespace Communicator.Queue.Services
             var consumer = new QueueingBasicConsumer(_model);
             _model.BasicConsume(queueName, false, consumer);
             return consumer;
+        }
+
+        public void SendAck(ulong deliveryTag)
+        {
+            _model.BasicAck(deliveryTag, false);
         }
     }
 }

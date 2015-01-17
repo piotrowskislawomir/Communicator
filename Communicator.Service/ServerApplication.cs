@@ -13,7 +13,7 @@ namespace Communicator.Server
 
         public ServerApplication(IQueueServerService queueServerService,
             IConfigurationService configurationService,
-            IMessageRecognizerService messageRecognizerService )
+            IMessageRecognizerService messageRecognizerService)
         {
             _queueServerService = queueServerService;
             _configurationService = configurationService;

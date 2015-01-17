@@ -7,6 +7,6 @@ namespace Communicator.Queue.Interfaces
         event MessageReceivedEventHandler MessageReceived;
         void Initialize(string host, string userName, string password, string exchangeName);
         void CreateConsumer(string routingKey, string exchangeName);
-       
+
     }
 }

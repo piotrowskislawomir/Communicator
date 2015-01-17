@@ -3,7 +3,7 @@ using RabbitMQ.Client;
 
 namespace Communicator.Queue.Services
 {
-    public class RabbitMqConnection:IQueueConnection
+    public class RabbitMqConnection : IQueueConnection
     {
         public IModel CreateModel(string hostName, string userName, string password, string exchangeType)
         {

@@ -9,37 +9,37 @@ namespace Communicator.Untils.Archivizers.UsersList
 {
     class XmlUserList : IUsersListOperationer
     {
-        
+
         public static void CreateNewUser(string path, CreateUserReq user)
         {
             if (File.Exists(path))
-                     Add(user, path);
+                Add(user, path);
             else
                 CreateArchivizeXmlFile(user, path);
         }
 
         //Dodaje nowego użytkownika jesli jego login nie jest zajęty
-      /*  public bool CreateNewUser(CreateUserReq user, string path)
-        {
-            bool createSucces = false;
-            if (File.Exists(path))
-            {
-                if (!CheckAvailability(user, path)) // jeśli nie ma
-                {
-                    Add(user, path);
-                    createSucces = true;
-                }
-            }
-            else
-            {
-                CreateArchivizeXmlFile(user, path);
-                CommonUserList.RefreshCommonList(path); // odświeżenie z pliku
-                createSucces = true;
-            }
+        /*  public bool CreateNewUser(CreateUserReq user, string path)
+          {
+              bool createSucces = false;
+              if (File.Exists(path))
+              {
+                  if (!CheckAvailability(user, path)) // jeśli nie ma
+                  {
+                      Add(user, path);
+                      createSucces = true;
+                  }
+              }
+              else
+              {
+                  CreateArchivizeXmlFile(user, path);
+                  CommonUserList.RefreshCommonList(path); // odświeżenie z pliku
+                  createSucces = true;
+              }
 
-            return createSucces;
-        }
-        */
+              return createSucces;
+          }
+          */
         /*
         // autentykacja użytkonika
         public bool AuthenticationUser(AuthRequest user, string path)

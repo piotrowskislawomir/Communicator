@@ -29,4 +29,5 @@
     
     <system:String x:Key="ClearDialWindow">Wyczyść okno rozmowy</system:String>
     <system:String x:Key="ClearHistory">Wyczyść historię rozmowy</system:String>
+    <system:String x:Key="AttachImage">Załącz obraz</system:String>
 </ResourceDictionary>

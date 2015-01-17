@@ -67,7 +67,7 @@ namespace Communicator.Client.ViewModels
 
         public string ConfirmedPassword
         {
-            get{return User.ConfirmedPassword;}
+            get { return User.ConfirmedPassword; }
             set
             {
                 User.ConfirmedPassword = value;

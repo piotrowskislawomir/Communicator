@@ -5,24 +5,24 @@ namespace Communicator.Untils.Serializers
 {
     public class JSonSerializerService : ISerializerService
     {
-            public byte[] Serialize<T>(T dto)
+        public byte[] Serialize<T>(T dto)
+        {
+            using (var stream = new MemoryStream())
             {
-                using (var stream = new MemoryStream())
-                {
-                    var ser = new DataContractJsonSerializer(typeof(T));
-                    ser.WriteObject(stream, dto);
-                    return stream.ToArray();
-                }
+                var ser = new DataContractJsonSerializer(typeof(T));
+                ser.WriteObject(stream, dto);
+                return stream.ToArray();
             }
+        }
 
-            public T Deserialize<T>(byte[] data)
+        public T Deserialize<T>(byte[] data)
+        {
+            using (var stream = new MemoryStream(data))
             {
-                using (var stream = new MemoryStream(data))
-                {
-                    var ser = new DataContractJsonSerializer(typeof(T));
-                    T dt = (T)ser.ReadObject(stream);
-                    return dt;
-                }
+                var ser = new DataContractJsonSerializer(typeof(T));
+                T dt = (T)ser.ReadObject(stream);
+                return dt;
             }
+        }
     }
 }

@@ -20,7 +20,7 @@ using RabbitMQ.Client.Events;
 
 namespace Communicator.BusinessLayer.Services
 {
-    public class MessageRecognizerService: IMessageRecognizerService
+    public class MessageRecognizerService : IMessageRecognizerService
     {
         private readonly IQueueManagerService _queueManagerService;
         private readonly ISerializerService _serializerService;
@@ -30,7 +30,7 @@ namespace Communicator.BusinessLayer.Services
 
         private readonly IDictionary<User, UserDetails> _currentUsers = new Dictionary<User, UserDetails>();
 
-        public MessageRecognizerService(IQueueManagerService queueManagerService,  ISerializerService serializerService, ICommonUserListService commonUserListService)
+        public MessageRecognizerService(IQueueManagerService queueManagerService, ISerializerService serializerService, ICommonUserListService commonUserListService)
         {
             _queueManagerService = queueManagerService;
             _serializerService = serializerService;
@@ -56,6 +56,10 @@ namespace Communicator.BusinessLayer.Services
         {
             while (true)
             {
+                try
+                {
+
+                
                 var userToDelete = _currentUsers.Where(cu => cu.Value.ActivityTime < DateTime.Now.AddSeconds(-40));
                 foreach (var userDel in userToDelete)
                 {
@@ -76,6 +80,10 @@ namespace Communicator.BusinessLayer.Services
                         });
                     }
                 }
+                }
+                catch (Exception)
+                {
+                }
 
                 Thread.Sleep(30000);
             }
@@ -87,37 +95,37 @@ namespace Communicator.BusinessLayer.Services
             {
                 var type = Type.GetType(message.ContentType);
 
-                if (type == typeof (CreateUserReq))
+                if (type == typeof(CreateUserReq))
                 {
                     CreateUserProcess(message);
                     return;
                 }
 
-                if (type == typeof (AuthRequest))
+                if (type == typeof(AuthRequest))
                 {
                     AuthUserProcess(message);
                     return;
                 }
 
-                if (type == typeof (MessageReq))
+                if (type == typeof(MessageReq))
                 {
                     MessageProcess(message);
                     return;
                 }
 
-                if (type == typeof (UserListReq))
+                if (type == typeof(UserListReq))
                 {
                     UserListProcess(message);
                     return;
                 }
 
-                if (type == typeof (ActivityReq))
+                if (type == typeof(ActivityReq))
                 {
                     ActivityProcess(message);
                     return;
                 }
 
-                if (type == typeof (PresenceStatusNotification)) // PresestStatusNotification
+                if (type == typeof(PresenceStatusNotification)) // PresestStatusNotification
                 {
                     PresenceStatusNotificationProcess(message);
                     return;
@@ -153,7 +161,7 @@ namespace Communicator.BusinessLayer.Services
                     }
                 }
             }
-        } 
+        }
 
         private void ActivityProcess(MessageReceivedEventArgs message)
         {
@@ -166,7 +174,7 @@ namespace Communicator.BusinessLayer.Services
             };
 
             QueueServerService.SendData(activityRequest.Recipient, ConfigurationService.ExchangeName, activityNotification);
-        
+
             var activityResponse = new ActivityResponse();
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, activityResponse);
         }
@@ -182,7 +190,7 @@ namespace Communicator.BusinessLayer.Services
             var userListResponse = new UserListResponse();
             userListResponse.Users = new List<User>();
 
-            foreach (var user in _currentUsers.Keys.Where(u => u .Login != userListRequest.Login))
+            foreach (var user in _currentUsers.Keys.Where(u => u.Login != userListRequest.Login))
             {
                 userListResponse.Users.Add(user);
             }
@@ -193,14 +201,14 @@ namespace Communicator.BusinessLayer.Services
                 {
                     if (!userListResponse.Users.Any(u => u.Login == user.Login))
                     {
-                        userListResponse.Users.Add(new User(){Login = user.Login, Status = PresenceStatus.Offline});
+                        userListResponse.Users.Add(new User() { Login = user.Login, Status = PresenceStatus.Offline });
                     }
                 }
             }
 
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, userListResponse);
 
-             var consumer = _queueManagerService.CreateConsumerForClient(string.Format("archive.{0}", userListRequest.Login));
+            var consumer = _queueManagerService.CreateConsumerForClient(string.Format("archive.{0}", userListRequest.Login));
             while (true)
             {
                 BasicDeliverEventArgs basicDeliverEventArgs;
@@ -256,7 +264,7 @@ namespace Communicator.BusinessLayer.Services
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, messageResponse);
 
             //archiwizacja
-                        
+
         }
 
         private void AuthUserProcess(MessageReceivedEventArgs message)
@@ -265,12 +273,12 @@ namespace Communicator.BusinessLayer.Services
 
             //DONE////TODO sprawdzanie czy istnieje taki login i pass
             bool exists = _commonUserListService.UserAuthentication(authRequest);
-           
+
             var activeUser = _currentUsers.SingleOrDefault(u => u.Key.Login == authRequest.Login);
             if (activeUser.Key == null)
             {
-                var topicList = new List<string> {message.TopicSender};
-                _currentUsers.Add(new User{Login = authRequest.Login, Status = PresenceStatus.Online}, new UserDetails{ActivityTime = DateTime.Now, TopicList = topicList});
+                var topicList = new List<string> { message.TopicSender };
+                _currentUsers.Add(new User { Login = authRequest.Login, Status = PresenceStatus.Online }, new UserDetails { ActivityTime = DateTime.Now, TopicList = topicList });
             }
             else
             {
@@ -281,7 +289,7 @@ namespace Communicator.BusinessLayer.Services
                 }
             }
 
-           
+
             var authResponse = new AuthResponse
             {
                 IsAuthenticated = exists
@@ -323,7 +331,7 @@ namespace Communicator.BusinessLayer.Services
             var createUserResponse = new CreateUserResponse
             {
                 CreatedSuccessfully = success
-               //CreatedSuccessfully = true
+                //CreatedSuccessfully = true
             };
 
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, createUserResponse);

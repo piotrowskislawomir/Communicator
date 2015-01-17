@@ -8,7 +8,7 @@ using RabbitMQ.Client.Events;
 
 namespace Communicator.Queue.Services
 {
-    public class RabbitMqServerService: IQueueServerService
+    public class RabbitMqServerService : IQueueServerService
     {
         public event MessageReceivedEventHandler MessageReceived;
         private readonly IQueueConnection _queueConnection;
@@ -23,7 +23,7 @@ namespace Communicator.Queue.Services
 
         public void Initialize(string host, string userName, string password, string exchangeName)
         {
-            _model = _queueConnection.CreateModel(host, userName, password,exchangeName);
+            _model = _queueConnection.CreateModel(host, userName, password, exchangeName);
             _model.ExchangeDeclare(exchangeName, ExchangeType.Topic);
         }
 
@@ -31,7 +31,7 @@ namespace Communicator.Queue.Services
         {
             var queue = _model.QueueDeclare(queueName, true, false, false, null);
             var consumer = new EventingBasicConsumer(_model);
-           
+
             consumer.Received +=
                 (_, msg) =>
                 {

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Communicator.Untils.Configuration
 {
-    public class XmlConfigurationService:IConfigurationService
+    public class XmlConfigurationService : IConfigurationService
     {
         public string Host
         {

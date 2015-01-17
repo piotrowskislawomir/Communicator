@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Communicator.BusinessLayer.Enums
 {
-    public  enum ActionTypes
+    public enum ActionTypes
     {
         UserCreate,
-        Login
+        Login,
+        ContactList,
+        Message,
+        PresenceNotification
     }
 }

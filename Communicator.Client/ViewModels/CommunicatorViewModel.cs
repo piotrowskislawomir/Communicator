@@ -1,0 +1,246 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Media.Imaging;
+using Communicator.BusinessLayer;
+using Communicator.BusinessLayer.Enums;
+using Communicator.BusinessLayer.Interfaces;
+using Communicator.Client.Annotations;
+using Communicator.Client.Helpers;
+using Communicator.Client.Models;
+using Communicator.Protocol.Enums;
+using Communicator.Protocol.Model;
+using Communicator.Protocol.Notifications;
+using Communicator.Protocol.Requests;
+using Microsoft.Practices.Prism.Commands;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+
+namespace Communicator.Client.ViewModels
+{
+    public class CommunicatorViewModel : ViewModelBase
+    {
+        private readonly ILogicClient _logicClient;
+        public PresenceStatus Status { get; set; }
+        public ObservableCollection<ContactViewModel> Contacts { get; set; }
+        private List<ConversationViewModel> ConversationWindows { get; set; }
+
+
+        private const string ImageOnline = "../UI/statusGreen.jpg";
+        private const string ImageAfk = "../UI/statusYellow.jpg";
+        private const string ImageOffline = "../UI/statusRed.jpg";
+
+        public event EventHandler OnRequestClose;
+
+        public ICommand HistoryCommand
+        {
+            get { return new DelegateCommand(HistoryAction); }
+        }
+
+        public ICommand CloseCommand
+        {
+            get { return new DelegateCommand(CloseAction); }
+        }
+
+        public ICommand ContactCommand
+        {
+            get { return new DelegateCommand<string>(ContactAction); }
+        }
+
+        private void ContactAction(string login)
+        {
+            if (!ConversationWindows.Any(cmv => cmv.Recipeint == login))
+            {
+                var conversationWindow = new ConversationWindow();
+                var conversationViewModel = new ConversationViewModel(_logicClient);
+                conversationViewModel.OnRequestClose += (s, ee) =>
+                {
+                    conversationWindow.Close();
+                    DeleteFromConversationList(conversationViewModel.Recipeint);
+                };
+                conversationViewModel.Initialize(login);
+                conversationWindow.DataContext = conversationViewModel;
+                conversationWindow.Show();
+
+                ConversationWindows.Add(conversationViewModel);
+            }
+        }
+
+        private void InitTimer()
+        {
+            var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 30);
+            dispatcherTimer.Start();
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            _logicClient.SendPing(Status);
+        }
+
+
+        private void HistoryAction()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private void CloseAction()
+        {
+            Status = PresenceStatus.Offline;
+            _logicClient.SendPing(Status);
+
+            var loginWindow = new MainWindow();
+            loginWindow.Show();
+
+            if (OnRequestClose != null)
+            {
+                OnRequestClose(this, new EventArgs());
+            }
+        }
+
+        public CommunicatorViewModel(ILogicClient logicClient)
+        {
+            _logicClient = logicClient;
+            _logicClient.Repeater += ProceedCommand;
+            Contacts = new ObservableCollection<ContactViewModel>();
+            ConversationWindows = new List<ConversationViewModel>();
+            Status = PresenceStatus.Online;
+            InitTimer();
+        }
+
+        public void Inicialize()
+        {
+            _logicClient.GetUserList();
+        }
+
+
+        private string getStatusImage(PresenceStatus status)
+        {
+            switch (status)
+            {
+                case PresenceStatus.Online:
+                {
+                    return ImageOnline;
+                }
+                case PresenceStatus.Afk:
+                {
+                    return ImageAfk;
+                }
+            }
+
+            return ImageOffline;
+        }
+
+        public void ProceedCommand(object sender, RepeaterEventArgs e)
+        {
+            if (e.Type == ActionTypes.ContactList)
+            {
+                if (e.Result)
+                {
+                    var users = (List<User>) e.Data;
+
+                    DispatchService.Invoke(() =>
+                    {
+                        Contacts.Clear();
+                        users.ForEach(u =>
+                        {
+
+                            var contactViewModel =
+                                new ContactViewModel(new ContactModel()
+                                {
+                                    Login = u.Login,
+                                    Status = u.Status,
+                                    StatusImageUri = getStatusImage(u.Status)
+                                });
+                            Contacts.Add(contactViewModel);
+                        });
+                    });
+                }
+            }
+            else if (e.Type == ActionTypes.Message)
+            {
+                if (e.Result)
+                {
+                    var messageReq = (MessageReq) e.Data;
+                    if (!ConversationWindows.Any(cmv => cmv.Recipeint == messageReq.Login))
+                    {
+                        DispatchService.Invoke(() =>
+                        {
+                            var conversationWindow = new ConversationWindow();
+                            var conversationViewModel = new ConversationViewModel(_logicClient);
+                            conversationViewModel.OnRequestClose += (s, ee) =>
+                            {
+                                conversationWindow.Close();
+                                DeleteFromConversationList(conversationViewModel.Recipeint);
+                            };
+
+                            var messageModel = new MessageModel
+                            {
+                                DateTimeDelivery = messageReq.SendTime.ToString("yy-MM-dd hh:dd"),
+                                Message = messageReq.Message,
+                                Sender = messageReq.Login,
+                                Image = GetImageFromAttach(messageReq.Attachment)
+                            };
+                            conversationViewModel.Initialize(messageReq.Login);
+                            conversationViewModel.AddMessage(messageModel);
+                            conversationWindow.DataContext = conversationViewModel;
+                            conversationWindow.Show();
+
+                            ConversationWindows.Add(conversationViewModel);
+                        });
+                    }
+                }
+            }
+            else if (e.Type == ActionTypes.PresenceNotification)
+            {
+                var presenceNotification = (PresenceStatusNotification) e.Data;
+
+                var contact = Contacts.SingleOrDefault(c => c.Login == presenceNotification.Login);
+                if (contact != null)
+                {
+                    contact.Status = presenceNotification.PresenceStatus;
+                    contact.StatusImageUri = getStatusImage(presenceNotification.PresenceStatus);
+                }
+            }
+        }
+
+        private object GetImageFromAttach(Attachment attachment)
+        {
+            if (attachment != null)
+            {
+                string directory = Environment.CurrentDirectory + "\\data\\";
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                var fileName = Guid.NewGuid() + ".jpg";
+                using (var fs = new FileStream(directory + fileName, FileMode.CreateNew))
+                {
+                    fs.Write(attachment.Data, 0, attachment.Data.Length);
+                }
+                return directory + fileName;
+            }
+
+            return DependencyProperty.UnsetValue;
+        }
+
+        private void DeleteFromConversationList(string login)
+        {
+            var conversation = ConversationWindows.SingleOrDefault(cw => cw.Recipeint == login);
+            if (conversation != null)
+            {
+                ConversationWindows.Remove(conversation);
+            }
+        }
+
+    }
+}

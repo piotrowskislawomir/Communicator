@@ -42,5 +42,6 @@ namespace Communicator.Client.ViewModels
                 OnPropertyChanged();
             }
         }
+
     }
 }

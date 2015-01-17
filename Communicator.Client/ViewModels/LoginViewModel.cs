@@ -5,14 +5,17 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.RightsManagement;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Communicator.BusinessLayer;
 using Communicator.BusinessLayer.Enums;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Models;
 using Communicator.Client.Annotations;
+using Communicator.Client.Helpers;
 using Communicator.Protocol.Model;
 using Microsoft.Practices.Prism.Commands;
 
@@ -22,6 +25,7 @@ namespace Communicator.Client.ViewModels
     {
         private readonly ILogicClient _logicClient;
 
+        public event EventHandler OnRequestClose;
         public ICommand LoginCommand
         {
             get
@@ -41,7 +45,7 @@ namespace Communicator.Client.ViewModels
         public LoginViewModel(ILogicClient logicClient)
         {
             _logicClient = logicClient;
-            User =new UserModel();
+            User = new UserModel();
             _logicClient.Repeater += ProceedCommand;
         }
 
@@ -82,8 +86,26 @@ namespace Communicator.Client.ViewModels
         {
             if (e.Type == ActionTypes.Login)
             {
-                MessageBox.Show("Logowanie: " + e.Result);
+                if (e.Result)
+                {
+                    DispatchService.Invoke(() =>
+                    {
+                        _logicClient.Login = Login;
+                        var communicatorWindow = new CommunicatorWindow();
+                        var communicatorViewModel = new CommunicatorViewModel(_logicClient);
+                        communicatorViewModel.OnRequestClose += (s, ee) => communicatorWindow.Close();
+                        communicatorWindow.DataContext = communicatorViewModel;
+                        communicatorWindow.Show();
+                        communicatorViewModel.Inicialize();
+
+                        if (OnRequestClose != null)
+                        {
+                            OnRequestClose(this, new EventArgs());
+                        }
+                    });
+                }
             }
         }
+        
     }
 }
