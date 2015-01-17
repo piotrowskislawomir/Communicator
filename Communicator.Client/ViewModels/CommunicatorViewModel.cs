@@ -31,6 +31,28 @@ namespace Communicator.Client.ViewModels
         public ObservableCollection<ContactViewModel> Contacts { get; set; }
         private List<ConversationViewModel> ConversationWindows { get; set; }
 
+        public ObservableCollection<PresenceStatus> Statuses { get; set; }
+
+
+        private PresenceStatus _selectedStatus;
+        public PresenceStatus SelectedStatus {
+            get { return _selectedStatus; }
+            set
+            {
+                _selectedStatus = value;
+                OnPropertyChanged();
+                ChangeStatusAction(_selectedStatus);
+            }
+        }
+
+        private void ChangeStatusAction(PresenceStatus status)
+        {
+            if (status != Status)
+            {
+                Status = status;
+                _logicClient.SendPing(Status);
+            }
+        }
 
         private const string ImageOnline = "../UI/statusGreen.jpg";
         private const string ImageAfk = "../UI/statusYellow.jpg";
@@ -112,7 +134,14 @@ namespace Communicator.Client.ViewModels
             _logicClient.Repeater += ProceedCommand;
             Contacts = new ObservableCollection<ContactViewModel>();
             ConversationWindows = new List<ConversationViewModel>();
+            Statuses = new ObservableCollection<PresenceStatus>()
+            {
+                PresenceStatus.Online,
+                PresenceStatus.Afk,
+                PresenceStatus.Offline
+            };
             Status = PresenceStatus.Online;
+            SelectedStatus = PresenceStatus.Online;
             InitTimer();
         }
 
