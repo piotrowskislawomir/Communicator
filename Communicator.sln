@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communicator.Queue", "Commu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communicator.Tests", "Communicator.Tests\Communicator.Tests.csproj", "{E6369DC3-EDE0-4A00-B12B-CDF80598701B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{F92A227E-ED86-4A7E-81C7-BB8109BF5F23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageArchivizerTest", "ConsoleApplication1\MessageArchivizerTest.csproj", "{F92A227E-ED86-4A7E-81C7-BB8109BF5F23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
