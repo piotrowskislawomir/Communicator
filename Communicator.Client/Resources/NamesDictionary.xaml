@@ -18,12 +18,14 @@
     <system:String x:Key="CommunicatorWindowLabel">Wysyłaj i obieraj wiadomości!</system:String>
     <system:String x:Key="ConversationWindowLabel">Rozmowa z użytkownikiem</system:String>
 
-    <system:String x:Key="Sent">Wyślij</system:String>
-    <!--
-    <system:String x:Key="StatusGreen">Dostępny</system:String>
-    <system:String x:Key="StatusBlue">Zaraz wracam</system:String>
-    <system:String x:Key="StatusRed">Niedostępny</system:String>
-    -->
+    <system:String x:Key="Send">Wyślij</system:String>
+    
+    <system:String x:Key="StatusAvaible">Dostępny</system:String>
+    <system:String x:Key="StatusBackSoon">Z dala od komputera</system:String>
+    <system:String x:Key="StatusHidden">Niewidoczny</system:String>
+    <system:String x:Key="StatusUnavaible">Niedostępny</system:String>
+    <system:String x:Key="SetDiscription">Ustaw opis...</system:String>
+    
     
     <system:String x:Key="ClearDialWindow">Wyczyść okno rozmowy</system:String>
     <system:String x:Key="ClearHistory">Wyczyść historię rozmowy</system:String>

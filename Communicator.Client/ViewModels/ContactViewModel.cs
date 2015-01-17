@@ -5,7 +5,7 @@ using Communicator.Protocol.Enums;
 
 namespace Communicator.Client.ViewModels
 {
-    public class ContactViewModel : INotifyPropertyChanged
+    public class ContactViewModel : ViewModelBase
     {
         private ContactModel _contact;
         public ContactViewModel(ContactModel c)
@@ -40,17 +40,6 @@ namespace Communicator.Client.ViewModels
             {
                 _contact.StatusImageUri = value;
                 OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName]string name = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
             }
         }
     }
