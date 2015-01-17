@@ -23,22 +23,34 @@ namespace Communicator.Client
     {       
         public MainWindow()
         {
-            InitializeComponent();
-            var clientLogic = new LogicClient(new RabbitMqClientService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecoginzerClientService(new JSonSerializerService()));
-            clientLogic.RouteKey = Guid.NewGuid().ToString();
-            clientLogic.Initialize();
-            var loginViewModel = new LoginViewModel(clientLogic);
-            loginViewModel.OnRequestClose += (s, e) => this.Close();
-            DataContext = loginViewModel;
-            // SetDictionary();
+			// Ten blok należy zakomentować...
+			
+			CommunicatorWindow cm = new CommunicatorWindow();
+	        //cm.Show();
+
+			ConversationWindow cm1 = new ConversationWindow();
+	        cm1.Show();
+
+			// ...Dotąd
+            SetDictionary();
+			InitializeComponent();
+			// Ten należy odkomentować
+
+            //var clientLogic = new LogicClient(new RabbitMqClientService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecoginzerClientService(new JSonSerializerService()));
+            //clientLogic.RouteKey = Guid.NewGuid().ToString();
+            //clientLogic.Initialize();
+            //DataContext = new LoginViewModel(clientLogic);
+            
         }
-       /* private void SetDictionary()
+        private void SetDictionary()
         {
-            var dict = new ResourceDictionary();
-            dict.Source = new Uri("..\\Resources\\NamesDictionary.xaml", UriKind.Relative);
+            var dict = new ResourceDictionary
+            {
+                Source = new Uri("..\\Resources\\NamesDictionary.xaml", UriKind.Relative)
+            };
             Application.Current.Resources.MergedDictionaries.Add(dict);
             this.Resources.MergedDictionaries.Add(dict);
-        }*/
+        }
 
     }
 }

@@ -20,12 +20,11 @@ using Microsoft.Practices.Prism.Commands;
 
 namespace Communicator.Client.ViewModels
 {
-    public class RegisterViewModel:INotifyPropertyChanged
+    public class RegisterViewModel : ViewModelBase
     {
         private readonly ILogicClient _logicClient;
 
         public UserModel User { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand CreateAccountCommand
         {
@@ -82,13 +81,6 @@ namespace Communicator.Client.ViewModels
             {
                 MessageBox.Show("Zarejestrowano");
             }
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

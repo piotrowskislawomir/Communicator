@@ -37,10 +37,5 @@ namespace Communicator.Queue.Services
             _model.BasicConsume(queueName, false, consumer);
             return consumer;
         }
-
-        public void SendAck(ulong deliveryTag)
-        {
-            _model.BasicAck(deliveryTag, false);
-        }
     }
 }

@@ -53,6 +53,40 @@ namespace Communicator.Client
             client.SendData(ConfigurationApp.MainQueueName, token1, data, typeof(MessageReq));*/
         }
 
+        
+        private void ContactList_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Logout_Click(object sender, RoutedEventArgs e)
+        {
+            //wyloguj uzytkownika
+
+            //otwórz okno logowania
+            MainWindow login = new MainWindow();
+            login.Show();
+
+            //zamykam okno
+            this.Close();
+        }
+
+        private void Button_HistoryWindow_Click(object sender, RoutedEventArgs e)
+        {
+            HistoryWindow history = new HistoryWindow();
+            history.Show();
+        }
+
+		private void Button_ProfileOptions_Click(object sender, RoutedEventArgs e)
+		{
+			popup.IsOpen = true;
+		}
+
+		private void Button_OptClose_Click(object sender, RoutedEventArgs e)
+		{
+			popup.IsOpen = false;
+		}
+
 
     }
 }
