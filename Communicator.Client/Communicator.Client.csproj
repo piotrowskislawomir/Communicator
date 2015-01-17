@@ -108,6 +108,7 @@
       <DependentUpon>ConversationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DispatcherService.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="HistoryWindow.xaml.cs">
       <DependentUpon>HistoryWindow.xaml</DependentUpon>
     </Compile>
@@ -118,7 +119,6 @@
     <Compile Include="ApplicationWindowBase.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
-    <Compile Include="Models\PasswordHelper.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>

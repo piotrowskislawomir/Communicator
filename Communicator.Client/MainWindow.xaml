@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="clr-namespace:Communicator.Client"
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:helpers="clr-namespace:Communicator.Client.Helpers"
         Title="MainWindow" MinHeight="400" MinWidth="330" Height="400" Width="330"
         WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip" Icon="UI/app_icon.png" MouseDown="Window_MouseDown">
     <!-- Main window frame -->
@@ -31,7 +32,8 @@
                 <TextBox Text="{Binding Login}" HorizontalAlignment="Center" Height="30" Margin="194,172,180,-60" TextWrapping="Wrap" VerticalAlignment="Top" Width="175"/>
 
                 <Label Content="{DynamicResource Password}" HorizontalAlignment="Center" Margin="139,207,360,-95" VerticalAlignment="Top" Width="50" Height="30"/>
-                <TextBox Text="{Binding Password}" HorizontalAlignment="Center" Height="30" Margin="194,207,180,-95" VerticalAlignment="Top" Width="175"/>
+               <PasswordBox helpers:PasswordBoxAssistant.BindPassword="true"  helpers:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Height="30" Margin="194,207,180,-95" VerticalAlignment="Top" Width="175"/>
+                
 
                 <Button Content="{DynamicResource Login}" HorizontalAlignment="Center" Margin="169,252,255,-140" VerticalAlignment="Top" Width="125"  RenderTransformOrigin="0.471,0.5" Command="{Binding LoginCommand}"/>
                 <Label x:Name="Label" Content="{DynamicResource Or}" HorizontalAlignment="Center" Margin="305,252,203,-140" VerticalAlignment="Top" Width="41" RenderTransformOrigin="0.85,0.483" Height="30"/>
