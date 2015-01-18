@@ -281,21 +281,24 @@ namespace Communicator.BusinessLayer.Services
             //DONE////TODO sprawdzanie czy istnieje taki login i pass
             bool exists = _commonUserListService.UserAuthentication(authRequest);
 
-            var activeUser = _currentUsers.SingleOrDefault(u => u.Key.Login == authRequest.Login);
-            if (activeUser.Key == null)
+            if (exists)
             {
-                var topicList = new List<string> { message.TopicSender };
-                _currentUsers.Add(new User { Login = authRequest.Login, Status = PresenceStatus.Online }, new UserDetails { ActivityTime = DateTime.Now, TopicList = topicList });
-            }
-            else
-            {
-
-                if (!activeUser.Value.TopicList.Contains(message.TopicSender))
+                var activeUser = _currentUsers.SingleOrDefault(u => u.Key.Login == authRequest.Login);
+                if (activeUser.Key == null)
                 {
-                    activeUser.Value.TopicList.Add(message.TopicSender);
+                    var topicList = new List<string> {message.TopicSender};
+                    _currentUsers.Add(new User {Login = authRequest.Login, Status = PresenceStatus.Online},
+                        new UserDetails {ActivityTime = DateTime.Now, TopicList = topicList});
+                }
+                else
+                {
+
+                    if (!activeUser.Value.TopicList.Contains(message.TopicSender))
+                    {
+                        activeUser.Value.TopicList.Add(message.TopicSender);
+                    }
                 }
             }
-
 
             var authResponse = new AuthResponse
             {

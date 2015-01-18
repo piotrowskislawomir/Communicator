@@ -24,6 +24,7 @@ namespace Communicator.Client.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         private readonly ILogicClient _logicClient;
+        private string _result;
 
         public event EventHandler OnRequestClose;
         public ICommand LoginCommand
@@ -42,6 +43,19 @@ namespace Communicator.Client.ViewModels
             }
         }
 
+        public ICommand CloseCommand
+        {
+            get { return new DelegateCommand(CloseAction); }
+        }
+
+        private void CloseAction()
+        {
+            if (OnRequestClose != null)
+            {
+                OnRequestClose(this, new EventArgs());
+            }
+        }
+
         public LoginViewModel(ILogicClient logicClient)
         {
             _logicClient = logicClient;
@@ -52,12 +66,22 @@ namespace Communicator.Client.ViewModels
         private void RegisterAction()
         {
             var registerWindow = new RegisterWindow();
+            var registerViewModel = new RegisterViewModel(_logicClient);
+            registerViewModel.OnRequestClose += (s, e) => registerWindow.Close();
+            registerWindow.DataContext = registerViewModel;
             registerWindow.Show();
         }
 
         private void LoginAction()
         {
+            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
+            {
+                Result = "Uzupełnij wymagane pola";
+                return;
+            }
+
             _logicClient.LoginUser(User);
+            Result = string.Empty;
         }
 
         public UserModel User { get; set; }
@@ -78,6 +102,16 @@ namespace Communicator.Client.ViewModels
             set
             {
                 User.Password = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Result
+        {
+            get { return _result; }
+            set
+            {
+                _result = value;
                 OnPropertyChanged();
             }
         }
@@ -103,6 +137,10 @@ namespace Communicator.Client.ViewModels
                             OnRequestClose(this, new EventArgs());
                         }
                     });
+                }
+                else
+                {
+                    Result = "Niepoprawne hało lub login";
                 }
             }
         }

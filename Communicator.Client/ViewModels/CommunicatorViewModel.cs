@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Web.UI.WebControls;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
@@ -70,6 +71,13 @@ namespace Communicator.Client.ViewModels
             get { return new DelegateCommand(CloseAction); }
         }
 
+        public ICommand LogoutCommand
+        {
+            get { return new DelegateCommand(LogoutAction); }
+        }
+
+       
+
         public ICommand ContactCommand
         {
             get { return new DelegateCommand<string>(ContactAction); }
@@ -115,6 +123,14 @@ namespace Communicator.Client.ViewModels
 
 
         private void CloseAction()
+        {
+            if (OnRequestClose != null)
+            {
+                OnRequestClose(this, new EventArgs());
+            }
+        }
+
+        private void LogoutAction()
         {
             Status = PresenceStatus.Offline;
             _logicClient.SendPing(Status);

@@ -12,8 +12,7 @@
             <!-- Title bar -->
             <Grid Margin="0" Width="NaN" VerticalAlignment="Top">
                 <Grid HorizontalAlignment="Left" Height="30" VerticalAlignment="Top"/>
-                <Button  x:Name="Button_WinClose" Style="{StaticResource CloseButton}" Content="x" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="30" Panel.ZIndex="1"  BorderThickness="0"  FontSize="16" FontWeight="Bold" FontFamily="OCR A Std"/>
-                <Button  x:Name="Button_WinMin" Style="{StaticResource MinButton}" Content="_" HorizontalAlignment="Right" Height="30" Margin="0,0,30,0" Panel.ZIndex="100" VerticalAlignment="Top" Width="30" BorderThickness="0" FontSize="16" FontWeight="Bold" FontFamily="OCR A Std" />
+                <Button Command="{Binding CloseCommand}"  x:Name="Button_WinClose" Style="{StaticResource CloseButton}" Content="x" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="30" Panel.ZIndex="1"  BorderThickness="0"  FontSize="16" FontWeight="Bold" FontFamily="OCR A Std"/>
                 <Label Content="{DynamicResource CommunicatorTitle}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="29" Width="200" Margin="30,3,0,0" Foreground="White"/>
 
                 <Image HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="23" Source="UI/app_icon3232.png" Margin="7,6,0,0"/>
@@ -34,10 +33,10 @@
                 <Label Content="{DynamicResource Password}" HorizontalAlignment="Center" Margin="139,207,360,-95" VerticalAlignment="Top" Width="50" Height="30"/>
                <PasswordBox helpers:PasswordBoxAssistant.BindPassword="true"  helpers:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Height="30" Margin="194,207,180,-95" VerticalAlignment="Top" Width="175"/>
                 
-
-                <Button Content="{DynamicResource Login}" HorizontalAlignment="Center" Margin="169,252,255,-140" VerticalAlignment="Top" Width="125"  RenderTransformOrigin="0.471,0.5" Command="{Binding LoginCommand}"/>
-                <Label x:Name="Label" Content="{DynamicResource Or}" HorizontalAlignment="Center" Margin="305,252,203,-140" VerticalAlignment="Top" Width="41" RenderTransformOrigin="0.85,0.483" Height="30"/>
-                <Button Content="{DynamicResource Register}" HorizontalAlignment="Center" Margin="346,252,129,-140" VerticalAlignment="Top" Width="74" BorderThickness="0" RenderTransformOrigin="0.471,0.5" Command="{Binding RegisterCommand}"/>
+<Label Content="{Binding Result}" Margin="194,242,188,-130"></Label>
+                <Button Content="{DynamicResource Login}" HorizontalAlignment="Center" Margin="169,282,255,-170" VerticalAlignment="Top" Width="125"  RenderTransformOrigin="0.471,0.5" Command="{Binding LoginCommand}"/>
+                <Label x:Name="Label" Content="{DynamicResource Or}" HorizontalAlignment="Center" Margin="305,284,203,-172" VerticalAlignment="Top" Width="41" RenderTransformOrigin="0.85,0.483" Height="30"/>
+                <Button Content="{DynamicResource Register}" HorizontalAlignment="Center" Margin="346,281,129,-169" VerticalAlignment="Top" Width="74" BorderThickness="0" RenderTransformOrigin="0.471,0.5" Command="{Binding RegisterCommand}"/>
             </Grid>
             <Grid Style="{StaticResource Grid_MetroAnim}">
                 <Grid.RenderTransform>
