@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Communicator.BusinessLayer.Models;
+﻿using Communicator.BusinessLayer.Models;
 using Communicator.Protocol.Enums;
 
 namespace Communicator.BusinessLayer.Interfaces
 {
     public interface ILogicClient
     {
-        event RepeaterEventHandler Repeater;
         string Login { get; set; }
         string RouteKey { get; set; }
+        event RepeaterEventHandler Repeater;
         void RegisterUser(UserModel user);
         void LoginUser(UserModel user);
         void GetUserList();
@@ -22,6 +17,4 @@ namespace Communicator.BusinessLayer.Interfaces
         void Initialize();
         void GetHistory();
     }
-
-
 }

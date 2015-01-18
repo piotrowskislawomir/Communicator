@@ -7,9 +7,9 @@ namespace Communicator.Server
 {
     public class ServerApplication : IServerApplication
     {
-        private readonly IQueueServerService _queueServerService;
         private readonly IConfigurationService _configurationService;
         private readonly IMessageRecognizerService _messageRecognizerService;
+        private readonly IQueueServerService _queueServerService;
 
         public ServerApplication(IQueueServerService queueServerService,
             IConfigurationService configurationService,
@@ -29,6 +29,10 @@ namespace Communicator.Server
             CreateNewListener();
         }
 
+        public void Stop()
+        {
+        }
+
         private void CreateNewListener()
         {
             _queueServerService.Initialize(_configurationService.Host, _configurationService.UserName,
@@ -41,10 +45,6 @@ namespace Communicator.Server
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             _messageRecognizerService.ProcessMessage(e);
-        }
-
-        public void Stop()
-        {
         }
     }
 }

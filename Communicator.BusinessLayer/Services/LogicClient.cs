@@ -11,23 +11,25 @@ namespace Communicator.BusinessLayer.Services
 {
     public class LogicClient : ILogicClient
     {
-        private readonly IQueueClientService _queueClientService;
         private readonly IConfigurationService _configurationService;
         private readonly IMessageRecognizerClientService _messageRecognizerClientService;
+        private readonly IQueueClientService _queueClientService;
 
-        public string RouteKey { get; set; }
-        public string Login { get; set; }
-
-        public LogicClient(IQueueClientService queueClientService, IConfigurationService configurationService, IMessageRecognizerClientService messageRecognizerClientService)
+        public LogicClient(IQueueClientService queueClientService, IConfigurationService configurationService,
+            IMessageRecognizerClientService messageRecognizerClientService)
         {
             _queueClientService = queueClientService;
             _configurationService = configurationService;
             _messageRecognizerClientService = messageRecognizerClientService;
         }
 
+        public string RouteKey { get; set; }
+        public string Login { get; set; }
+
         public void Initialize()
         {
-            _queueClientService.Initialize(_configurationService.Host, _configurationService.UserName, _configurationService.Password, _configurationService.ExchangeName);
+            _queueClientService.Initialize(_configurationService.Host, _configurationService.UserName,
+                _configurationService.Password, _configurationService.ExchangeName);
             _queueClientService.MessageReceived += (_, ee) => _messageRecognizerClientService.ProceedMessage(ee);
             _queueClientService.CreateConsumer(RouteKey, _configurationService.ExchangeName);
             _messageRecognizerClientService.Repeater += OnRepeater;
@@ -40,41 +42,36 @@ namespace Communicator.BusinessLayer.Services
                 Login = Login
             };
 
-            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, historyReq);
-         }
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey,
+                _configurationService.ExchangeName, historyReq);
+        }
 
         public event RepeaterEventHandler Repeater;
 
-        public void OnRepeater(object sender, RepeaterEventArgs e)
-        {
-            if (Repeater != null)
-            {
-                Repeater(this, e);
-            }
-        }
-
         public void RegisterUser(UserModel user)
         {
-            var createUserReq = new CreateUserReq { Login = user.Login, Password = user.Password };
-            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, createUserReq);
+            var createUserReq = new CreateUserReq {Login = user.Login, Password = user.Password};
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey,
+                _configurationService.ExchangeName, createUserReq);
         }
 
         public void LoginUser(UserModel user)
         {
-            var authReq = new AuthRequest { Login = user.Login, Password = user.Password };
-            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, authReq);
-
+            var authReq = new AuthRequest {Login = user.Login, Password = user.Password};
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey,
+                _configurationService.ExchangeName, authReq);
         }
 
         public void GetUserList()
         {
-            var userListReq = new UserListReq() { Login = Login };
-            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, userListReq);
+            var userListReq = new UserListReq {Login = Login};
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey,
+                _configurationService.ExchangeName, userListReq);
         }
 
         public void SendMessage(string recipient, string message, byte[] imageData)
         {
-            var messageReq = new MessageReq()
+            var messageReq = new MessageReq
             {
                 Login = Login,
                 Message = message,
@@ -88,27 +85,36 @@ namespace Communicator.BusinessLayer.Services
                 };
             }
 
-            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, messageReq);
-
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey,
+                _configurationService.ExchangeName, messageReq);
         }
 
         public void SendPing(PresenceStatus status)
         {
-            var presenceNotification = new PresenceStatusNotification { Login = Login, PresenceStatus = status };
-            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, presenceNotification);
-
+            var presenceNotification = new PresenceStatusNotification {Login = Login, PresenceStatus = status};
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey,
+                _configurationService.ExchangeName, presenceNotification);
         }
 
         public void SendUserWriting(string recipient)
         {
-            var activityReq = new ActivityReq()
+            var activityReq = new ActivityReq
             {
                 IsWriting = true,
                 Recipient = recipient,
                 Login = Login
             };
 
-            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, activityReq);
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey,
+                _configurationService.ExchangeName, activityReq);
+        }
+
+        public void OnRepeater(object sender, RepeaterEventArgs e)
+        {
+            if (Repeater != null)
+            {
+                Repeater(this, e);
+            }
         }
     }
 }

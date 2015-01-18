@@ -8,21 +8,24 @@ namespace Communicator.Client.Models
         //public string Login { get; set; }
         //public PresenceStatus Status { get; set; }
 
-        string _login;
+        private string _login;
+
+        private PresenceStatus _status;
+
+        private string _statusImageUri;
+
         public string Login
         {
             get { return _login; }
             set { SetProperty(ref _login, value); }
         }
 
-        PresenceStatus _status;
         public PresenceStatus Status
         {
             get { return _status; }
             set { SetProperty(ref _status, value); }
         }
 
-        string _statusImageUri;
         public string StatusImageUri
         {
             get { return _statusImageUri; }

@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Web.UI.WebControls;
+using System.Linq;
 using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Media.Imaging;
+using System.Windows.Input;
+using System.Windows.Threading;
 using Communicator.BusinessLayer;
 using Communicator.BusinessLayer.Enums;
 using Communicator.BusinessLayer.Interfaces;
-using Communicator.Client.Annotations;
 using Communicator.Client.Helpers;
 using Communicator.Client.Models;
 using Communicator.Protocol.Enums;
@@ -19,15 +16,34 @@ using Communicator.Protocol.Model;
 using Communicator.Protocol.Notifications;
 using Communicator.Protocol.Requests;
 using Microsoft.Practices.Prism.Commands;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
 
 namespace Communicator.Client.ViewModels
 {
     public class CommunicatorViewModel : ViewModelBase
     {
+        private const string ImageOnline = "../UI/statusGreen.jpg";
+        private const string ImageAfk = "../UI/statusYellow.jpg";
+        private const string ImageOffline = "../UI/statusRed.jpg";
         private readonly ILogicClient _logicClient;
+        private PresenceStatus _selectedStatus;
+
+        public CommunicatorViewModel(ILogicClient logicClient)
+        {
+            _logicClient = logicClient;
+            _logicClient.Repeater += ProceedCommand;
+            Contacts = new ObservableCollection<ContactViewModel>();
+            ConversationWindows = new List<ConversationViewModel>();
+            Statuses = new ObservableCollection<PresenceStatus>
+            {
+                PresenceStatus.Online,
+                PresenceStatus.Afk,
+                PresenceStatus.Offline
+            };
+            Status = PresenceStatus.Online;
+            SelectedStatus = PresenceStatus.Online;
+            InitTimer();
+        }
+
         public PresenceStatus Status { get; set; }
         public ObservableCollection<ContactViewModel> Contacts { get; set; }
         private List<ConversationViewModel> ConversationWindows { get; set; }
@@ -35,8 +51,8 @@ namespace Communicator.Client.ViewModels
         public ObservableCollection<PresenceStatus> Statuses { get; set; }
 
 
-        private PresenceStatus _selectedStatus;
-        public PresenceStatus SelectedStatus {
+        public PresenceStatus SelectedStatus
+        {
             get { return _selectedStatus; }
             set
             {
@@ -45,21 +61,6 @@ namespace Communicator.Client.ViewModels
                 ChangeStatusAction(_selectedStatus);
             }
         }
-
-        private void ChangeStatusAction(PresenceStatus status)
-        {
-            if (status != Status)
-            {
-                Status = status;
-                _logicClient.SendPing(Status);
-            }
-        }
-
-        private const string ImageOnline = "../UI/statusGreen.jpg";
-        private const string ImageAfk = "../UI/statusYellow.jpg";
-        private const string ImageOffline = "../UI/statusRed.jpg";
-
-        public event EventHandler OnRequestClose;
 
         public ICommand HistoryCommand
         {
@@ -76,12 +77,22 @@ namespace Communicator.Client.ViewModels
             get { return new DelegateCommand(LogoutAction); }
         }
 
-       
 
         public ICommand ContactCommand
         {
             get { return new DelegateCommand<string>(ContactAction); }
         }
+
+        private void ChangeStatusAction(PresenceStatus status)
+        {
+            if (status != Status)
+            {
+                Status = status;
+                _logicClient.SendPing(Status);
+            }
+        }
+
+        public event EventHandler OnRequestClose;
 
         private void ContactAction(string login)
         {
@@ -104,8 +115,8 @@ namespace Communicator.Client.ViewModels
 
         private void InitTimer()
         {
-            var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            var dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 30);
             dispatcherTimer.Start();
         }
@@ -139,30 +150,13 @@ namespace Communicator.Client.ViewModels
             Status = PresenceStatus.Offline;
             _logicClient.SendPing(Status);
 
-            var loginWindow = new Communicator.Client.MainWindow();
+            var loginWindow = new MainWindow();
             loginWindow.Show();
 
             if (OnRequestClose != null)
             {
                 OnRequestClose(this, new EventArgs());
             }
-        }
-
-        public CommunicatorViewModel(ILogicClient logicClient)
-        {
-            _logicClient = logicClient;
-            _logicClient.Repeater += ProceedCommand;
-            Contacts = new ObservableCollection<ContactViewModel>();
-            ConversationWindows = new List<ConversationViewModel>();
-            Statuses = new ObservableCollection<PresenceStatus>()
-            {
-                PresenceStatus.Online,
-                PresenceStatus.Afk,
-                PresenceStatus.Offline
-            };
-            Status = PresenceStatus.Online;
-            SelectedStatus = PresenceStatus.Online;
-            InitTimer();
         }
 
         public void Inicialize()
@@ -201,9 +195,8 @@ namespace Communicator.Client.ViewModels
                         Contacts.Clear();
                         users.ForEach(u =>
                         {
-
                             var contactViewModel =
-                                new ContactViewModel(new ContactModel()
+                                new ContactViewModel(new ContactModel
                                 {
                                     Login = u.Login,
                                     Status = u.Status,
@@ -252,7 +245,7 @@ namespace Communicator.Client.ViewModels
             {
                 var presenceNotification = (PresenceStatusNotification) e.Data;
 
-                var contact = Contacts.SingleOrDefault(c => c.Login == presenceNotification.Login);
+                ContactViewModel contact = Contacts.SingleOrDefault(c => c.Login == presenceNotification.Login);
                 if (contact != null)
                 {
                     contact.Status = presenceNotification.PresenceStatus;
@@ -271,7 +264,7 @@ namespace Communicator.Client.ViewModels
                     Directory.CreateDirectory(directory);
                 }
 
-                var fileName = Guid.NewGuid() + ".jpg";
+                string fileName = Guid.NewGuid() + ".jpg";
                 using (var fs = new FileStream(directory + fileName, FileMode.CreateNew))
                 {
                     fs.Write(attachment.Data, 0, attachment.Data.Length);
@@ -284,12 +277,11 @@ namespace Communicator.Client.ViewModels
 
         private void DeleteFromConversationList(string login)
         {
-            var conversation = ConversationWindows.SingleOrDefault(cw => cw.Recipeint == login);
+            ConversationViewModel conversation = ConversationWindows.SingleOrDefault(cw => cw.Recipeint == login);
             if (conversation != null)
             {
                 ConversationWindows.Remove(conversation);
             }
         }
-
     }
 }

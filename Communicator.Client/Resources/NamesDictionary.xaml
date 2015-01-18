@@ -7,7 +7,7 @@
     <system:String x:Key="Password">Hasło</system:String>
     <system:String x:Key="Login">Zaloguj</system:String>
     <system:String x:Key="Or">lub</system:String>
-    <system:String x:Key="Register">Zarejestruj</system:String>    
+    <system:String x:Key="Register">Zarejestruj</system:String>
     <system:String x:Key="LoginWindowLabel">Zaloguj się lub zarejestruj</system:String>
     <system:String x:Key="ConfirmPassword">Powtórz hasło</system:String>
     <system:String x:Key="CreateAccount">Załóż konto</system:String>
@@ -19,14 +19,14 @@
     <system:String x:Key="ConversationWindowLabel">Rozmowa z użytkownikiem</system:String>
 
     <system:String x:Key="Send">Wyślij</system:String>
-    
+
     <system:String x:Key="StatusAvaible">Dostępny</system:String>
     <system:String x:Key="StatusBackSoon">Z dala od komputera</system:String>
     <system:String x:Key="StatusHidden">Niewidoczny</system:String>
     <system:String x:Key="StatusUnavaible">Niedostępny</system:String>
     <system:String x:Key="SetDiscription">Ustaw opis...</system:String>
-    
-    
+
+
     <system:String x:Key="ClearDialWindow">Wyczyść okno rozmowy</system:String>
     <system:String x:Key="ClearHistory">Wyczyść historię rozmowy</system:String>
     <system:String x:Key="AttachImage">Załącz obraz</system:String>

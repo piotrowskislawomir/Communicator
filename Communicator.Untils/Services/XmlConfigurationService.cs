@@ -10,14 +10,17 @@ namespace Communicator.Untils.Services
         {
             get { return GetValueFromConfig("host", "winserver2012"); }
         }
+
         public string UserName
         {
             get { return GetValueFromConfig("username", "guest"); }
         }
+
         public string Password
         {
             get { return GetValueFromConfig("password", "guest"); }
         }
+
         public string ExchangeName
         {
             get { return GetValueFromConfig("exchangename", "CommunicatorExchange"); }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Xml.Linq;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.Protocol.Requests;
@@ -10,7 +8,6 @@ namespace Communicator.BusinessLayer.Services
 {
     public class XmlUserList : IUsersListOperationer
     {
-
         public static void CreateNewUser(string path, CreateUserReq user)
         {
             if (File.Exists(path))
@@ -75,9 +72,9 @@ namespace Communicator.BusinessLayer.Services
             {
                 var newUser =
                     new XElement("Users",
-                    new XElement("User",
-                         new XAttribute("Login", usr.Login),
-                         new XAttribute("Password", usr.Password)));
+                        new XElement("User",
+                            new XAttribute("Login", usr.Login),
+                            new XAttribute("Password", usr.Password)));
 
                 newUser.Save(pathToArchivize);
             }
@@ -92,16 +89,15 @@ namespace Communicator.BusinessLayer.Services
         {
             try
             {
-                var xmlFile = XDocument.Load(path);
+                XDocument xmlFile = XDocument.Load(path);
 
                 var newUser =
-                                new XElement("User",
-                                       new XAttribute("Login", user.Login),
-                                       new XAttribute("Password", user.Password));
+                    new XElement("User",
+                        new XAttribute("Login", user.Login),
+                        new XAttribute("Password", user.Password));
 
                 xmlFile.Element("Users").Add(newUser);
                 xmlFile.Save(path);
-
             }
             catch (Exception)
             {

@@ -14,18 +14,13 @@ namespace Communicator.Queue.Services
         private readonly ISerializerService _serializerService;
         private IModel _model;
 
-        public event MessageReceivedEventHandler MessageReceived;
-
         public RabbitMqClientService(IQueueConnection queueConnection, ISerializerService serializerService)
         {
             _queueConnection = queueConnection;
             _serializerService = serializerService;
         }
 
-        public string GetUniqueTopic(string login)
-        {
-            return String.Format("client.{0}", login);
-        }
+        public event MessageReceivedEventHandler MessageReceived;
 
         public void Initialize(string host, string userName, string password, string exchangeName)
         {
@@ -35,7 +30,7 @@ namespace Communicator.Queue.Services
 
         public void CreateConsumer(string routingKey, string exchangeName)
         {
-            var queue = _model.QueueDeclare();
+            QueueDeclareOk queue = _model.QueueDeclare();
             var consumer = new EventingBasicConsumer(_model);
             consumer.Received +=
                 (_, msg) =>
@@ -45,6 +40,23 @@ namespace Communicator.Queue.Services
                 };
             _model.QueueBind(queue.QueueName, exchangeName, routingKey);
             _model.BasicConsume(queue.QueueName, false, consumer);
+        }
+
+        public void SendData<T>(string queueName, string routingKey, string exchangeName, T data)
+        {
+            IBasicProperties properties = _model.CreateBasicProperties();
+            properties.SetPersistent(true);
+            properties.ReplyTo = routingKey;
+            properties.Type = typeof (T).AssemblyQualifiedName;
+
+            byte[] buffer = _serializerService.Serialize(data);
+
+            _model.BasicPublish(exchangeName, queueName, properties, buffer);
+        }
+
+        public string GetUniqueTopic(string login)
+        {
+            return String.Format("client.{0}", login);
         }
 
         private MessageReceivedEventArgs CreateMessage(BasicDeliverEventArgs e)
@@ -57,19 +69,5 @@ namespace Communicator.Queue.Services
             };
             return msg;
         }
-
-        public void SendData<T>(string queueName, string routingKey, string exchangeName, T data)
-        {
-            var properties = _model.CreateBasicProperties();
-            properties.SetPersistent(true);
-            properties.ReplyTo = routingKey;
-            properties.Type = typeof(T).AssemblyQualifiedName;
-
-            byte[] buffer = _serializerService.Serialize(data);
-
-            _model.BasicPublish(exchangeName, queueName, properties, buffer);
-        }
-
     }
-
 }

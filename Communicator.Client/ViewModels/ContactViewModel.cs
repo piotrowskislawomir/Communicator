@@ -1,13 +1,12 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Communicator.Client.Models;
+﻿using Communicator.Client.Models;
 using Communicator.Protocol.Enums;
 
 namespace Communicator.Client.ViewModels
 {
     public class ContactViewModel : ViewModelBase
     {
-        private ContactModel _contact;
+        private readonly ContactModel _contact;
+
         public ContactViewModel(ContactModel c)
         {
             _contact = c;
@@ -42,6 +41,5 @@ namespace Communicator.Client.ViewModels
                 OnPropertyChanged();
             }
         }
-
     }
 }

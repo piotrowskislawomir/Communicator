@@ -1,30 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using Communicator.BusinessLayer;
 using Communicator.BusinessLayer.Enums;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Models;
-using Communicator.Client.Annotations;
-using Communicator.Client.Models;
-using Communicator.Protocol.Model;
-using Communicator.Queue.Interfaces;
 using Microsoft.Practices.Prism.Commands;
 
 namespace Communicator.Client.ViewModels
 {
     public class RegisterViewModel : ViewModelBase
     {
-        public event EventHandler OnRequestClose;
         private readonly ILogicClient _logicClient;
         private string _result;
+
+        public RegisterViewModel(ILogicClient logicClient)
+        {
+            _logicClient = logicClient;
+            _logicClient.Repeater += ProceedCommand;
+            User = new UserModel();
+        }
 
         public UserModel User { get; set; }
 
@@ -38,39 +32,6 @@ namespace Communicator.Client.ViewModels
             get { return new DelegateCommand(CloseAction); }
         }
 
-        private void CloseAction()
-        {
-            if (OnRequestClose != null)
-            {
-                OnRequestClose(this, new EventArgs());
-            }
-        }
-
-        private void CreateAccount()
-        {
-            if (Password != ConfirmedPassword)
-            {
-                Result = "Hasła nie są identyczne";
-                return;
-            }
-
-            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
-            {
-                Result = "Uzupełnij wymagane pola";
-                return;
-            }
-
-            _logicClient.RegisterUser(User);
-            Result = string.Empty;
-        }
-
-        public RegisterViewModel(ILogicClient logicClient)
-        {
-            _logicClient = logicClient;
-            _logicClient.Repeater += ProceedCommand;
-            User = new UserModel();
-        }
-
 
         public string Login
         {
@@ -80,7 +41,6 @@ namespace Communicator.Client.ViewModels
                 User.Login = value;
                 OnPropertyChanged();
             }
-
         }
 
         public string Password
@@ -113,11 +73,39 @@ namespace Communicator.Client.ViewModels
             }
         }
 
+        public event EventHandler OnRequestClose;
+
+        private void CloseAction()
+        {
+            if (OnRequestClose != null)
+            {
+                OnRequestClose(this, new EventArgs());
+            }
+        }
+
+        private void CreateAccount()
+        {
+            if (Password != ConfirmedPassword)
+            {
+                Result = "Hasła nie są identyczne";
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
+            {
+                Result = "Uzupełnij wymagane pola";
+                return;
+            }
+
+            _logicClient.RegisterUser(User);
+            Result = string.Empty;
+        }
+
         public void ProceedCommand(object sender, RepeaterEventArgs e)
         {
             if (e.Type == ActionTypes.UserCreate)
             {
-                if(e.Result)
+                if (e.Result)
                 {
                     Result = "Zarejestrowano";
                     Login = string.Empty;
@@ -128,7 +116,7 @@ namespace Communicator.Client.ViewModels
                 {
                     Result = "Błąd podczas rejestracji";
                 }
-                }
+            }
         }
     }
 }

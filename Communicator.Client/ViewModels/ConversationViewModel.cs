@@ -1,22 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using Communicator.BusinessLayer;
 using Communicator.BusinessLayer.Enums;
 using Communicator.BusinessLayer.Interfaces;
-using Communicator.Client.Annotations;
 using Communicator.Client.Helpers;
 using Communicator.Client.Models;
 using Communicator.Protocol.Model;
@@ -30,14 +21,22 @@ namespace Communicator.Client.ViewModels
     public class ConversationViewModel : ViewModelBase
     {
         private readonly ILogicClient _logicClient;
-        public event EventHandler OnRequestClose;
+        private string _message;
+        private string _userWriting;
+
+        public ConversationViewModel(ILogicClient logicClient)
+        {
+            _logicClient = logicClient;
+            _logicClient.Repeater += ProceedCommand;
+            Messages = new ObservableCollection<MessageModel>();
+            LastSendWritingNotification = DateTime.Now;
+        }
 
         public ObservableCollection<MessageModel> Messages { get; set; }
 
         public string Recipeint { get; set; }
         public DateTime LastSendWritingNotification { get; set; }
 
-        private string _message;
         public string Message
         {
             get { return _message; }
@@ -49,7 +48,6 @@ namespace Communicator.Client.ViewModels
             }
         }
 
-        private string _userWriting;
         public string UserWriting
         {
             get { return _userWriting; }
@@ -66,19 +64,21 @@ namespace Communicator.Client.ViewModels
 
         public ICommand SendCommand
         {
-            get
-            {
-                return new DelegateCommand(SendAction);
-            }
+            get { return new DelegateCommand(SendAction); }
         }
+
         public ICommand AttachImageCommand
         {
-            get
-            {
-                return new DelegateCommand(AttachImageAction);
-            }
+            get { return new DelegateCommand(AttachImageAction); }
         }
-        
+
+        public ICommand CloseCommand
+        {
+            get { return new DelegateCommand(CloseAction); }
+        }
+
+        public event EventHandler OnRequestClose;
+
         private void MessageInputAction()
         {
             if (LastSendWritingNotification < DateTime.Now.AddSeconds(-2))
@@ -118,28 +118,12 @@ namespace Communicator.Client.ViewModels
             ImagePath = null;
         }
 
-        public ICommand CloseCommand
-        {
-            get
-            {
-                return new DelegateCommand(CloseAction);
-            }
-        }
-
         private void CloseAction()
         {
             if (OnRequestClose != null)
             {
                 OnRequestClose(this, new EventArgs());
             }
-        }
-
-        public ConversationViewModel(ILogicClient logicClient)
-        {
-            _logicClient = logicClient;
-            _logicClient.Repeater += ProceedCommand;
-            Messages = new ObservableCollection<MessageModel>();
-            LastSendWritingNotification = DateTime.Now;
         }
 
         public void Initialize(string login)
@@ -162,7 +146,7 @@ namespace Communicator.Client.ViewModels
                     Directory.CreateDirectory(directory);
                 }
 
-                var fileName = Guid.NewGuid() + ".jpg";
+                string fileName = Guid.NewGuid() + ".jpg";
                 using (var fs = new FileStream(directory + fileName, FileMode.CreateNew))
                 {
                     fs.Write(attachment.Data, 0, attachment.Data.Length);
@@ -179,52 +163,42 @@ namespace Communicator.Client.ViewModels
             {
                 if (e.Result)
                 {
-                    var message = (MessageReq)e.Data;
+                    var message = (MessageReq) e.Data;
                     if (message.Login == Recipeint)
                     {
                         DispatchService.Invoke(() =>
                         {
-                        var messageModel = new MessageModel
-                        {
-                            DateTimeDelivery = message.SendTime.ToString("yy-MM-dd hh:mm"),
-                            Message = message.Message,
-                            Sender = message.Login,
-                            Image = GetImageFromAttach(message.Attachment)
-                        };
-                       
+                            var messageModel = new MessageModel
+                            {
+                                DateTimeDelivery = message.SendTime.ToString("yy-MM-dd hh:mm"),
+                                Message = message.Message,
+                                Sender = message.Login,
+                                Image = GetImageFromAttach(message.Attachment)
+                            };
+
                             Messages.Add(messageModel);
                         });
                     }
                 }
-                
             }
             else if (e.Type == ActionTypes.UserWriting)
             {
                 if (e.Result)
                 {
-                    var notification = (ActivityNotification)e.Data;
+                    var notification = (ActivityNotification) e.Data;
                     if (notification.Sender == Recipeint)
                     {
                         Task.Factory.StartNew(() =>
                         {
-                            DispatchService.Invoke(() =>
-                            {
-                                UserWriting = notification.IsWriting ? "Użytkownik pisze..." : "";
-                            });
+                            DispatchService.Invoke(
+                                () => { UserWriting = notification.IsWriting ? "Użytkownik pisze..." : ""; });
 
-                                Thread.Sleep(3000);
-                                DispatchService.Invoke(() =>
-                                {
-                                    UserWriting = "";
-                                });
-                                
-                            
+                            Thread.Sleep(3000);
+                            DispatchService.Invoke(() => { UserWriting = ""; });
                         });
-
                     }
                 }
             }
         }
-
     }
 }

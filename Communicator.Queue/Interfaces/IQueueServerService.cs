@@ -1,6 +1,4 @@
-﻿using RabbitMQ.Client;
-
-namespace Communicator.Queue.Interfaces
+﻿namespace Communicator.Queue.Interfaces
 {
     public interface IQueueServerService : IQueueService
     {

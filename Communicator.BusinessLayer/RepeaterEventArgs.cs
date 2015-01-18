@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Communicator.BusinessLayer.Enums;
+﻿using Communicator.BusinessLayer.Enums;
 
 namespace Communicator.BusinessLayer
 {

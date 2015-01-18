@@ -1,22 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Communicator.BusinessLayer;
 using Communicator.BusinessLayer.Enums;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Models;
-using Communicator.Client.Annotations;
 using Communicator.Client.Helpers;
-using Communicator.Protocol.Model;
 using Microsoft.Practices.Prism.Commands;
 
 namespace Communicator.Client.ViewModels
@@ -26,36 +14,6 @@ namespace Communicator.Client.ViewModels
         private readonly ILogicClient _logicClient;
         private string _result;
 
-        public event EventHandler OnRequestClose;
-        public ICommand LoginCommand
-        {
-            get
-            {
-                return new DelegateCommand(LoginAction);
-            }
-        }
-
-        public ICommand RegisterCommand
-        {
-            get
-            {
-                return new DelegateCommand(RegisterAction);
-            }
-        }
-
-        public ICommand CloseCommand
-        {
-            get { return new DelegateCommand(CloseAction); }
-        }
-
-        private void CloseAction()
-        {
-            if (OnRequestClose != null)
-            {
-                OnRequestClose(this, new EventArgs());
-            }
-        }
-
         public LoginViewModel(ILogicClient logicClient)
         {
             _logicClient = logicClient;
@@ -63,25 +21,19 @@ namespace Communicator.Client.ViewModels
             _logicClient.Repeater += ProceedCommand;
         }
 
-        private void RegisterAction()
+        public ICommand LoginCommand
         {
-            var registerWindow = new RegisterWindow();
-            var registerViewModel = new RegisterViewModel(_logicClient);
-            registerViewModel.OnRequestClose += (s, e) => registerWindow.Close();
-            registerWindow.DataContext = registerViewModel;
-            registerWindow.Show();
+            get { return new DelegateCommand(LoginAction); }
         }
 
-        private void LoginAction()
+        public ICommand RegisterCommand
         {
-            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
-            {
-                Result = "Uzupełnij wymagane pola";
-                return;
-            }
+            get { return new DelegateCommand(RegisterAction); }
+        }
 
-            _logicClient.LoginUser(User);
-            Result = string.Empty;
+        public ICommand CloseCommand
+        {
+            get { return new DelegateCommand(CloseAction); }
         }
 
         public UserModel User { get; set; }
@@ -116,6 +68,37 @@ namespace Communicator.Client.ViewModels
             }
         }
 
+        public event EventHandler OnRequestClose;
+
+        private void CloseAction()
+        {
+            if (OnRequestClose != null)
+            {
+                OnRequestClose(this, new EventArgs());
+            }
+        }
+
+        private void RegisterAction()
+        {
+            var registerWindow = new RegisterWindow();
+            var registerViewModel = new RegisterViewModel(_logicClient);
+            registerViewModel.OnRequestClose += (s, e) => registerWindow.Close();
+            registerWindow.DataContext = registerViewModel;
+            registerWindow.Show();
+        }
+
+        private void LoginAction()
+        {
+            if (string.IsNullOrEmpty(Login) || string.IsNullOrEmpty(Password))
+            {
+                Result = "Uzupełnij wymagane pola";
+                return;
+            }
+
+            _logicClient.LoginUser(User);
+            Result = string.Empty;
+        }
+
         public void ProceedCommand(object sender, RepeaterEventArgs e)
         {
             if (e.Type == ActionTypes.Login)
@@ -144,6 +127,5 @@ namespace Communicator.Client.ViewModels
                 }
             }
         }
-        
     }
 }

@@ -16,7 +16,7 @@ namespace Communicator.Client
         public static void Init()
         {
             var builder = new ContainerBuilder();
-            var executingAssembly = Assembly.GetExecutingAssembly();
+            Assembly executingAssembly = Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(executingAssembly)
                 .AsSelf()
@@ -38,4 +38,3 @@ namespace Communicator.Client
         }
     }
 }
-

@@ -1,23 +1,20 @@
 ﻿using Autofac;
-using Communicator.BusinessLayer.Services;
-using Communicator.Queue.Services;
-using Communicator.Untils.Services;
 using Topshelf;
 
 namespace Communicator.Server
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-
-            var host = HostFactory.New(x =>
+            Host host = HostFactory.New(x =>
             {
                 InstanceContainer.Init();
                 x.Service<ServerApplication>(s =>
                 {
                     //s.ConstructUsing(name => new ServerApplication(new RabbitMqServerService(new RabbitMqConnection(), new JSonSerializerService()), new XmlConfigurationService(), new MessageRecognizerService(new RabbitMqQueueManagerService(new RabbitMqConnection()),new JSonSerializerService(), new CommonUserListService() )) );
-                    s.ConstructUsing(name => (ServerApplication) InstanceContainer.Container.Resolve<IServerApplication>());
+                    s.ConstructUsing(
+                        name => (ServerApplication) InstanceContainer.Container.Resolve<IServerApplication>());
                     s.WhenStarted(tc => tc.Start());
                     s.WhenStopped(tc => tc.Stop());
                 });

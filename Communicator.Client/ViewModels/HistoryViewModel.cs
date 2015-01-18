@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Communicator.BusinessLayer;
 using Communicator.BusinessLayer.Enums;
@@ -17,15 +15,9 @@ using Microsoft.Practices.Prism.Commands;
 
 namespace Communicator.Client.ViewModels
 {
-    public class HistoryViewModel:ViewModelBase
+    public class HistoryViewModel : ViewModelBase
     {
         private readonly ILogicClient _logicClient;
-        public event EventHandler OnRequestClose;
-
-        public List<MessageNotification> History { get; set; }
-
-        public ObservableCollection<MessageModel> UserMessages { get; set; }
-        public ObservableCollection<User> UserList { get; set; }
 
         public HistoryViewModel(ILogicClient logicClient)
         {
@@ -35,6 +27,11 @@ namespace Communicator.Client.ViewModels
             UserList = new ObservableCollection<User>();
             _logicClient.GetHistory();
         }
+
+        public List<MessageNotification> History { get; set; }
+
+        public ObservableCollection<MessageModel> UserMessages { get; set; }
+        public ObservableCollection<User> UserList { get; set; }
 
         public ICommand CloseCommand
         {
@@ -46,12 +43,14 @@ namespace Communicator.Client.ViewModels
             get { return new DelegateCommand<string>(UserAction); }
         }
 
+        public event EventHandler OnRequestClose;
+
         private void UserAction(string login)
         {
-            var messages = History.Where(m => m.Sender == login || m.Recipient == login);
+            IEnumerable<MessageNotification> messages = History.Where(m => m.Sender == login || m.Recipient == login);
 
             UserMessages.Clear();
-            foreach (var message in messages.OrderByDescending(m => m.SendTime))
+            foreach (MessageNotification message in messages.OrderByDescending(m => m.SendTime))
             {
                 UserMessages.Add(new MessageModel
                 {
@@ -61,7 +60,7 @@ namespace Communicator.Client.ViewModels
                     Sender = message.Sender
                 });
             }
-    }
+        }
 
         private void CloseAction()
         {
@@ -87,14 +86,14 @@ namespace Communicator.Client.ViewModels
 
         private void GetAllUsers()
         {
-            var users = History.Select(m => m.Sender);
+            IEnumerable<string> users = History.Select(m => m.Sender);
             users = users.Union(History.Select(m => m.Recipient));
             users = users.Where(u => u != _logicClient.Login);
 
             DispatchService.Invoke(() =>
             {
                 UserList.Clear();
-                foreach (var user in users)
+                foreach (string user in users)
                 {
                     UserList.Add(new User {Login = user});
                 }

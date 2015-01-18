@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Autofac;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Services;
@@ -8,7 +7,6 @@ using Communicator.Queue.Services;
 using Communicator.Untils.Archivizers.Message;
 using Communicator.Untils.Interfaces;
 using Communicator.Untils.Services;
-using ServiceStack.Logging;
 
 namespace Communicator.Server
 {
@@ -19,7 +17,7 @@ namespace Communicator.Server
         public static void Init()
         {
             var builder = new ContainerBuilder();
-            var executingAssembly = Assembly.GetExecutingAssembly();
+            Assembly executingAssembly = Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(executingAssembly)
                 .AsSelf()
@@ -41,7 +39,5 @@ namespace Communicator.Server
 
             Container = builder.Build();
         }
-
     }
 }
-

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EasyNetQ.Events;
-
-namespace Communicator.Client.Models
+﻿namespace Communicator.Client.Models
 {
     public class MessageModel
     {

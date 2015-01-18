@@ -10,7 +10,7 @@ namespace Communicator.Untils.Services
         {
             using (var stream = new MemoryStream())
             {
-                var ser = new DataContractJsonSerializer(typeof(T));
+                var ser = new DataContractJsonSerializer(typeof (T));
                 ser.WriteObject(stream, dto);
                 return stream.ToArray();
             }
@@ -20,8 +20,8 @@ namespace Communicator.Untils.Services
         {
             using (var stream = new MemoryStream(data))
             {
-                var ser = new DataContractJsonSerializer(typeof(T));
-                T dt = (T)ser.ReadObject(stream);
+                var ser = new DataContractJsonSerializer(typeof (T));
+                var dt = (T) ser.ReadObject(stream);
                 return dt;
             }
         }

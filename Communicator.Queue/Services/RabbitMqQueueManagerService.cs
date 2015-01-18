@@ -7,6 +7,7 @@ namespace Communicator.Queue.Services
     {
         private readonly IQueueConnection _queueConnection;
         private IModel _model;
+
         public RabbitMqQueueManagerService(IQueueConnection queueConnection)
         {
             _queueConnection = queueConnection;
@@ -20,7 +21,7 @@ namespace Communicator.Queue.Services
 
         public void CreateQueue(string queueName, string exchangeName)
         {
-            var queue = _model.QueueDeclare(queueName, true, false, false, null);
+            QueueDeclareOk queue = _model.QueueDeclare(queueName, true, false, false, null);
             _model.QueueBind(queue.QueueName, exchangeName, queueName);
         }
 

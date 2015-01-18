@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Models;
-using Communicator.Protocol.Model;
 using Communicator.Protocol.Requests;
 
 namespace Communicator.BusinessLayer.Services
 {
     public class CommonUserListService : ICommonUserListService
     {
-        List<CommonUsers> _commonList = new List<CommonUsers>();
+        private List<CommonUsers> _commonList = new List<CommonUsers>();
         public string FilePath { get; set; }
 
         //przy starcie serwera wczytanie użytkowników gdy plik istnieje gdy nie to pusta lista
@@ -25,11 +20,11 @@ namespace Communicator.BusinessLayer.Services
             {
                 XDocument doc = XDocument.Load(FilePath);
                 _commonList = (from c in doc.Descendants("User")
-                               select new CommonUsers
-                               {
-                                   Login = (string)c.Attribute("Login"),
-                                   Password = (string)c.Attribute("Password")
-                               }).ToList();
+                    select new CommonUsers
+                    {
+                        Login = (string) c.Attribute("Login"),
+                        Password = (string) c.Attribute("Password")
+                    }).ToList();
             }
             else _commonList = new List<CommonUsers>();
         }
@@ -40,7 +35,7 @@ namespace Communicator.BusinessLayer.Services
         {
             bool createSuccesfully = true;
 
-            foreach (var us in _commonList)
+            foreach (CommonUsers us in _commonList)
             {
                 if (us.Login == user.Login)
                     createSuccesfully = false;
@@ -60,7 +55,7 @@ namespace Communicator.BusinessLayer.Services
 
         public bool UserAuthentication(AuthRequest user)
         {
-            foreach (var us in _commonList)
+            foreach (CommonUsers us in _commonList)
             {
                 if (us.Login == user.Login && us.Password == user.Password)
                 {
@@ -72,7 +67,7 @@ namespace Communicator.BusinessLayer.Services
 
         public bool UserExist(MessageReq mr)
         {
-            foreach (var us in _commonList)
+            foreach (CommonUsers us in _commonList)
             {
                 if (us.Login == mr.Recipient)
                 {
@@ -86,7 +81,5 @@ namespace Communicator.BusinessLayer.Services
         {
             return _commonList;
         }
-
     }
-
 }

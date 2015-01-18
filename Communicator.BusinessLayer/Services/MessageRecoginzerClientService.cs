@@ -24,7 +24,7 @@ namespace Communicator.BusinessLayer.Services
         {
             try
             {
-                var type = Type.GetType(message.ContentType);
+                Type type = Type.GetType(message.ContentType);
 
                 if (type == typeof (CreateUserResponse))
                 {
@@ -65,12 +65,11 @@ namespace Communicator.BusinessLayer.Services
                 if (type == typeof (HistoryResponse))
                 {
                     HistoryProcess(message);
-                    return;
                 }
-
             }
-            catch { }
-
+            catch
+            {
+            }
         }
 
         private void HistoryProcess(MessageReceivedEventArgs message)
@@ -126,7 +125,7 @@ namespace Communicator.BusinessLayer.Services
         {
             if (Repeater != null)
             {
-                Repeater(this, new RepeaterEventArgs { Type = actionTypes, Result = result, Data = data });
+                Repeater(this, new RepeaterEventArgs {Type = actionTypes, Result = result, Data = data});
             }
         }
     }

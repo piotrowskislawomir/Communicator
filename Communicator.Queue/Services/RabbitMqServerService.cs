@@ -7,7 +7,6 @@ namespace Communicator.Queue.Services
 {
     public class RabbitMqServerService : IQueueServerService
     {
-        public event MessageReceivedEventHandler MessageReceived;
         private readonly IQueueConnection _queueConnection;
         private readonly ISerializerService _serializerService;
         private IModel _model;
@@ -18,6 +17,8 @@ namespace Communicator.Queue.Services
             _serializerService = serializerService;
         }
 
+        public event MessageReceivedEventHandler MessageReceived;
+
         public void Initialize(string host, string userName, string password, string exchangeName)
         {
             _model = _queueConnection.CreateModel(host, userName, password, exchangeName);
@@ -26,13 +27,13 @@ namespace Communicator.Queue.Services
 
         public void CreateConsumer(string queueName, string exchangeName)
         {
-            var queue = _model.QueueDeclare(queueName, true, false, false, null);
+            QueueDeclareOk queue = _model.QueueDeclare(queueName, true, false, false, null);
             var consumer = new EventingBasicConsumer(_model);
 
             consumer.Received +=
                 (_, msg) =>
                 {
-                    MessageReceived(this, new MessageReceivedEventArgs()
+                    MessageReceived(this, new MessageReceivedEventArgs
                     {
                         Message = msg.Body,
                         ContentType = msg.BasicProperties.Type,
@@ -47,15 +48,13 @@ namespace Communicator.Queue.Services
 
         public void SendData<T>(string routingKey, string exchangeName, T data)
         {
-            var properties = _model.CreateBasicProperties();
+            IBasicProperties properties = _model.CreateBasicProperties();
             properties.SetPersistent(true);
             properties.ReplyTo = routingKey;
-            properties.Type = typeof(T).AssemblyQualifiedName;
+            properties.Type = typeof (T).AssemblyQualifiedName;
 
             byte[] buffer = _serializerService.Serialize(data);
             _model.BasicPublish(exchangeName, routingKey, properties, buffer);
         }
-
     }
-
 }
