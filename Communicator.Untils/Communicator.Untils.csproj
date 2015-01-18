@@ -49,7 +49,6 @@
     <Compile Include="Archivizers\Message\IMessageArchivizer.cs" />
     <Compile Include="Archivizers\Message\Message.cs" />
     <Compile Include="Archivizers\Message\XmlMessageArchivizer.cs" />
-    <Compile Include="Archivizers\UsersList\ActivityUserList.cs" />
     <Compile Include="Interfaces\IConfigurationService.cs" />
     <Compile Include="Interfaces\ISerializerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

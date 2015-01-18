@@ -28,12 +28,12 @@
                         </LinearGradientBrush>
                     </Grid.Background>
                     <Image HorizontalAlignment="Center" Margin="19,5,2,0" VerticalAlignment="Top" Width="260" Source="UI/avatar_bg.png" Height="76" Stretch="None"/>
-                    <Button Command="{Binding LogoutCommand}" Style="{DynamicResource OvalButton}" x:Name="Button_Logout" HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,15,11,0" ToolTip="Wyloguj">
+                    <Button Command="{Binding LogoutCommand}" Style="{DynamicResource OvalButton}"  HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,15,11,0" ToolTip="Wyloguj">
                         <Button.Resources>
                             <ImageSource x:Key="icon">UI/oval_logout.png</ImageSource>
                         </Button.Resources>
                     </Button>
-                    <Button Style="{DynamicResource OvalButton}" x:Name="Button_HistoryWindow" HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,15,55,0" ToolTip="Historia">
+                    <Button Command="{Binding HistoryCommand}" Style="{DynamicResource OvalButton}"  HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,15,55,0" ToolTip="Historia">
                         <Button.Resources>
                             <ImageSource x:Key="icon">UI/oval_history.png</ImageSource>
                         </Button.Resources>

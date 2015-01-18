@@ -8,5 +8,6 @@
         string ExchangeName { get; }
         string MainQueueName { get; }
         string UserListFileName { get; }
+        string ArchiveFileName { get; }
     }
 }

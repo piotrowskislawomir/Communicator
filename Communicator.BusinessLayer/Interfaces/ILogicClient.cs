@@ -20,6 +20,7 @@ namespace Communicator.BusinessLayer.Interfaces
         void SendPing(PresenceStatus status);
         void SendUserWriting(string recipient);
         void Initialize();
+        void GetHistory();
     }
 
 

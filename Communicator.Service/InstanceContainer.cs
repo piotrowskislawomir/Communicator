@@ -1,9 +1,11 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Autofac;
 using Communicator.BusinessLayer.Interfaces;
 using Communicator.BusinessLayer.Services;
 using Communicator.Queue.Interfaces;
 using Communicator.Queue.Services;
+using Communicator.Untils.Archivizers.Message;
 using Communicator.Untils.Interfaces;
 using Communicator.Untils.Services;
 using ServiceStack.Logging;
@@ -35,9 +37,11 @@ namespace Communicator.Server
             builder.RegisterType<MessageRecoginzerClientService>().As<IMessageRecognizerClientService>();
             builder.RegisterType<CommonUserListService>().As<ICommonUserListService>();
             builder.RegisterType<LogicClient>().As<ILogicClient>();
+            builder.RegisterType<XmlMessageArchivizer>().As<IMessageArchivizer>();
 
             Container = builder.Build();
         }
+
     }
 }
 

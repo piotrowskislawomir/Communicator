@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Communicator.BusinessLayer.Interfaces;
@@ -12,6 +13,7 @@ using Communicator.Protocol.Requests;
 using Communicator.Protocol.Responses;
 using Communicator.Queue;
 using Communicator.Queue.Interfaces;
+using Communicator.Untils.Archivizers.Message;
 using Communicator.Untils.Interfaces;
 using RabbitMQ.Client.Events;
 
@@ -22,17 +24,18 @@ namespace Communicator.BusinessLayer.Services
         private readonly IQueueManagerService _queueManagerService;
         private readonly ISerializerService _serializerService;
         private readonly ICommonUserListService _commonUserListService;
+        private readonly IMessageArchivizer _messageArchivizer;
         public IConfigurationService ConfigurationService { get; set; }
         public IQueueServerService QueueServerService { get; set; }
 
         private readonly IDictionary<User, UserDetails> _currentUsers = new Dictionary<User, UserDetails>();
 
-        public MessageRecognizerService(IQueueManagerService queueManagerService, ISerializerService serializerService, ICommonUserListService commonUserListService)
+        public MessageRecognizerService(IQueueManagerService queueManagerService, ISerializerService serializerService, ICommonUserListService commonUserListService, IMessageArchivizer messageArchivizer)
         {
             _queueManagerService = queueManagerService;
             _serializerService = serializerService;
             _commonUserListService = commonUserListService;
-
+            _messageArchivizer = messageArchivizer;
         }
 
         public void Initialize()
@@ -46,10 +49,10 @@ namespace Communicator.BusinessLayer.Services
 
         private void InitTimer()
         {
-            Task.Factory.StartNew(() => timer());
+            Task.Factory.StartNew(Timer);
         }
 
-        private void timer()
+        private void Timer()
         {
             while (true)
             {
@@ -122,18 +125,36 @@ namespace Communicator.BusinessLayer.Services
                     return;
                 }
 
-                if (type == typeof(PresenceStatusNotification)) // PresestStatusNotification
+                if (type == typeof(PresenceStatusNotification)) 
                 {
                     PresenceStatusNotificationProcess(message);
                     return;
                 }
+
+                if (type == typeof (HistoryReq))
+                {
+                    HistoryProcess(message);
+                }
             }
             catch (Exception ex)
             {
-                {
-                }
-                throw;
             }
+        }
+
+        private void HistoryProcess(MessageReceivedEventArgs message)
+        {
+            var historyReq = _serializerService.Deserialize<HistoryReq>(message.Message);
+
+            List<MessageNotification> historyMessages = _messageArchivizer.Read(historyReq.Login,
+                ConfigurationService.ArchiveFileName);
+
+
+            var historyResponse = new HistoryResponse
+            {
+                Messages = historyMessages
+            };
+
+            QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, historyResponse);
         }
 
         private void PresenceStatusNotificationProcess(MessageReceivedEventArgs message)
@@ -189,10 +210,6 @@ namespace Communicator.BusinessLayer.Services
         private void UserListProcess(MessageReceivedEventArgs message)
         {
             var userListRequest = _serializerService.Deserialize<UserListReq>(message.Message);
-
-            //DONE//TODO lista wszystkich uzytkownikow
-            //var userListResponse = new UserListResponse {Users = new List<User>()};
-            // zwraca listę wszystkich aktywnych użytkowników z wyłączeniem użytkownika który ją wywołuje
             var allUsers = _commonUserListService.GetUsers();
             var userListResponse = new UserListResponse();
             userListResponse.Users = new List<User>();
@@ -245,7 +262,6 @@ namespace Communicator.BusinessLayer.Services
             msgRequest.SendTime = DateTimeOffset.Now;
             bool userInstanceExists = false;
 
-            //TODO spr czy ta osoba jest zarejestrowana
             bool avaliable = _commonUserListService.UserExist(msgRequest);
 
             var activeUser = _currentUsers.SingleOrDefault(u => u.Key.Login == msgRequest.Recipient);
@@ -270,15 +286,14 @@ namespace Communicator.BusinessLayer.Services
             var messageResponse = new MessageResponse();
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, messageResponse);
 
-            //archiwizacja
-
+          
+            _messageArchivizer.Save(msgRequest, ConfigurationService.ArchiveFileName);
         }
 
         private void AuthUserProcess(MessageReceivedEventArgs message)
         {
             var authRequest = _serializerService.Deserialize<AuthRequest>(message.Message);
 
-            //DONE////TODO sprawdzanie czy istnieje taki login i pass
             bool exists = _commonUserListService.UserAuthentication(authRequest);
 
             if (exists)
@@ -331,8 +346,6 @@ namespace Communicator.BusinessLayer.Services
             var createUserRequest = _serializerService.Deserialize<CreateUserReq>(message.Message); // hasło i login
             _queueManagerService.CreateQueue(string.Format("archive.{0}", createUserRequest.Login), ConfigurationService.ExchangeName);
 
-            //DONE//TODO sprawdzanie czy juz istnieje
-
             bool success = _commonUserListService.CreateNewUser(createUserRequest);
             if (success)
             {
@@ -341,7 +354,6 @@ namespace Communicator.BusinessLayer.Services
             var createUserResponse = new CreateUserResponse
             {
                 CreatedSuccessfully = success
-                //CreatedSuccessfully = true
             };
 
             QueueServerService.SendData(message.TopicSender, ConfigurationService.ExchangeName, createUserResponse);

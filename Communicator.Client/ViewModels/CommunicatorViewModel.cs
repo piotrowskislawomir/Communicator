@@ -118,7 +118,11 @@ namespace Communicator.Client.ViewModels
 
         private void HistoryAction()
         {
-            throw new NotImplementedException();
+            var historyWindow = new HistoryWindow();
+            var historyViewModel = new HistoryViewModel(_logicClient);
+            historyViewModel.OnRequestClose += (s, e) => historyWindow.Close();
+            historyWindow.DataContext = historyViewModel;
+            historyWindow.Show();
         }
 
 
@@ -135,7 +139,7 @@ namespace Communicator.Client.ViewModels
             Status = PresenceStatus.Offline;
             _logicClient.SendPing(Status);
 
-            var loginWindow = new MainWindow();
+            var loginWindow = new Communicator.Client.MainWindow();
             loginWindow.Show();
 
             if (OnRequestClose != null)

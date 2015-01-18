@@ -1,6 +1,7 @@
 ﻿using System;
+using Communicator.Protocol.Model;
 
-namespace Communicator.Protocol.Model
+namespace Communicator.Protocol.Notifications
 {
     public class MessageNotification
     {

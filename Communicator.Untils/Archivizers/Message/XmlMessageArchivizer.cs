@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Xml.Linq;
-using Communicator.Protocol.Model;
+using Communicator.Protocol.Notifications;
 using Communicator.Protocol.Requests;
 
 namespace Communicator.Untils.Archivizers.Message
@@ -26,11 +22,7 @@ namespace Communicator.Untils.Archivizers.Message
                                              new XAttribute("Recipient", msg.Recipient),
                                              new XAttribute("Sender", msg.Login),
                                              new XAttribute("Date", DateTime.Now),
-                                new XElement("Body", msg.Message),
-                                    new XElement("AttachmentData", msg.Attachment.Data),
-                                    new XElement("AttachmentMimeType", msg.Attachment.MimeType),
-                                    new XElement("AttachmentName", msg.Attachment.Name)
-                                        ));
+                                new XElement("Body", msg.Message)));
 
                 newMessage.Save(pathToArchivize);
             }
@@ -52,10 +44,7 @@ namespace Communicator.Untils.Archivizers.Message
                                              new XAttribute("Recipient", msg.Recipient),
                                               new XAttribute("Sender", msg.Login),
                                               new XAttribute("Date", DateTime.Now),
-                                new XElement("Body", msg.Message),
-                                    new XElement("AttachmentData", msg.Attachment.Data),
-                                    new XElement("AttachmentMimeType", msg.Attachment.MimeType),
-                                    new XElement("AttachmentName", msg.Attachment.Name)
+                                new XElement("Body", msg.Message)
                                         );
 
                 xmlFile.Element("Messages").Add(newMessage);
@@ -75,11 +64,11 @@ namespace Communicator.Untils.Archivizers.Message
                 CreateArchivizeXmlFile(msg, pathToArchivize);
        }
 
-        public List<MessageNotification> Read(User user, string pathToArchivize)
+        public List<MessageNotification> Read(string sender, string pathToArchivize)
         {
             XDocument doc = XDocument.Load(pathToArchivize);
             var Messages = (from c in doc.Descendants("Message")
-                where (string) c.Attribute("Recipient") == user.Login || (string) c.Attribute("Sender") == user.Login
+                where (string) c.Attribute("Recipient") == sender || (string) c.Attribute("Sender") == sender
                 select new MessageNotification
                 {
                     Sender = (string) c.Attribute("Sender"),
@@ -87,19 +76,13 @@ namespace Communicator.Untils.Archivizers.Message
                     Message = (string) c.Element("Body"),
                     SendTime = (DateTime) c.Attribute("Date"),
                     
-                    Attachment = new Attachment
-                    {
-                        Data = Encoding.ASCII.GetBytes((string)c.Element("AttachmentData")),
-                        MimeType = (string) c.Element("AttachmentMimeType"),
-                        Name = (string) c.Element("AttachmentName")
-                    }
                }
             ).ToList();
            return Messages;
         }
 
         // funkcja testowa do zapisuss
-        public static void TestWrite()
+      /*  public static void TestWrite()
         {
             var msg = new MessageReq();
             msg.Message = "Siema Sławek!";
@@ -123,6 +106,6 @@ namespace Communicator.Untils.Archivizers.Message
             arch.Save(msg, "Archiwum_Wiadomości.xml");
             arch.Save(msg2, "Archiwum_Wiadomości.xml");
             arch.Save(msg3, "Archiwum_Wiadomości.xml");
-        }
+        }*/
     }
 }

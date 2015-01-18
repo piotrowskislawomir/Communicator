@@ -22,46 +22,62 @@ namespace Communicator.BusinessLayer.Services
 
         public void ProceedMessage(MessageReceivedEventArgs message)
         {
-            var type = Type.GetType(message.ContentType);
-
-            if (type == typeof(CreateUserResponse))
+            try
             {
-                CreateUserProcess(message);
-                return;
+                var type = Type.GetType(message.ContentType);
+
+                if (type == typeof (CreateUserResponse))
+                {
+                    CreateUserProcess(message);
+                    return;
+                }
+
+                if (type == typeof (AuthResponse))
+                {
+                    LoginUserProcess(message);
+                    return;
+                }
+
+                if (type == typeof (UserListResponse))
+                {
+                    UserListProcess(message);
+                    return;
+                }
+
+                if (type == typeof (MessageReq))
+                {
+                    MessageProcess(message);
+                    return;
+                }
+
+                if (type == typeof (PresenceStatusNotification))
+                {
+                    PresenceNotificationProgress(message);
+                    return;
+                }
+
+                if (type == typeof (ActivityNotification))
+                {
+                    ActivityNotificationProcess(message);
+                    return;
+                }
+
+                if (type == typeof (HistoryResponse))
+                {
+                    HistoryProcess(message);
+                    return;
+                }
+
             }
+            catch { }
 
-            if (type == typeof(AuthResponse))
-            {
-                LoginUserProcess(message);
-                return;
-            }
+        }
 
-            if (type == typeof(UserListResponse))
-            {
-                UserListProcess(message);
-                return;
-            }
+        private void HistoryProcess(MessageReceivedEventArgs message)
+        {
+            var historyReponse = _serializerService.Deserialize<HistoryResponse>(message.Message);
 
-            if (type == typeof(MessageReq))
-            {
-                MessageProcess(message);
-                return;
-            }
-
-            if (type == typeof(PresenceStatusNotification))
-            {
-                PresenceNotificationProgress(message);
-                return;
-            }
-
-            if (type == typeof (ActivityNotification))
-            {
-                ActivityNotificationProcess(message);
-                return;
-            }
-
-
-
+            OnRepeater(ActionTypes.History, true, historyReponse);
         }
 
         private void ActivityNotificationProcess(MessageReceivedEventArgs message)

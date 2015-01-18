@@ -33,6 +33,16 @@ namespace Communicator.BusinessLayer.Services
             _messageRecognizerClientService.Repeater += OnRepeater;
         }
 
+        public void GetHistory()
+        {
+            var historyReq = new HistoryReq
+            {
+                Login = Login
+            };
+
+            _queueClientService.SendData(_configurationService.MainQueueName, RouteKey, _configurationService.ExchangeName, historyReq);
+         }
+
         public event RepeaterEventHandler Repeater;
 
         public void OnRepeater(object sender, RepeaterEventArgs e)

@@ -32,7 +32,7 @@
                       ItemsSource="{Binding Messages}" BorderThickness="0" Margin="10,10,0,0">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Width="304" >
+                                <StackPanel Orientation="Horizontal" Width="280" >
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition  />
@@ -46,7 +46,7 @@
                                         <Label Grid.Row="0" Grid.Column="0" Content="{Binding Sender}" />
                                         <Label Grid.Row="0" Grid.Column="1"  Content="{Binding DateTimeDelivery}" />
                                         <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Foreground="Beige" Width="258" Height="20" Text="{Binding Message}" />
-                                        <Image Grid.Row="2" Grid.ColumnSpan="2" Source="{Binding Image}" MaxWidth="280" MaxHeight="280"/>
+                                        <Image Grid.Row="2" Grid.ColumnSpan="2" Source="{Binding Image}" MaxWidth="270" MaxHeight="280"/>
 
                                     </Grid>
                                 </StackPanel>

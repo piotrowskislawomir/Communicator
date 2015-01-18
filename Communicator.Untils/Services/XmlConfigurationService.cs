@@ -30,7 +30,12 @@ namespace Communicator.Untils.Services
 
         public string UserListFileName
         {
-            get { return GetValueFromConfig("mainqueuename", "C:\\userList.xml"); }
+            get { return GetValueFromConfig("userlistfilename", "C:\\userList.xml"); }
+        }
+
+        public string ArchiveFileName
+        {
+            get { return GetValueFromConfig("archivefilename", "C:\\archive.xml"); }
         }
 
         private static string GetValueFromConfig(string key, string defaultValue)

@@ -50,7 +50,7 @@
     <Compile Include="Enums\PresenceStatus.cs" />
     <Compile Include="Enums\Status.cs" />
     <Compile Include="Model\Attachment.cs" />
-    <Compile Include="Model\MessageNotification.cs" />
+    <Compile Include="Notifications\MessageNotification.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Notifications\ActivityNotification.cs" />
     <Compile Include="Notifications\PresenceStatusNotification.cs" />
@@ -58,11 +58,13 @@
     <Compile Include="Requests\ActivityReq.cs" />
     <Compile Include="Requests\AuthRequest.cs" />
     <Compile Include="Requests\CreateUserReq.cs" />
+    <Compile Include="Requests\HistoryReq.cs" />
     <Compile Include="Requests\MessageReq.cs" />
     <Compile Include="Requests\UserListReq.cs" />
     <Compile Include="Responses\ActivityResponse.cs" />
     <Compile Include="Responses\AuthRespons.cs" />
     <Compile Include="Responses\CreateUserResponse.cs" />
+    <Compile Include="Responses\HistoryResponse.cs" />
     <Compile Include="Responses\MessageResponse.cs" />
     <Compile Include="Responses\UserListResponse.cs" />
   </ItemGroup>
