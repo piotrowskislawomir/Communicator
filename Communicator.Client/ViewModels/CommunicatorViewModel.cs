@@ -139,6 +139,7 @@ namespace Communicator.Client.ViewModels
 
         private void CloseAction()
         {
+            _logicClient.SendPing(PresenceStatus.Offline);
             if (OnRequestClose != null)
             {
                 OnRequestClose(this, new EventArgs());
@@ -150,13 +151,13 @@ namespace Communicator.Client.ViewModels
             Status = PresenceStatus.Offline;
             _logicClient.SendPing(Status);
 
-            var loginWindow = new MainWindow();
-            loginWindow.Show();
 
             if (OnRequestClose != null)
             {
                 OnRequestClose(this, new EventArgs());
             }
+
+            
         }
 
         public void Inicialize()
